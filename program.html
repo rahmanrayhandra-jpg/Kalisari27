@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Program - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+  .container { max-width: 800px; margin: auto; }
+  .back { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+
+  .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .box h2 { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+
+  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
+  input { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+  .btn { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+  .btn-save { background: #2ecc71; color: white; width: 100%; }
+  .btn-edit { background: #3498db; color: white; padding: 6px 10px; font-size: 12px; }
+  .btn-del { background: #e74c3c; color: white; padding: 6px 10px; font-size: 12px; }
+  .msg { text-align: center; margin-top: 10px; font-weight: bold; }
+  .error { color: #e74c3c; }.success { color: #2ecc71; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    table th { background: #f4f6f9; }
+  .no-data { text-align: center; color: #777; }
+  .akses-ditolak { text-align: center; padding: 50px; color: #e74c3c; font-weight: bold; }
+
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
+    footer b { color: #2c3e50; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container" id="mainContainer">
+    <div id="aksesBlokir" class="akses-ditolak" style="display:none;">
+      <h2>🚫 Akses Ditolak</h2>
+      <p>Hanya Admin yang bisa mengakses halaman ini</p>
+      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+    </div>
+
+    <div id="kontenAdmin">
+      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+
+      <div class="box">
+        <h2>📦 Data Program</h2>
+        
+        <input type="hidden" id="editId">
+        <label>Nama Program</label>
+        <input type="text" id="namaProgram" placeholder="Contoh: Paket Umroh Reguler">
+
+        <label>Target Qty</label>
+        <input type="number" id="targetQty" placeholder="Contoh: 50">
+
+        <button class="btn btn-save" onclick="simpanProgram()">SIMPAN PROGRAM</button>
+        <p id="msg" class="msg"></p>
+      </div>
+
+      <div class="box">
+        <h2>📋 Daftar Program</h2>
+        <table id="tabelProgram">
+          <thead>
+            <tr>
+              <th>Nama Program</th>
+              <th>Target Qty</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="3" class="no-data">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let role = localStorage.getItem('role');
+  let currentUser = localStorage.getItem('currentUser');
+
+  // === BLOKIR AKSES ===
+  window.onload = function(){
+    if(!currentUser){
+      window.location = 'login.html'; // belum login
+      return;
+    }
+    if(role !== 'admin'){
+      document.getElementById('kontenAdmin').style.display = 'none';
+      document.getElementById('aksesBlokir').style.display = 'block';
+      return; // stop disini, ga load data
+    }
+    // kalo admin, baru load data
+    loadData();
+  }
+
+  // LOAD DATA PROGRAM - CUMA ADMIN
+  function loadData(){
+    db.ref('program').on('value', (snapshot) => {
+      let tbody = document.querySelector('#tabelProgram tbody');
+      tbody.innerHTML = '';
+      if(snapshot.numChildren() == 0){
+        tbody.innerHTML = `<tr><td colspan="3" class="no-data">Belum ada data program</td></tr>`;
+        return;
+      }
+      snapshot.forEach(child => {
+        let id = child.key;
+        let data = child.val();
+        
+        tbody.innerHTML += `
+          <tr>
+            <td>${data.nama}</td>
+            <td>${data.target} Qty</td>
+            <td>
+              <button class="btn btn-edit" onclick="editProgram('${id}', '${data.nama}', ${data.target})">Edit</button>
+              <button class="btn btn-del" onclick="hapusProgram('${id}')">Hapus</button>
+            </td>
+          </tr>
+        `;
+      });
+    });
+  }
+
+  // FUNGSI SIMPAN / UPDATE
+  function simpanProgram(){
+    let id = document.getElementById('editId').value;
+    let nama = document.getElementById('namaProgram').value;
+    let target = document.getElementById('targetQty').value;
+    let msg = document.getElementById('msg');
+
+    if(nama == '' || target == ''){ 
+      msg.innerText = 'Nama dan Target wajib diisi'; 
+      msg.className = 'msg error'; 
+      return; 
+    }
+    if(Number(target) <= 0){ 
+      msg.innerText = 'Target harus lebih dari 0'; 
+      msg.className = 'msg error'; 
+      return; 
+    }
+
+    let data = { nama: nama, target: Number(target) };
+
+    if(id == ''){ // TAMBAH BARU
+      db.ref('program').push(data).then(()=>{
+        resetForm();
+        msg.innerText = 'Program berhasil ditambahkan'; 
+        msg.className = 'msg success';
+      });
+    } else { // UPDATE
+      db.ref('program/' + id).update(data).then(()=>{
+        resetForm();
+        msg.innerText = 'Program berhasil diupdate'; 
+        msg.className = 'msg success';
+      });
+    }
+  }
+
+  function editProgram(id, nama, target){
+    document.getElementById('editId').value = id;
+    document.getElementById('namaProgram').value = nama;
+    document.getElementById('targetQty').value = target;
+    document.querySelector('.btn-save').innerText = 'UPDATE PROGRAM';
+    window.scrollTo(0,0);
+  }
+
+  function hapusProgram(id){
+    if(confirm('Yakin mau hapus program ini?')){
+      db.ref('program/' + id).remove();
+    }
+  }
+
+  function resetForm(){
+    document.getElementById('editId').value = '';
+    document.getElementById('namaProgram').value = '';
+    document.getElementById('targetQty').value = '';
+    document.querySelector('.btn-save').innerText = 'SIMPAN PROGRAM';
+  }
+</script>
+</body>
+</html>

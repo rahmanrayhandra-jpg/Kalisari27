@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body {
+      background: url('depan.jpg') no-repeat center fixed;
+      background-size: cover; height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative;
+    }
+    body::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); }
+    .container { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 35px 30px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); animation: slideUp 0.6s ease; position: relative; z-index: 1; }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .logo { text-align: center; font-size: 50px; margin-bottom: 10px; }
+    h2 { font-style: italic; text-align: center; color: ivory; margin-bottom: 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+    .tabs { display: flex; background: rgba(255,255,255,0.2); border-radius: 10px; padding: 5px; margin-bottom: 20px; }
+    .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; color: white; border-radius: 8px; transition: 0.3s; font-weight: 500; }
+    .tab.active { background: white; color: #667eea; }
+    .input-group { position: relative; }
+    input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; background: rgba(255,255,255,0.2); color: white; transition: 0.3s; font-size: 15px; }
+    .input-group input { padding-right: 45px; }
+    input::placeholder { color: rgba(255,255,255,0.7); }
+    input:focus { background: rgba(255,255,255,0.3); border-color: white; outline: none; }
+    .toggle-pass { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 20px; user-select: none; }
+    button { width: 100%; padding: 14px; background: white; color: #667eea; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+    button:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .msg { text-align: center; margin-top: 10px; font-size: 14px; display: none; font-weight: bold; }
+    .error { color: #ff6b6b; } .success { color: #51cf66; }
+    .form { display: none; } .form.active { display: block; }
+    .captcha-box { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+    .captcha-code { flex: 1; padding: 14px; background: rgba(0,0,0,0.3); color: white; font-size: 20px; font-weight: bold; letter-spacing: 5px; text-align: center; border-radius: 12px; user-select: none; font-family: 'Courier New', monospace; min-height: 50px; display: flex; align-items: center; justify-content: center; }
+    .refresh-btn { padding: 14px; background: rgba(255,255,255,0.3); border: none; border-radius: 12px; font-size: 20px; cursor: pointer; color: white; }
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: ivory; font-size: 15px; border-top: 1px solid rgba(255,255,255,0.2); }
+    footer b { color: white; }
+  </style>
+  
+  <!-- GANTI KE FIREBASE V8 BIAR GA ERROR -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🐝</div>
+    <h2>KALISARI27</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="showForm('login', event)">Login</div>
+      <div class="tab" onclick="showForm('register', event)">Daftar</div>
+    </div>
+
+    <div id="login" class="form active">
+      <input type="text" id="loginUser" placeholder="Username">
+      <div class="input-group">
+        <input type="password" id="loginPass" placeholder="Password">
+        <span class="toggle-pass" onclick="togglePassword('loginPass')">👁️</span>
+      </div>
+      <div class="captcha-box">
+        <div id="captchaCode" class="captcha-code">1234</div>
+        <button type="button" class="refresh-btn" onclick="generateCaptcha()">🔄</button>
+      </div>
+      <input type="text" id="captchaInput" placeholder="Ketik kode di atas">
+      <button onclick="login()">MASUK</button>
+      <p id="loginMsg" class="msg"></p>
+    </div>
+
+    <div id="register" class="form">
+      <input type="text" id="regUser" placeholder="Buat Username">
+      <div class="input-group">
+        <input type="password" id="regPass" placeholder="Buat Password">
+        <span class="toggle-pass" onclick="togglePassword('regPass')">👁️</span>
+      </div>
+      <button onclick="register()">DAFTAR SEKARANG</button>
+      <p id="regMsg" class="msg"></p>
+    </div>
+    <footer>Powered by <br>DevancaProject</br> © 2026</footer>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let currentCaptcha = "";
+  function generateCaptcha(){
+    let chars = "0123456789";
+    currentCaptcha = "";
+    for(let i = 0; i < 4; i++){ currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length)); }
+    document.getElementById('captchaCode').innerText = currentCaptcha;
+  }
+
+  function showForm(id, event){
+    document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function togglePassword(id){
+    let input = document.getElementById(id);
+    let icon = input.nextElementSibling;
+    if(input.type === "password"){ input.type = "text"; icon.innerText = "🙈"; } 
+    else { input.type = "password"; icon.innerText = "👁️"; }
+  }
+
+  function register(){
+    let user = document.getElementById('regUser').value;
+    let pass = document.getElementById('regPass').value;
+    let msg = document.getElementById('regMsg');
+    if(user == '' || pass == ''){ msg.innerText = 'Isi semua!'; msg.className = 'msg error'; msg.style.display = 'block'; return; }
+    db.ref('users/' + user).once('value').then((snapshot) => {
+      if(snapshot.exists()){ msg.innerText = 'Username sudah dipakai!'; msg.className = 'msg error'; msg.style.display = 'block'; }
+      else { db.ref('users/' + user).set({password: pass, role: 'sales'}).then(() => {
+        msg.innerText = 'Daftar berhasil!'; msg.className = 'msg success'; msg.style.display = 'block'; 
+        setTimeout(() => showForm('login', {target: document.querySelector('.tab')}), 1500); 
+      });}
+    });
+  }
+
+  function login(){
+    let user = document.getElementById('loginUser').value;
+    let pass = document.getElementById('loginPass').value;
+    let captcha = document.getElementById('captchaInput').value;
+    let msg = document.getElementById('loginMsg');
+    if(captcha != currentCaptcha){ msg.innerText = 'Kode CAPTCHA salah!'; msg.className = 'msg error'; msg.style.display = 'block'; generateCaptcha(); document.getElementById('captchaInput').value = ""; return; }
+    db.ref('users/' + user).once('value').then((snapshot) => {
+      if(snapshot.exists() && snapshot.val().password === pass){
+        localStorage.setItem('currentUser', user);
+        localStorage.setItem('role', snapshot.val().role);
+        localStorage.setItem('login', 'true');
+        window.location.href = 'dashboard.html';
+      } else {
+        msg.innerText = 'Username/Password salah!'; msg.className = 'msg error'; msg.style.display = 'block';
+        generateCaptcha(); document.getElementById('captchaInput').value = "";
+      }
+    });
+  }
+
+  if(localStorage.getItem('login') == 'true'){ window.location.href = 'dashboard.html'; }
+
+  db.ref('users/admin').once('value').then(snap => { if(!snap.exists()){ db.ref('users/admin').set({password: 'admin123', role: 'admin'}); } });
+  
+  window.onload = function() {
+    generateCaptcha();
+  }
+</script>
+</body>
+</html>

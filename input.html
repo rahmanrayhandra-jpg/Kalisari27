@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Penjualan - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+.container { max-width: 600px; margin: auto; }
+.back { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+
+.box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.box h2 { margin-bottom: 20px; text-align: center; color: #2c3e50; }
+
+  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
+  input, select { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+.btn { background: #2ecc71; color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; }
+.btn:hover { background: #27ae60; }
+.msg { text-align: center; margin-top: 10px; font-weight: bold; }
+.error { color: #e74c3c; }.success { color: #2ecc71; }
+
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
+    footer b { color: #2c3e50; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+
+    <div class="box">
+      <h2>➕ Input Penjualan</h2>
+
+      <label>Pilih Program</label>
+      <select id="selectProgram">
+        <option value="">-- Pilih Program --</option>
+      </select>
+
+      <label>Qty Terjual</label>
+      <input type="number" id="qty" placeholder="Contoh: 1" min="1">
+
+      <label>Tanggal Penjualan</label>
+      <input type="date" id="tanggal">
+
+      <button class="btn" onclick="simpanPenjualan()">SIMPAN</button>
+      <p id="msg" class="msg"></p>
+    </div>
+
+    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let currentUser = localStorage.getItem('currentUser');
+
+  // 1. LOAD DATA PROGRAM KE DROPDOWN
+  db.ref('program').on('value', (snapshot) => {
+    let select = document.getElementById('selectProgram');
+    select.innerHTML = '<option value="">-- Pilih Program --</option>';
+    snapshot.forEach(child => {
+      let id = child.key;
+      let data = child.val();
+      select.innerHTML += `<option value="${id}">${data.nama}</option>`;
+    });
+  });
+
+  // 2. SET DEFAULT TANGGAL HARI INI
+  window.onload = function(){
+    let today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggal').value = today;
+  }
+
+  // 3. FUNGSI SIMPAN
+  function simpanPenjualan(){
+    let program_id = document.getElementById('selectProgram').value;
+    let program_nama = document.getElementById('selectProgram').options[document.getElementById('selectProgram').selectedIndex].text;
+    let qty = document.getElementById('qty').value;
+    let tanggal = document.getElementById('tanggal').value;
+    let msg = document.getElementById('msg');
+
+    if(program_id == '' || qty == '' || tanggal == ''){
+      msg.innerText = 'Program, Qty dan Tanggal wajib diisi';
+      msg.className = 'msg error';
+      return;
+    }
+    if(Number(qty) <= 0){
+      msg.innerText = 'Qty harus lebih dari 0';
+      msg.className = 'msg error';
+      return;
+    }
+
+    let data = {
+      program_id: program_id,
+      program_nama: program_nama,
+      qty: Number(qty),
+      user: currentUser,
+      tanggal: tanggal, // format YYYY-MM-DD
+      createdAt: new Date().toISOString()
+    };
+
+    db.ref('penjualan').push(data).then(()=>{
+      msg.innerText = 'Data penjualan berhasil disimpan';
+      msg.className = 'msg success';
+      document.getElementById('qty').value = '';
+      document.getElementById('selectProgram').value = '';
+    }).catch((error)=>{
+      msg.innerText = 'Gagal: ' + error.message;
+      msg.className = 'msg error';
+    });
+  }
+</script>
+</body>
+</html>

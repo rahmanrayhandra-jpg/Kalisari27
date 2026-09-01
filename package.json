@@ -1,0 +1,8 @@
+{
+  "name": "kalisari27",
+  "version": "1.0.0",
+  "description": "Apps Sales Kalisari27",
+  "dependencies": {
+    "@capacitor/core": "^5.5.1"
+  }
+}

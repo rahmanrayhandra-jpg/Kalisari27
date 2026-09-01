@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+  .container { max-width: 1000px; margin: auto; }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .header h1 { color: #2c3e50; }
+  .logout { background: #e74c3c; color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+  .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .menu a { background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #2c3e50; text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .menu a:hover { background: #3498db; color: white; }
+
+  .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .box h2 { margin-bottom: 20px; }
+
+    /* STATS BARU PER PROGRAM */
+  .stats { display: flex; flex-direction: column; gap: 15px; }
+  .stat-card { background: #ecf0f1; padding: 15px; border-radius: 10px; }
+  .stat-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .stat-card-top h3 { font-size: 16px; color: #2c3e50; }
+  .stat-card-top span { font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 5px; background: #3498db; color: white; }
+  .stat-card-info { display: flex; justify-content: space-between; font-size: 14px; }
+  .stat-card-info b { color: #2c3e50; }
+  .progress-bar { width: 100%; background: #bdc3c7; border-radius: 5px; height: 8px; margin-top: 8px; }
+  .progress { height: 8px; background: #2ecc71; border-radius: 5px; }
+
+  .no-data { text-align: center; color: #777; padding: 10px; }
+
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
+    footer b { color: #2c3e50; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>👋 Halo, <span id="namaUser"></span></h1>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="menu">
+      <a href="input.html">➕ Input Penjualan</a>
+      <a href="laporan.html">📊 Laporan</a>
+      <a href="program.html">📦 Data Program</a>
+      <a href="profil.html">👤 Profil</a>
+    </div>
+
+    <!-- INI BAGIAN YANG KITA GANTI -->
+    <div class="box">
+      <h2>📈 Penjualan Per Program</h2>
+      <div class="stats" id="statsProgram">
+        <p class="no-data">Loading...</p>
+      </div>
+    </div>
+
+    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let namaUser = localStorage.getItem('currentUser');
+  document.getElementById('namaUser').innerText = namaUser;
+
+  let semuaProgram = {}; // {id: {nama, target}}
+  let semuaPenjualan = []; // [{program_id, qty}]
+
+  // 1. AMBIL DATA PROGRAM DULU
+  db.ref('program').on('value', snap => {
+    semuaProgram = {};
+    snap.forEach(child => {
+      semuaProgram[child.key] = child.val();
+    });
+    hitungStats(); // jalanin hitung setelah program ke load
+  });
+
+  // 2. AMBIL DATA PENJUALAN
+  db.ref('penjualan').on('value', snap => {
+    semuaPenjualan = [];
+    snap.forEach(child => {
+      semuaPenjualan.push(child.val());
+    });
+    hitungStats(); // jalanin hitung setelah penjualan ke load
+  });
+
+  // 3. FUNGSI HITUNG STATS PER PROGRAM
+  function hitungStats(){
+    let container = document.getElementById('statsProgram');
+    container.innerHTML = '';
+
+    if(Object.keys(semuaProgram).length == 0){
+      container.innerHTML = `<p class="no-data">Belum ada data program</p>`;
+      return;
+    }
+
+    // Hitung total qty per program_id
+    let totalPerProgram = {};
+    semuaPenjualan.forEach(jual => {
+      if(!totalPerProgram[jual.program_id]) totalPerProgram[jual.program_id] = 0;
+      totalPerProgram[jual.program_id] += jual.qty || 0;
+    });
+
+    // Tampilkan per program
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      let terjual = totalPerProgram[id] || 0;
+      let target = prog.target || 0;
+      let persen = target > 0? Math.round((terjual / target) * 100) : 0;
+      if(persen > 100) persen = 100;
+
+      container.innerHTML += `
+        <div class="stat-card">
+          <div class="stat-card-top">
+            <h3>${prog.nama}</h3>
+            <span>${persen}%</span>
+          </div>
+          <div class="stat-card-info">
+            <p>Terjual: <b>${terjual} Qty</b></p>
+            <p>Target: <b>${target} Qty</b></p>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" style="width: ${persen}%"></div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  function logout(){
+    localStorage.clear();
+    window.location = 'index.html';
+  }
+</script>
+</body>
+</html>
