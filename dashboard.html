@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+.container { max-width: 1000px; margin: auto; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.header h1 { color: #2c3e50; }
+.logout { background: #e74c3c; color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+.menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.menu a { background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #2c3e50; text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.menu a:hover { background: #3498db; color: white; }
+
+.box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.box h2 { margin-bottom: 20px; }
+
+.slider-container { position: relative; }
+.slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
+.slider::-webkit-scrollbar { height: 8px; }
+.slider::-webkit-scrollbar-thumb { background: #3498db; border-radius: 10px; }
+.program-card { min-width: 100%; background: #ecf0f1; padding: 15px; border-radius: 10px; scroll-snap-align: start; }
+
+.card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid #ddd; }
+.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: #777; }
+.tab-btn.active { color: #3498db; border-bottom: 2px solid #3498db; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.stat-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.stat-card-top h3 { font-size: 16px; color: #2c3e50; }
+.stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; }
+.stat-card-info b { color: #2c3e50; }
+.progress-bar { width: 100%; background: #bdc3c7; border-radius: 5px; height: 8px; margin-top: 8px; }
+.progress { height: 8px; background: #2ecc71; border-radius: 5px; }
+
+.target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+.target-row b { color: #2c3e50; }
+.target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 10px; border-radius: 8px; margin-top: 10px; }
+
+.no-data { text-align: center; color: #777; padding: 10px; }
+
+  footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
+  footer b { color: #2c3e50; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>👋 Halo, <span id="namaUser"></span></h1>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="menu" id="menuUtama">
+      <a href="input.html">➕ Input Penjualan</a>
+      <a href="laporan.html">📊 Laporan</a>
+      <a href="program.html">📦 Data Program</a>
+      <a href="profil.html">👤 Profil</a>
+    </div>
+
+    <div class="box">
+      <h2>📊 Dashboard Program - <span id="bulanIni"></span></h2>
+      <p style="font-size:12px; color:#777; margin-bottom:15px;">Geser ke samping untuk liat program lain</p>
+      <div class="slider-container">
+        <div class="slider" id="sliderProgram">
+          <p class="no-data">Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+  </div>
+
+<script>
+  // ===== 1. SETTING VERSI APP - GANTI INI TIAP UPDATE =====
+  const VERSI_APP = "1.0.2";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let namaUser = localStorage.getItem('currentUser');
+  document.getElementById('namaUser').innerText = namaUser;
+
+  const ADMIN_USERNAME = 'admin';
+
+  let menu = document.getElementById('menuUtama');
+  if(namaUser === ADMIN_USERNAME){
+    let linkSetting = document.createElement('a');
+    linkSetting.href = 'setting.html';
+    linkSetting.innerText = '⚙️ Setting Hari';
+    linkSetting.style.background = '#2ecc71';
+    linkSetting.style.color = 'white';
+    menu.appendChild(linkSetting);
+  }
+
+  // ===== 2. FUNGSI CEK UPDATE BARU =====
+  function cekUpdate() {
+    const dbRef = firebase.database().ref("app_info");
+    dbRef.once("value").then((snap) => {
+      const data = snap.val();
+      if(data && data.versi_terbaru && data.versi_terbaru!== VERSI_APP){
+        if(confirm(`Update tersedia: v${data.versi_terbaru}\n\n${data.catatan || ''}\n\nDownload sekarang?`)){
+          window.open(data.link_apk, "_blank");
+        }
+      }
+    }).catch(err => console.log("Gagal cek update:", err));
+  }
+
+  // JALANKAN CEK UPDATE PAS BUKA APLIKASI
+  window.addEventListener('load', cekUpdate);
+
+  let semuaProgram = {};
+  let semuaPenjualan = [];
+
+  db.ref('program').on('value', snap => {
+    semuaProgram = {};
+    snap.forEach(child => { semuaProgram[child.key] = child.val(); });
+    renderSlider();
+  });
+
+  db.ref('penjualan').on('value', snap => {
+    semuaPenjualan = [];
+    snap.forEach(child => { semuaPenjualan.push(child.val()); });
+    renderSlider();
+  });
+
+  function renderSlider(){
+    let container = document.getElementById('sliderProgram');
+    container.innerHTML = '';
+    let bulanIni = new Date().getMonth() + 1;
+    let tahunIni = new Date().getFullYear();
+    let hariIni = new Date().getDate();
+    document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
+
+    let terjualBulanIni = {};
+    semuaPenjualan.forEach(jual => {
+      let tgl = new Date(jual.tanggal);
+      if(tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni){
+        if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id] = 0;
+        terjualBulanIni[jual.program_id] += jual.qty || 0;
+      }
+    });
+
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      let target = prog.target || 0;
+      let hariKerjaTotal = prog.hari_kerja || 22;
+      let terjual = terjualBulanIni[id] || 0;
+      let persen = target > 0? Math.round((terjual / target) * 100) : 0;
+      if(persen > 100) persen = 100;
+      let sisa = target - terjual; if(sisa < 0) sisa = 0;
+
+      let hariLewat = hariIni - 1;
+      if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal;
+      let sisaHariKerja = hariKerjaTotal - hariLewat;
+      if(sisaHariKerja < 1) sisaHariKerja = 1;
+
+      let targetHarian = Math.ceil(sisa / sisaHariKerja);
+      let warnaTarget = targetHarian > 10? 'red' : targetHarian > 5? 'orange' : 'green';
+
+      container.innerHTML += `
+        <div class="program-card">
+          <h3 style="margin-bottom:10px;">${prog.nama}</h3>
+          <div class="card-tabs">
+            <button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button>
+            <button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button>
+          </div>
+
+          <div id="realisasi-${id}" class="tab-content active">
+            <div class="stat-card-top">
+              <span>Pencapaian: ${persen}%</span>
+            </div>
+            <div class="stat-card-info">
+              <p>Terjual: <b>${terjual} Qty</b></p>
+              <p>Target: <b>${target} Qty</b></p>
+            </div>
+            <div class="progress-bar">
+              <div class="progress" style="width: ${persen}%"></div>
+            </div>
+          </div>
+
+          <div id="target-${id}" class="tab-content">
+            <div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div>
+            <div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div>
+            <div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div>
+            <div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div>
+            <div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">
+              Kejar ${targetHarian} Qty / Hari
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  function openTab(btn, tabId){
+    let parent = btn.closest('.program-card');
+    parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    parent.querySelector('#'+tabId).classList.add('active');
+  }
+
+  function logout(){
+    localStorage.clear();
+    window.location = 'index.html';
+  }
+</script>
+</body>
+</html>

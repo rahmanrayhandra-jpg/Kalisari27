@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Laporan - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+   .container { max-width: 1000px; margin: auto; }
+   .back { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+
+   .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+   .box h2 { margin-bottom: 20px; }
+
+    /* FILTER */
+   .filter-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; }
+   .filter-box div { flex: 1; min-width: 150px; }
+   .filter-box label { font-size: 14px; font-weight: bold; display: block; margin-bottom: 5px; }
+   .filter-box input, .filter-box select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+   .btn-filter { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+   .btn-reset { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+    /* RINGKASAN */
+   .ringkasan { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+   .card { flex: 1; min-width: 200px; background: #ecf0f1; padding: 20px; border-radius: 10px; text-align: center; }
+   .card h3 { font-size: 14px; color: #777; margin-bottom: 5px; }
+   .card p { font-size: 24px; font-weight: bold; color: #2c3e50; }
+
+    /* BUNGKUS TABEL BIAR SCROLL */
+   .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 500px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      display: none; /* default disembunyiin */
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; white-space: nowrap; }
+    table th { background: #f4f6f9; position: sticky; top: 0; z-index: 2; }
+   .btn-del { background: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+   .no-data { text-align: center; padding: 20px; color: #777; }
+   .info { text-align: center; padding: 30px; color: #777; font-style: italic; }
+
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
+    footer b { color: #2c3e50; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+
+    <div class="box">
+      <h2>📊 Laporan Penjualan</h2>
+
+      <!-- FILTER TANGGAL + PROGRAM -->
+      <div class="filter-box">
+        <div>
+          <label>Dari Tanggal</label>
+          <input type="date" id="tglMulai">
+        </div>
+        <div>
+          <label>Sampai Tanggal</label>
+          <input type="date" id="tglAkhir">
+        </div>
+        <div>
+          <label>Program</label>
+          <select id="filterProgram">
+            <option value="">-- Pilih Program --</option>
+          </select>
+        </div>
+        <button class="btn-filter" onclick="filterLaporan()">Tampilkan</button>
+        <button class="btn-reset" onclick="resetFilter()">Reset</button>
+      </div>
+
+      <!-- RINGKASAN -->
+      <div class="ringkasan" id="ringkasanBox" style="display:none;">
+        <div class="card">
+          <h3>Total Transaksi</h3>
+          <p id="totalTransaksi">0</p>
+        </div>
+        <div class="card">
+          <h3>Total Qty Terjual</h3>
+          <p id="totalQty">0 Qty</p>
+        </div>
+      </div>
+
+      <!-- INFO AWAL -->
+      <div class="info" id="infoAwal">Silakan pilih Tanggal dan Program lalu klik "Tampilkan"</div>
+
+      <!-- TABEL DIBUNGKUS -->
+      <div class="table-wrapper" id="tableWrapper">
+        <table id="tabelLaporan">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>user</th>
+              <th>Program</th>
+              <th>Qty</th>
+              <th id="thAksi" style="display:none;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="5" class="no-data">Loading data...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let semuaData = [];
+  let semuaProgram = new Set();
+  let role = localStorage.getItem('role');
+
+  if(role == 'admin'){
+    document.getElementById('thAksi').style.display = 'table-cell';
+  }
+
+  // LOAD SEMUA DATA
+  db.ref('penjualan').on('value', (snapshot) => {
+    semuaData = [];
+    semuaProgram.clear();
+    snapshot.forEach(child => {
+      let data = child.val();
+      semuaData.push({id: child.key,...data});
+      if(data.program_nama) semuaProgram.add(data.program_nama);
+    });
+    isiDropdownProgram();
+    // ga langsung tampilkan, nunggu filter
+  });
+
+  // ISI DROPDOWN PROGRAM OTOMATIS DARI DATA
+  function isiDropdownProgram(){
+    let select = document.getElementById('filterProgram');
+    select.innerHTML = `<option value="">-- Pilih Program --</option><option value="all">Semua Program</option>`;
+    [...semuaProgram].sort().forEach(prog => {
+      select.innerHTML += `<option value="${prog}">${prog}</option>`;
+    });
+  }
+
+  // TAMPILKAN LAPORAN
+  function tampilkanLaporan(data){
+    let tbody = document.querySelector('#tabelLaporan tbody');
+    tbody.innerHTML = '';
+
+    let totalTransaksi = data.length;
+    let totalQty = 0;
+
+    if(data.length == 0){
+      tbody.innerHTML = `<tr><td colspan="5" class="no-data">Tidak ada data</td></tr>`;
+    } else {
+      data.sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal));
+      data.forEach(item => {
+        totalQty += Number(item.qty) || 0;
+        let tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'});
+        let btnHapus = (role == 'admin')? `<button class="btn-del" onclick="hapusData('${item.id}')">Hapus</button>` : '';
+        tbody.innerHTML += `
+          <tr>
+            <td>${tgl}</td>
+            <td>${item.user}</td>
+            <td>${item.program_nama}</td>
+            <td>${item.qty} Qty</td>
+            <td>${btnHapus}</td>
+          </tr>
+        `;
+      });
+    }
+
+    document.getElementById('totalTransaksi').innerText = totalTransaksi;
+    document.getElementById('totalQty').innerText = totalQty + ' Qty';
+    document.getElementById('ringkasanBox').style.display = 'flex';
+    document.getElementById('tableWrapper').style.display = 'block';
+    document.getElementById('infoAwal').style.display = 'none';
+  }
+
+  // FILTER
+  function filterLaporan(){
+    let tglMulai = document.getElementById('tglMulai').value;
+    let tglAkhir = document.getElementById('tglAkhir').value;
+    let program = document.getElementById('filterProgram').value;
+    
+    if(!tglMulai ||!tglAkhir ||!program){ 
+      alert('Isi Tanggal dan Pilih Program dulu'); 
+      return; 
+    }
+
+    let hasilFilter = semuaData.filter(item => {
+      let cocokTanggal = item.tanggal >= tglMulai && item.tanggal <= tglAkhir;
+      let cocokProgram = (program == 'all') ? true : item.program_nama == program;
+      return cocokTanggal && cocokProgram;
+    });
+    tampilkanLaporan(hasilFilter);
+  }
+
+  // RESET
+  function resetFilter(){
+    document.getElementById('tglMulai').value = '';
+    document.getElementById('tglAkhir').value = '';
+    document.getElementById('filterProgram').value = '';
+    document.getElementById('ringkasanBox').style.display = 'none';
+    document.getElementById('tableWrapper').style.display = 'none';
+    document.getElementById('infoAwal').style.display = 'block';
+  }
+
+  // HAPUS DATA - KHUSUS ADMIN
+  function hapusData(id){
+    if(confirm('Yakin mau hapus data penjualan ini?')){
+      db.ref('penjualan/' + id).remove().then(()=>{
+        alert('Data berhasil dihapus');
+      });
+    }
+  }
+</script>
+</body>
+</html>

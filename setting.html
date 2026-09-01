@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Setting Hari Kerja - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f4f6f9; padding: 20px; }
+  .container { max-width: 800px; margin: auto; }
+  .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+  .box h2 { margin-bottom: 20px; color: #2c3e50; }
+   .program-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #ecf0f1; border-radius: 10px; margin-bottom: 10px; gap: 10px; flex-wrap: wrap; }
+   .program-item b { flex: 1 1 200px; }
+   .program-item input { width: 80px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; text-align: center; font-weight: bold; }
+   .program-item span { font-size: 12px; color: #777; }
+    button { width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    button:hover { background: #27ae60; }
+  .back { display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h2>⚙️ Setting Hari Kerja Per Program</h2>
+      <p style="font-size:14px; color:#777; margin-bottom:15px;">Isi berapa hari kerja target untuk masing2 program dalam 1 bulan</p>
+      <form id="formSetting">
+        <div id="listProgram">
+          <p class="no-data">Loading...</p>
+        </div>
+        <button type="submit">💾 Simpan Semua</button>
+      </form>
+      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+    </div>
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  let dataProgram = {};
+
+  // LOAD DATA PROGRAM
+  db.ref('program').on('value', snap => {
+    dataProgram = {};
+    let container = document.getElementById('listProgram');
+    container.innerHTML = '';
+
+    snap.forEach(child => {
+      let id = child.key;
+      let val = child.val();
+      dataProgram[id] = val;
+      let hariKerja = val.hari_kerja || 22; // default 22 hari
+
+      container.innerHTML += `
+        <div class="program-item">
+          <b>${val.nama}</b>
+          <span>Target Bulan: ${val.target} Qty</span>
+          <input type="number" id="hari-${id}" value="${hariKerja}" min="1" max="31">
+          <span>Hari</span>
+        </div>
+      `;
+    });
+  });
+
+  // SIMPAN
+  document.getElementById('formSetting').addEventListener('submit', e => {
+    e.preventDefault();
+    let updates = {};
+    for(let id in dataProgram){
+      let hari = Number(document.getElementById(`hari-${id}`).value);
+      updates[`program/${id}/hari_kerja`] = hari;
+    }
+    db.ref().update(updates).then(() => {
+      alert('Setting Hari Kerja berhasil disimpan!');
+    });
+  });
+</script>
+</body>
+</html>
