@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stok Opname - Kalisari27</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f0f2f5; }
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 10;
+    }
+    header h1 { font-size: 20px; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; padding: 8px 12px; border-radius: 8px; transition: 0.3s; }
+    nav a.active, nav a:hover { background: rgba(255,255,255,0.2); }
+.logout-btn { background: white; color: #667eea; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.container { padding: 30px; max-width: 1200px; margin: auto; }
+.card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
+    h2 { margin-bottom: 15px; color: #333; }
+.total-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+.total-box h3 { font-size: 14px; opacity: 0.9; }
+.total-box h1 { font-size: 32px; margin-top: 5px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 15px; }
+    input:focus, select:focus { outline: none; border-color: #667eea; }
+.upload-box { grid-column: 1 / -1; border: 2px dashed #667eea; padding: 15px; border-radius: 10px; text-align: center; }
+.upload-box label { display: block; margin-bottom: 10px; font-weight: bold; color: #667eea; }
+.btn-kamera { background: #28a745; color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+.btn-file { background: #6c757d; color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; }
+.preview-img { width: 100%; max-width: 250px; height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid #ddd; }
+.btn-simpan { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 14px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+.btn-simpan:disabled { background: #ccc; cursor: not-allowed; }
+.filter-box { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+.filter-box input { flex: 1; min-width: 150px; }
+.table-wrapper { width: 100%; overflow-x: auto; border-radius: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 850px; }
+    th { background: #667eea; color: white; padding: 12px; text-align: left; white-space: nowrap; position: sticky; top: 0; }
+    td { padding: 12px; border-bottom: 1px solid #eee; white-space: nowrap; }
+.selisih-minus { color: #dc3545; font-weight: bold; }
+.selisih-plus { color: #333; font-weight: bold; }
+.foto-cell img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid #667eea; }
+.btn-hapus { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+.pagination { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+.pagination button { padding: 8px 15px; border: 1px solid #667eea; background: white; color: #667eea; border-radius: 8px; cursor: pointer; }
+.pagination button.active { background: #667eea; color: white; }
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+.modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
+.close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+.loading { text-align: center; padding: 20px; color: #667eea; }
+.size-info { font-size: 12px; color: #667eea; margin-top: 5px; }
+    @media(max-width: 768px){.form-grid { grid-template-columns: 1fr; } }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🐝 KALISARI27</h1>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="stockopname.html" class="active">Stok Opname</a>
+    </nav>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h2>📝 Input Stok Opname</h2>
+      <div class="form-grid">
+        <input type="date" id="tanggal" required>
+        <input type="text" id="noKoreksi" placeholder="No Koreksi" required>
+        <input type="text" id="itemTertinggi" placeholder="Item Koreksi Tertinggi" required>
+        <input type="number" id="selisih" placeholder="Selisih Qty" required>
+        <input type="number" id="rpItem" placeholder="Rp Item Tertinggi" required>
+        <input type="text" id="keterangan" placeholder="Keterangan / Lokasi Rak" style="grid-column: 1 / -1;">
+
+        <div class="upload-box">
+          <label>📸 Bukti Foto <small style="color:#999">(Auto Kompres)</small></label>
+          <input type="file" id="fotoKamera" accept="image/*" capture="environment" style="display:none;" onchange="previewFoto(event)">
+          <input type="file" id="fotoFile" accept="image/*" style="display:none;" onchange="previewFoto(event)">
+          <button class="btn-kamera" onclick="document.getElementById('fotoKamera').click()">📷 Ambil Foto</button>
+          <button class="btn-file" onclick="document.getElementById('fotoFile').click()">🖼️ Pilih dari Galeri</button>
+          <img id="preview" class="preview-img" style="display:none;">
+          <p id="sizeInfo" class="size-info"></p>
+        </div>
+      </div>
+      <button class="btn-simpan" id="btnSimpan" onclick="simpanData()">💾 Simpan Data</button>
+      <p id="msg" style="margin-top:10px; font-weight:bold; text-align:center;"></p>
+    </div>
+
+    <div class="card">
+      <h2>📊 Riwayat Stok Opname - Semua User</h2>
+      <div class="total-box">
+        <h3>Total Selisih Semua Data</h3>
+        <h1 id="totalSelisih">0</h1>
+      </div>
+      <div class="filter-box">
+        <input type="date" id="filterTanggal" onchange="gantiHalaman(1)">
+        <input type="text" id="filterSearch" placeholder="Cari No Koreksi/Item..." onkeyup="gantiHalaman(1)">
+      </div>
+      <div class="table-wrapper">
+        <table id="tabelRiwayat">
+          <thead>
+            <tr>
+              <th>Tanggal</th><th>No Koreksi</th><th>Item Koreksi Tertinggi</th><th>Rp Item Tertinggi</th>
+              <th>Selisih</th><th>Foto</th><th>Petugas</th><th>Keterangan</th><th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="9" class="loading">Loading data...</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <div id="modalGambar" class="modal" onclick="tutupModal()">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="imgBesar">
+  </div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  if(localStorage.getItem('login')!= 'true'){ window.location.href = 'index.html'; }
+
+  let fotoBase64 = "";
+  let halamanSekarang = 1;
+  const dataPerHalaman = 5;
+  let semuaData = [];
+
+  document.getElementById('tanggal').valueAsDate = new Date();
+  loadData();
+
+  // FUNGSI BARU: AUTO KOMPRES GAMBAR
+  function kompresGambar(file, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve) => {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        let img = new Image();
+        img.onload = function() {
+          let canvas = document.createElement('canvas');
+          let ctx = canvas.getContext('2d');
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth) {
+            height = (maxWidth / width) * height;
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          let compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedBase64);
+        }
+        img.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function previewFoto(event){
+    let file = event.target.files[0];
+    if(!file) return;
+
+    document.getElementById('sizeInfo').innerText = '⏳ Mengkompres...';
+
+    // KOMPRES DULU BARU SIMPAN
+    fotoBase64 = await kompresGambar(file);
+
+    document.getElementById('preview').src = fotoBase64;
+    document.getElementById('preview').style.display = 'block';
+
+    let sizeKB = Math.round(fotoBase64.length / 1024);
+    document.getElementById('sizeInfo').innerText = `✅ Ukuran: ${sizeKB} KB`;
+  }
+
+  function simpanData(){
+    let btn = document.getElementById('btnSimpan');
+    let msg = document.getElementById('msg');
+    let tanggal = document.getElementById('tanggal').value;
+    let noKoreksi = document.getElementById('noKoreksi').value;
+    let item = document.getElementById('itemTertinggi').value;
+    let selisih = parseInt(document.getElementById('selisih').value);
+    let rpItem = parseInt(document.getElementById('rpItem').value);
+    let ket = document.getElementById('keterangan').value;
+    let petugas = localStorage.getItem('currentUser');
+
+    if(!tanggal ||!noKoreksi ||!item || isNaN(selisih) || isNaN(rpItem)){ msg.innerText = '⚠️ Isi semua field wajib!'; msg.style.color = 'red'; return; }
+    if(fotoBase64 == ""){ msg.innerText = '⚠️ Wajib upload foto bukti!'; msg.style.color = 'red'; return; }
+
+    btn.disabled = true; btn.innerText = '⏳ Menyimpan...'; msg.innerText = '';
+
+    let dataBaru = {
+      tanggal, noKoreksi, item, selisih, rpItem, ket, petugas,
+      foto: fotoBase64,
+      createdAt: Date.now()
+    };
+
+    db.ref('stokopname').push(dataBaru).then(() => {
+      msg.innerText = '✅ Data berhasil disimpan!'; msg.style.color = 'green';
+      document.querySelectorAll('input').forEach(i => { if(i.id!= 'tanggal' && i.type!= 'file') i.value = ''; });
+      document.getElementById('preview').style.display = 'none';
+      document.getElementById('sizeInfo').innerText = '';
+      document.getElementById('fotoKamera').value = "";
+      document.getElementById('fotoFile').value = "";
+      fotoBase64 = "";
+    }).catch((error) => {
+      msg.innerText = '❌ Gagal: ' + error.message; msg.style.color = 'red';
+    }).finally(() => {
+      btn.disabled = false; btn.innerText = '💾 Simpan Data';
+    });
+  }
+
+  function loadData(){
+    db.ref('stokopname').on('value', (snapshot) => {
+      semuaData = [];
+      snapshot.forEach(child => {
+        semuaData.push({id: child.key,...child.val()});
+      });
+      semuaData.sort((a,b) => b.createdAt - a.createdAt);
+      gantiHalaman(1);
+    });
+  }
+
+  function formatRupiah(angka){
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka || 0);
+  }
+
+  function tampilkanTabel(){
+    let tbody = document.querySelector('#tabelRiwayat tbody');
+    let filterTgl = document.getElementById('filterTanggal').value;
+    let filterCari = document.getElementById('filterSearch').value.toLowerCase();
+
+    let dataFilter = semuaData.filter(d => {
+      let cocokTgl = filterTgl? d.tanggal == filterTgl : true;
+      let cocokCari = d.noKoreksi.toLowerCase().includes(filterCari) || d.item.toLowerCase().includes(filterCari);
+      return cocokTgl && cocokCari;
+    });
+
+    let total = dataFilter.reduce((sum, d) => sum + (d.selisih || 0), 0);
+    document.getElementById('totalSelisih').innerText = total;
+
+    let totalHalaman = Math.ceil(dataFilter.length / dataPerHalaman);
+    let start = (halamanSekarang - 1) * dataPerHalaman;
+    let dataHalaman = dataFilter.slice(start, start + dataPerHalaman);
+
+    if(dataHalaman.length == 0){ tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Belum ada data</td></tr>'; }
+    else {
+      tbody.innerHTML = '';
+      dataHalaman.forEach(d => {
+        let classSelisih = d.selisih < 0? 'selisih-minus' : 'selisih-plus';
+        let fotoHtml = d.foto? `<img src="${d.foto}" onclick="bukaModal('${d.foto}')">` : '-';
+        tbody.innerHTML += `
+          <tr>
+            <td>${d.tanggal}</td><td>${d.noKoreksi}</td><td>${d.item}</td><td>${formatRupiah(d.rpItem)}</td>
+            <td class="${classSelisih}">${d.selisih}</td><td class="foto-cell">${fotoHtml}</td>
+            <td>${d.petugas}</td><td>${d.ket}</td>
+            <td><button class="btn-hapus" onclick="hapusData('${d.id}')">Hapus</button></td>
+          </tr>
+        `;
+      });
+    }
+    buatPagination(totalHalaman);
+  }
+
+  function buatPagination(totalHalaman){
+    let pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+    for(let i = 1; i <= totalHalaman; i++){
+      pagination.innerHTML += `<button class="${i == halamanSekarang? 'active' : ''}" onclick="gantiHalaman(${i})">${i}</button>`;
+    }
+  }
+  function gantiHalaman(hal){ halamanSekarang = hal; tampilkanTabel(); }
+  function bukaModal(src){ document.getElementById('modalGambar').style.display = 'flex'; document.getElementById('imgBesar').src = src; }
+  function tutupModal(){ document.getElementById('modalGambar').style.display = 'none'; }
+
+  function hapusData(id){
+    if(confirm('Yakin mau hapus data ini?')){
+      db.ref('stokopname/' + id).remove();
+    }
+  }
+  function logout(){ localStorage.clear(); window.location.href = 'index.html'; }
+</script>
+</body>
+</html>
