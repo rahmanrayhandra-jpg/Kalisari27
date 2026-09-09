@@ -3,277 +3,305 @@
 <head>
   <title>Login - KALISARI27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
     
     body {
-      background: url('depan.jpg') no-repeat center fixed;
-      background-size: cover; 
       height: 100vh; 
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      padding: 20px; 
       position: relative;
       overflow: hidden;
     }
     
-    /* Overlay tipis biar foto tetap keliatan */
+    /* SLIDESHOW BACKGROUND JERNIH 100% */
+    .bg-slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: -1;
+    }
+    
+    .bg-slide {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      animation: fadeSlide 15s infinite;
+      filter: brightness(1);
+    }
+    
+    .bg-slide:nth-child(1) { background-image: url('depan.jpg'); animation-delay: 0s; }
+    .bg-slide:nth-child(2) { background-image: url('store.jpg'); animation-delay: 5s; }
+    .bg-slide:nth-child(3) { background-image: url('kasir.jpg'); animation-delay: 10s; }
+    
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: scale(1.05); }
+      10% { opacity: 1; transform: scale(1); }
+      30% { opacity: 1; transform: scale(1); }
+      40% { opacity: 0; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
+    
     body::before { 
       content: ''; 
       position: absolute; 
       top: 0; left: 0; right: 0; bottom: 0; 
-      background: rgba(0,0,0,0.25); 
-      backdrop-filter: blur(2px);
-    }
-
-    /* Gelembung animasi */
-    .bubble {
-      position: absolute; border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      animation: float 20s infinite ease-in-out;
+      background: rgba(0,0,0,0.05); 
       z-index: 0;
     }
-    .bubble:nth-child(1){width:180px;height:180px;top:10%;left:8%;animation-delay:0s;}
-    .bubble:nth-child(2){width:120px;height:120px;top:75%;left:85%;animation-delay:5s;}
-    @keyframes float {
-      0%,100%{transform:translateY(0) rotate(0deg);}
-      50%{transform:translateY(-25px) rotate(180deg);}
+
+    /* TOMBOL PEMBUKA */
+    .btn-opener {
+      position: relative;
+      z-index: 2;
+      padding: 18px 45px;
+      background: rgba(255,255,255,0.95);
+      color: #667eea;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      cursor: pointer;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      animation: pulse 2s infinite;
+      transition: 0.3s;
+    }
+    .btn-opener:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 50px rgba(102,126,234,0.4);
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    /* WRAPPER LOGIN DI BAWAH */
+    .login-wrapper {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(150%);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1;
+    }
+    .login-wrapper.active {
+      transform: translateX(-50%) translateY(0);
     }
 
     .container { 
-      background: rgba(255, 255, 255, 0.25); 
-      backdrop-filter: blur(12px); 
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3); 
-      padding: 30px 25px; 
-      border-radius: 20px; 
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px); 
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2); 
+      padding: 18px 22px; 
+      border-radius: 16px; 
       width: 100%; 
-      max-width: 360px; 
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25); 
-      animation: slideUp 0.7s ease; 
+      max-width: 480px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
       position: relative; 
-      z-index: 1; 
     }
     
-    @keyframes slideUp { 
-      from { transform: translateY(50px); opacity: 0; } 
-      to { transform: translateY(0); opacity: 1; } 
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
     }
     
-    .logo { 
-      text-align: center; 
-      font-size: 50px; 
-      margin-bottom: 5px; 
-      animation: bounce 2s infinite;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
-    }
-    @keyframes bounce {
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(-8px);}
-    }
+    .logo { font-size: 32px; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.3)); }
     
     h2 { 
-      text-align: center; 
       color: white; 
-      margin-bottom: 20px; 
       font-weight: 700;
-      font-size: 22px;
-      letter-spacing: 1.5px;
-      text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+      font-size: 17px; 
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
     }
     
     .tabs { 
       display: flex; 
-      background: rgba(255,255,255,0.2); 
-      border-radius: 12px; 
-      padding: 5px; 
-      margin-bottom: 20px; 
-      backdrop-filter: blur(5px);
+      background: rgba(255,255,255,0.12); 
+      border-radius: 10px; 
+      padding: 3px; 
+      margin-bottom: 14px; 
     }
     
     .tab { 
       flex: 1; 
-      padding: 10px; 
+      padding: 7px; 
       text-align: center; 
       cursor: pointer; 
       color: white; 
-      border-radius: 8px; 
+      border-radius: 7px; 
       transition: 0.3s; 
       font-weight: 600; 
-      font-size: 14px;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      font-size: 12px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     }
     
     .tab.active { 
-      background: white; 
+      background: rgba(255,255,255,0.9);
       color: #667eea; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      text-shadow: none;
     }
     
-    .input-group { position: relative; margin-bottom: 12px; }
+    .form-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    
+    .input-group { flex: 1; position: relative; }
     
     input { 
       width: 100%; 
-      padding: 13px 14px; 
-      border: 1.5px solid rgba(255,255,255,0.4);
-      border-radius: 12px; 
-      background: rgba(255,255,255,0.15);
+      padding: 10px 12px; 
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 10px; 
+      background: rgba(255,255,255,0.1);
       color: white; 
-      transition: 0.3s; 
-      font-size: 14px; 
+      font-size: 13px; 
     }
     
-    .input-group input { padding-right: 45px; }
-    
-    input::placeholder { color: rgba(255,255,255,0.85); }
-    
-    input:focus { 
-      background: rgba(255,255,255,0.25); 
-      border-color: white; 
-      outline: none; 
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
-    }
+    .input-group input { padding-right: 35px; }
+    input::placeholder { color: rgba(255,255,255,0.8); }
+    input:focus { background: rgba(255,255,255,0.2); border-color: white; outline: none; }
     
     .toggle-pass { 
       position: absolute; 
-      right: 15px; 
+      right: 10px; 
       top: 50%; 
       transform: translateY(-50%); 
       cursor: pointer; 
-      font-size: 18px; 
-      user-select: none; 
-      opacity: 0.9;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+      font-size: 15px; 
+      opacity: 0.8;
     }
     
-    button { 
-      width: 100%; 
-      padding: 13px; 
-      background: white;
+    .btn-login {
+      padding: 10px 20px; 
+      background: rgba(255,255,255,0.9);
       color: #667eea; 
       border: none; 
-      border-radius: 12px; 
-      font-size: 15px; 
+      border-radius: 10px; 
+      font-size: 13px; 
       font-weight: 700; 
       cursor: pointer; 
       transition: 0.3s; 
-      margin-top: 8px; 
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      white-space: nowrap;
     }
-    
-    button:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
-    }
+    .btn-login:hover { background: white; transform: translateY(-2px); }
     
     .msg { 
       text-align: center; 
-      margin-top: 10px; 
-      font-size: 13px; 
+      margin-top: 8px; 
+      font-size: 12px; 
       display: none; 
       font-weight: 600; 
-      padding: 8px;
-      border-radius: 8px;
-      backdrop-filter: blur(5px);
+      padding: 6px;
+      border-radius: 6px;
     }
     
-    .error { color: #fff; background: rgba(255,107,107,0.5); } 
-    .success { color: #fff; background: rgba(81,207,102,0.5); }
+    .error { color: #fff; background: rgba(255,107,107,0.7); } 
+    .success { color: #fff; background: rgba(81,207,102,0.7); }
     
     .form { display: none; } 
     .form.active { display: block; }
     
-    .captcha-box { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      margin: 12px 0; 
-    }
-    
-    .captcha-code { 
-      flex: 1; 
-      padding: 12px; 
-      background: rgba(0,0,0,0.3);
-      color: white; 
-      font-size: 20px; 
-      font-weight: 700; 
-      letter-spacing: 6px; 
-      text-align: center; 
-      border-radius: 12px; 
-      user-select: none; 
-      font-family: 'Courier New', monospace; 
-      border: 1.5px dashed rgba(255,255,255,0.4);
-      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    }
-    
-    .refresh-btn { 
-      padding: 12px; 
-      background: rgba(255,255,255,0.25); 
-      border: none; 
-      border-radius: 12px; 
-      font-size: 18px; 
-      cursor: pointer; 
-      color: white; 
-      transition: 0.3s;
-    }
-    .refresh-btn:hover{transform:rotate(180deg);}
-    
     footer { 
       text-align: center; 
-      margin-top: 20px; 
+      margin-top: 12px; 
       color: rgba(255,255,255,0.9);
-      font-size: 12px; 
-      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      font-size: 11px; 
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    /* TOMBOL TUTUP */
+    .btn-close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: white;
+      color: #667eea;
+      border: none;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     
-    footer b { color: white; font-weight: 700; }
+    @media (max-width: 520px) {
+      .container { max-width: 90%; }
+      .form-row { flex-direction: column; gap: 8px; }
+      .btn-login { width: 100%; }
+      .btn-opener { font-size: 16px; padding: 15px 35px; }
+    }
   </style>
   
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
-  <div class="bubble"></div>
-  <div class="bubble"></div>
+  <!-- SLIDESHOW BACKGROUND -->
+  <div class="bg-slider">
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+    <div class="bg-slide"></div>
+  </div>
 
-  <div class="container">
-    <div class="logo">🐝</div>
-    <h2>KALISARI27</h2>
-    
-    <div class="tabs">
-      <div class="tab active" onclick="showForm('login', event)">Login</div>
-      <div class="tab" onclick="showForm('register', event)">Daftar</div>
-    </div>
+  <!-- TOMBOL PEMBUKA -->
+  <button class="btn-opener" onclick="openLogin()">GAS JUALAN 🔥📢</button>
 
-    <div id="login" class="form active">
-      <input type="text" id="loginUser" placeholder="Username">
-      <div class="input-group">
-        <input type="password" id="loginPass" placeholder="Password">
-        <span class="toggle-pass" onclick="togglePassword('loginPass')">👁️</span>
+  <!-- WRAPPER LOGIN -->
+  <div class="login-wrapper" id="loginWrapper">
+    <div class="container">
+      <button class="btn-close" onclick="closeLogin()">×</button>
+      
+      <div class="header">
+        <div class="logo">🐝</div>
+        <h2>KALISARI27</h2>
       </div>
-      <div class="captcha-box">
-        <div id="captchaCode" class="captcha-code">1234</div>
-        <button type="button" class="refresh-btn" onclick="generateCaptcha()">🔄</button>
+      
+      <div class="tabs">
+        <div class="tab active" onclick="showForm('login', event)">Login</div>
+        <div class="tab" onclick="showForm('register', event)">Daftar</div>
       </div>
-      <input type="text" id="captchaInput" placeholder="Ketik kode di atas">
-      <button onclick="login()">MASUK</button>
-      <p id="loginMsg" class="msg"></p>
-    </div>
 
-    <div id="register" class="form">
-      <input type="text" id="regUser" placeholder="Buat Username">
-      <div class="input-group">
-        <input type="password" id="regPass" placeholder="Buat Password">
-        <span class="toggle-pass" onclick="togglePassword('regPass')">👁️</span>
+      <div id="login" class="form active">
+        <div class="form-row">
+          <input type="text" id="loginUser" placeholder="Username">
+          <div class="input-group">
+            <input type="password" id="loginPass" placeholder="Password">
+            <span class="toggle-pass" onclick="togglePassword('loginPass')">👁️</span>
+          </div>
+          <button class="btn-login" onclick="login()">MASUK</button>
+        </div>
+        <p id="loginMsg" class="msg"></p>
       </div>
-      <button onclick="register()">DAFTAR SEKARANG</button>
-      <p id="regMsg" class="msg"></p>
+
+      <div id="register" class="form">
+        <div class="form-row">
+          <input type="text" id="regUser" placeholder="Username Baru">
+          <div class="input-group">
+            <input type="password" id="regPass" placeholder="Password">
+            <span class="toggle-pass" onclick="togglePassword('regPass')">👁️</span>
+          </div>
+          <button class="btn-login" onclick="register()">DAFTAR</button>
+        </div>
+        <p id="regMsg" class="msg"></p>
+      </div>
+      
+      <footer>DevancaProject © 2026</footer>
     </div>
-    
-    <footer>Powered by <b>DevancaProject</b> © 2026</footer>
   </div>
 
 <script>
@@ -289,12 +317,13 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  let currentCaptcha = "";
-  function generateCaptcha(){
-    let chars = "0123456789";
-    currentCaptcha = "";
-    for(let i = 0; i < 4; i++){ currentCaptcha += chars.charAt(Math.floor(Math.random() * chars.length)); }
-    document.getElementById('captchaCode').innerText = currentCaptcha;
+  function openLogin() {
+    document.getElementById('loginWrapper').classList.add('active');
+    document.querySelector('.btn-opener').style.display = 'none';
+  }
+  function closeLogin() {
+    document.getElementById('loginWrapper').classList.remove('active');
+    document.querySelector('.btn-opener').style.display = 'block';
   }
 
   function showForm(id, event){
@@ -328,9 +357,8 @@
   function login(){
     let user = document.getElementById('loginUser').value;
     let pass = document.getElementById('loginPass').value;
-    let captcha = document.getElementById('captchaInput').value;
     let msg = document.getElementById('loginMsg');
-    if(captcha != currentCaptcha){ msg.innerText = 'Kode CAPTCHA salah!'; msg.className = 'msg error'; msg.style.display = 'block'; generateCaptcha(); document.getElementById('captchaInput').value = ""; return; }
+    
     db.ref('users/' + user).once('value').then((snapshot) => {
       if(snapshot.exists() && snapshot.val().password === pass){
         localStorage.setItem('currentUser', user);
@@ -339,18 +367,12 @@
         window.location.href = 'dashboard.html';
       } else {
         msg.innerText = 'Username/Password salah!'; msg.className = 'msg error'; msg.style.display = 'block';
-        generateCaptcha(); document.getElementById('captchaInput').value = "";
       }
     });
   }
 
   if(localStorage.getItem('login') == 'true'){ window.location.href = 'dashboard.html'; }
-
   db.ref('users/admin').once('value').then(snap => { if(!snap.exists()){ db.ref('users/admin').set({password: 'admin123', role: 'admin'}); } });
-  
-  window.onload = function() {
-    generateCaptcha();
-  }
 </script>
 </body>
-</html>
+  </html>
