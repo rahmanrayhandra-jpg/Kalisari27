@@ -6,67 +6,46 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background: #f4f6f9; padding: 20px; }
-.container { max-width: 1200px; margin: auto; }
+.container { max-width: 1000px; margin: auto; }
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.header h1 { color: #2c3e50; font-size: 24px; }
+.header h1 { color: #2c3e50; }
 .logout { background: #e74c3c; color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
 .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-.menu a { background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #2c3e50; text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; }
-.menu a:hover { background: #3498db; color: white; transform: translateY(-2px); }
+.menu a { background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #2c3e50; text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.menu a:hover { background: #3498db; color: white; }
 
 .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-.box h2 { margin-bottom: 10px; color: #2c3e50; }
+.box h2 { margin-bottom: 20px; }
 
 .slider-container { position: relative; }
 .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
 .slider::-webkit-scrollbar { height: 8px; }
 .slider::-webkit-scrollbar-thumb { background: #3498db; border-radius: 10px; }
-.program-card { min-width: 100%; background: #ecf0f1; padding: 20px; border-radius: 10px; scroll-snap-align: start; }
-
-.badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
-.badge-nasional { background: #e67e22; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
+.program-card { min-width: 100%; background: #ecf0f1; padding: 15px; border-radius: 10px; scroll-snap-align: start; }
 
 .card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid #ddd; }
-.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: #777; font-size: 14px; }
+.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: #777; }
 .tab-btn.active { color: #3498db; border-bottom: 2px solid #3498db; }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-.stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+.stat-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.stat-card-top h3 { font-size: 16px; color: #2c3e50; }
+.stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; }
 .stat-card-info b { color: #2c3e50; }
 .progress-bar { width: 100%; background: #bdc3c7; border-radius: 5px; height: 8px; margin-top: 8px; }
-.progress { height: 8px; background: #2ecc71; border-radius: 5px; transition: width 0.3s; }
+.progress { height: 8px; background: #2ecc71; border-radius: 5px; }
 
 .target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
 .target-row b { color: #2c3e50; }
-.target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 12px; border-radius: 8px; margin-top: 10px; }
+.target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 10px; border-radius: 8px; margin-top: 10px; }
 
-/* TABEL PSM BARU */
-.table-wrapper { overflow-x: auto; }
-.table-psm { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
-.table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid #ddd; white-space: nowrap; }
-.table-psm th { background: #3498db; color: white; font-weight: bold; position: sticky; top: 0; }
-.table-psm td:first-child { text-align: left; font-weight: bold; background: white; position: sticky; left: 0; z-index: 1; }
-.table-psm tr:nth-child(even) { background: #f8f9fa; }
-.td-persen { font-weight: bold; }
-.td-persen.green { color: #2ecc71; }
-.td-persen.orange { color: #f39c12; }
-.td-persen.red { color: #e74c3c; }
+.no-data { text-align: center; color: #777; padding: 10px; }
 
-.iframe-box { width: 100%; height: 650px; border: 1px solid #ddd; border-radius: 10px; }
-.btn-login-portal { display:block; background:#db4437; color:white; padding:12px; border-radius:8px; text-align:center; text-decoration:none; margin-bottom:15px; font-weight:bold; }
-.btn-login-portal:hover { background:#c23321; }
-
-.no-data { text-align: center; color: #777; padding: 20px; }
-  footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 14px; border-top: 1px solid #eee; }
+  footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
   footer b { color: #2c3e50; }
-
-  @media(max-width: 600px){
-.header h1{font-size: 18px;}
-.iframe-box{height: 550px;}
-  }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -86,99 +65,162 @@
       <a href="profil.html">👤 Profil</a>
     </div>
 
-    <!-- BOX 1: PROGRAM REGULER -->
     <div class="box">
-      <h2>📊 Dashboard Program Reguler - <span id="bulanIni"></span></h2>
+      <h2>📊 Dashboard Program - <span id="bulanIni"></span></h2>
       <p style="font-size:12px; color:#777; margin-bottom:15px;">Geser ke samping untuk liat program lain</p>
       <div class="slider-container">
-        <div class="slider" id="sliderProgramReguler"><p class="no-data">Loading...</p></div>
+        <div class="slider" id="sliderProgram">
+          <p class="no-data">Loading...</p>
+        </div>
       </div>
-    </div>
-
-    <!-- BOX 2: PROGRAM PSM LOKAL TABEL -->
-    <div class="box">
-      <h2>🚀 Dashboard Program PSM Lokal - <span id="bulanPsm"></span></h2>
-      <p style="font-size:12px; color:#777; margin-bottom:15px;">Data per User & per Item. Geser untuk program lain</p>
-      <div class="slider-container">
-        <div class="slider" id="sliderProgramPsm"><p class="no-data">Loading...</p></div>
-      </div>
-    </div>
-
-    <!-- BOX 3: RANKING NASIONAL IFRAME CARA 1 -->
-    <div class="box">
-      <h2>🏆 Ranking PSM Cabang JZ01 <span class="badge-nasional">PORTAL SAT</span></h2>
-      <p style="font-size:12px; color:#e67e22; margin-bottom:10px;">
-        ⚠️ Kalau iframe blank, klik tombol login dulu. Token portal exp 3 jam
-      </p>
-      <a href="https://portal.sat.co.id/pdmstore/public/index/KD_TOKO/XC23/KD_BRANCH/JZ01/r/80505/c/4108cb7dc6736e84c95c6978b366d183/e/110926/j/184250/nk/17053647"
-         target="_blank"
-         class="btn-login-portal">
-        🔑 Login Portal SAT Dulu
-      </a>
-      <iframe id="iframeRanking"
-        src="https://portal.sat.co.id/pdmstore/public/index/KD_TOKO/XC23/KD_BRANCH/JZ01/r/80505/c/4108cb7dc6736e84c95c6978b366d183/e/110926/j/184250/nk/17053647"
-        class="iframe-box"></iframe>
     </div>
 
     <footer>Powered by <b>DevancaProject</b> © 2026</footer>
   </div>
 
 <script>
-  const VERSI_APP = "1.0.9";
-  const firebaseConfig = {apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",authDomain: "devancaproject.firebaseapp.com",databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",projectId: "devancaproject",storageBucket: "devancaproject.firebasestorage.app",messagingSenderId: "435221444634",appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"};
+  // ===== 1. SETTING VERSI APP - GANTI INI TIAP UPDATE =====
+  const VERSI_APP = "1.0.2";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
+    authDomain: "devancaproject.firebaseapp.com",
+    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "devancaproject",
+    storageBucket: "devancaproject.firebasestorage.app",
+    messagingSenderId: "435221444634",
+    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
+  };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
   let namaUser = localStorage.getItem('currentUser');
   document.getElementById('namaUser').innerText = namaUser;
+
   const ADMIN_USERNAME = 'admin';
 
   let menu = document.getElementById('menuUtama');
-  if(namaUser === ADMIN_USERNAME){let linkSetting = document.createElement('a'); linkSetting.href = 'setting.html'; linkSetting.innerText = '⚙️ Setting Hari'; linkSetting.style.background = '#2ecc71'; linkSetting.style.color = 'white'; menu.appendChild(linkSetting);}
+  if(namaUser === ADMIN_USERNAME){
+    let linkSetting = document.createElement('a');
+    linkSetting.href = 'setting.html';
+    linkSetting.innerText = '⚙️ Setting Hari';
+    linkSetting.style.background = '#2ecc71';
+    linkSetting.style.color = 'white';
+    menu.appendChild(linkSetting);
+  }
 
-  function cekUpdate() {const dbRef = firebase.database().ref("app_info"); dbRef.once("value").then((snap) => {const data = snap.val(); if(data && data.versi_terbaru && data.versi_terbaru!== VERSI_APP){if(confirm(`Update tersedia: v${data.versi_terbaru}\n\n${data.catatan || ''}\n\nDownload sekarang?`)){window.open(data.link_apk, "_blank");}}}).catch(err => console.log("Gagal cek update:", err));}
+  // ===== 2. FUNGSI CEK UPDATE BARU =====
+  function cekUpdate() {
+    const dbRef = firebase.database().ref("app_info");
+    dbRef.once("value").then((snap) => {
+      const data = snap.val();
+      if(data && data.versi_terbaru && data.versi_terbaru!== VERSI_APP){
+        if(confirm(`Update tersedia: v${data.versi_terbaru}\n\n${data.catatan || ''}\n\nDownload sekarang?`)){
+          window.open(data.link_apk, "_blank");
+        }
+      }
+    }).catch(err => console.log("Gagal cek update:", err));
+  }
+
+  // JALANKAN CEK UPDATE PAS BUKA APLIKASI
   window.addEventListener('load', cekUpdate);
-
-  // AUTO REFRESH IFRAME TIAP 30 MENIT BIAR TOKEN GA MATI
-  setInterval(() => {
-    let iframe = document.getElementById('iframeRanking');
-    iframe.src = iframe.src;
-  }, 1000 * 60 * 30);
 
   let semuaProgram = {};
   let semuaPenjualan = [];
 
-  db.ref('program').on('value', snap => {semuaProgram = {}; snap.forEach(child => { semuaProgram[child.key] = child.val(); }); renderDashboard();});
-  db.ref('penjualan').on('value', snap => {semuaPenjualan = []; snap.forEach(child => { semuaPenjualan.push({id: child.key,...child.val()}); }); renderDashboard();});
+  db.ref('program').on('value', snap => {
+    semuaProgram = {};
+    snap.forEach(child => { semuaProgram[child.key] = child.val(); });
+    renderSlider();
+  });
 
-  function renderDashboard(){renderReguler(); renderPsm();}
+  db.ref('penjualan').on('value', snap => {
+    semuaPenjualan = [];
+    snap.forEach(child => { semuaPenjualan.push(child.val()); });
+    renderSlider();
+  });
 
-  function renderReguler(){
-    let container = document.getElementById('sliderProgramReguler'); container.innerHTML = ''; let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); let hariIni = new Date().getDate(); document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
-    let terjualBulanIni = {}; semuaPenjualan.forEach(jual => {let tgl = new Date(jual.tanggal); if(tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni &&!jual.is_psm){if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id] = 0; terjualBulanIni[jual.program_id] += jual.qty || 0;}});
-    let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(prog.is_psm) continue; adaData = true; let target = prog.target || 0; let hariKerjaTotal = prog.hari_kerja || 22; let terjual = terjualBulanIni[id] || 0; let persen = target > 0? Math.round((terjual / target) * 100) : 0; if(persen > 100) persen = 100; let sisa = target - terjual; if(sisa < 0) sisa = 0; let hariLewat = hariIni - 1; if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal; let sisaHariKerja = hariKerjaTotal - hariLewat; if(sisaHariKerja < 1) sisaHariKerja = 1; let targetHarian = Math.ceil(sisa / sisaHariKerja); let warnaTarget = targetHarian > 10? 'red' : targetHarian > 5? 'orange' : 'green';
-      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:10px;">${prog.nama}</h3><div class="card-tabs"><button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button><button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button></div><div id="realisasi-${id}" class="tab-content active"><div class="stat-card-top"><span><b>Pencapaian: ${persen}%</b></span></div><div class="stat-card-info"><p>Terjual: <b>${terjual} Qty</b></p><p>Target: <b>${target} Qty</b></p></div><div class="progress-bar"><div class="progress" style="width: ${persen}%"></div></div></div><div id="target-${id}" class="tab-content"><div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div><div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div><div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div><div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div><div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">Kejar ${targetHarian} Qty / Hari</div></div></div>`;
+  function renderSlider(){
+    let container = document.getElementById('sliderProgram');
+    container.innerHTML = '';
+    let bulanIni = new Date().getMonth() + 1;
+    let tahunIni = new Date().getFullYear();
+    let hariIni = new Date().getDate();
+    document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
+
+    let terjualBulanIni = {};
+    semuaPenjualan.forEach(jual => {
+      let tgl = new Date(jual.tanggal);
+      if(tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni){
+        if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id] = 0;
+        terjualBulanIni[jual.program_id] += jual.qty || 0;
+      }
+    });
+
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      let target = prog.target || 0;
+      let hariKerjaTotal = prog.hari_kerja || 22;
+      let terjual = terjualBulanIni[id] || 0;
+      let persen = target > 0? Math.round((terjual / target) * 100) : 0;
+      if(persen > 100) persen = 100;
+      let sisa = target - terjual; if(sisa < 0) sisa = 0;
+
+      let hariLewat = hariIni - 1;
+      if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal;
+      let sisaHariKerja = hariKerjaTotal - hariLewat;
+      if(sisaHariKerja < 1) sisaHariKerja = 1;
+
+      let targetHarian = Math.ceil(sisa / sisaHariKerja);
+      let warnaTarget = targetHarian > 10? 'red' : targetHarian > 5? 'orange' : 'green';
+
+      container.innerHTML += `
+        <div class="program-card">
+          <h3 style="margin-bottom:10px;">${prog.nama}</h3>
+          <div class="card-tabs">
+            <button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button>
+            <button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button>
+          </div>
+
+          <div id="realisasi-${id}" class="tab-content active">
+            <div class="stat-card-top">
+              <span>Pencapaian: ${persen}%</span>
+            </div>
+            <div class="stat-card-info">
+              <p>Terjual: <b>${terjual} Qty</b></p>
+              <p>Target: <b>${target} Qty</b></p>
+            </div>
+            <div class="progress-bar">
+              <div class="progress" style="width: ${persen}%"></div>
+            </div>
+          </div>
+
+          <div id="target-${id}" class="tab-content">
+            <div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div>
+            <div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div>
+            <div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div>
+            <div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div>
+            <div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">
+              Kejar ${targetHarian} Qty / Hari
+            </div>
+          </div>
+        </div>
+      `;
     }
-    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program reguler</p>';
   }
 
-  function renderPsm(){
-    let container = document.getElementById('sliderProgramPsm'); container.innerHTML = ''; let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); document.getElementById('bulanPsm').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
-    let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(!prog.is_psm) continue; adaData = true;
-      let dataPsmBulanIni = semuaPenjualan.filter(j => {let tgl = new Date(j.tanggal); return j.program_id == id && j.is_psm && tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni;});
-      let listUser = new Set(); semuaPenjualan.forEach(j => { if(j.user && j.user!== ADMIN_USERNAME) listUser.add(j.user) }); if(namaUser && namaUser!== ADMIN_USERNAME) listUser.add(namaUser);
-      let header = `<th>Nama User</th>`; (prog.items || []).forEach(item => { header += `<th>${item.nama}<br><small>Pencapaian</small></th><th><small>Target</small></th><th><small>%</small></th>`; }); header += `<th>Total<br><small>%</small></th>`;
-      let body = ''; Array.from(listUser).sort().forEach(user => {let totalTargetUser = 0; let totalTerjualUser = 0; let row = `<td>${user}</td>`;
-        (prog.items || []).forEach((item, itemIndex) => {let targetItem = item.target || 0; let terjualItem = dataPsmBulanIni.filter(j => j.user == user && j.item_id == itemIndex).reduce((sum, j) => sum + (j.qty || 0), 0); let persenItem = targetItem > 0? Math.round((terjualItem / targetItem) * 100) : 0; if(persenItem > 100) persenItem = 100; let warna = persenItem >= 100? 'green' : persenItem >= 50? 'orange' : 'red'; row += `<td><b>${terjualItem}</b></td><td>${targetItem}</td><td class="td-persen ${warna}">${persenItem}%</td>`; totalTargetUser += targetItem; totalTerjualUser += terjualItem; });
-        let persenTotal = totalTargetUser > 0? Math.round((totalTerjualUser / totalTargetUser) * 100) : 0; if(persenTotal > 100) persenTotal = 100; let warnaTotal = persenTotal >= 100? 'green' : persenTotal >= 50? 'orange' : 'red'; row += `<td class="td-persen ${warnaTotal}"><b>${persenTotal}%</b></td>`; body += `<tr>${row}</tr>`;
-      });
-      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} <span class="badge-psm">PSM</span></h3><div class="table-wrapper"><table class="table-psm"><thead><tr>${header}</tr></thead><tbody>${body || '<tr><td colspan="99" class="no-data">Belum ada user</td></tr>'}</tbody></table></div></div>`;
-    }
-    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program PSM</p>';
+  function openTab(btn, tabId){
+    let parent = btn.closest('.program-card');
+    parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    parent.querySelector('#'+tabId).classList.add('active');
   }
 
-  function openTab(btn, tabId){let parent = btn.closest('.program-card'); parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); btn.classList.add('active'); parent.querySelector('#'+tabId).classList.add('active');}
-  function logout(){localStorage.clear(); window.location = 'index.html';}
+  function logout(){
+    localStorage.clear();
+    window.location = 'index.html';
+  }
 </script>
 </body>
 </html>
