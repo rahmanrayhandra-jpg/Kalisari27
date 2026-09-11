@@ -18,6 +18,8 @@
 .btn:hover { background: #27ae60; }
 .msg { text-align: center; margin-top: 10px; font-weight: bold; }
 .error { color: #e74c3c; }.success { color: #2ecc71; }
+.badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
+.hidden { display: none; }
 
     footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
     footer b { color: #2c3e50; }
@@ -36,6 +38,14 @@
       <select id="selectProgram">
         <option value="">-- Pilih Program --</option>
       </select>
+
+      <!-- INI MUNCUL KALAU PSM -->
+      <div id="boxItemPsm" class="hidden">
+        <label>Pilih Item PSM <span style="font-weight:normal; color:#777;">Max 10 Item</span></label>
+        <select id="selectItemPsm">
+          <option value="">-- Pilih Item --</option>
+        </select>
+      </div>
 
       <label>Qty Terjual</label>
       <input type="number" id="qty" placeholder="Contoh: 1" min="1">
@@ -64,34 +74,66 @@
   const db = firebase.database();
 
   let currentUser = localStorage.getItem('currentUser');
+  let semuaProgram = {};
 
   // 1. LOAD DATA PROGRAM KE DROPDOWN
   db.ref('program').on('value', (snapshot) => {
+    semuaProgram = {};
     let select = document.getElementById('selectProgram');
     select.innerHTML = '<option value="">-- Pilih Program --</option>';
     snapshot.forEach(child => {
       let id = child.key;
       let data = child.val();
-      select.innerHTML += `<option value="${id}">${data.nama}</option>`;
+      semuaProgram[id] = data;
+      let badge = data.is_psm? `<span class="badge-psm">PSM</span>` : '';
+      select.innerHTML += `<option value="${id}">${data.nama} ${badge}</option>`;
     });
   });
 
-  // 2. SET DEFAULT TANGGAL HARI INI
+  // 2. EVENT KETIKA GANTI PROGRAM
+  document.getElementById('selectProgram').addEventListener('change', function(){
+    let program_id = this.value;
+    let boxItem = document.getElementById('boxItemPsm');
+    let selectItem = document.getElementById('selectItemPsm');
+
+    if(program_id && semuaProgram[program_id]?.is_psm){
+      // Kalau PSM, tampilin dropdown item
+      boxItem.classList.remove('hidden');
+      selectItem.innerHTML = '<option value="">-- Pilih Item --</option>';
+      let items = semuaProgram[program_id].items || [];
+      items.forEach((item, index) => {
+        if(item) selectItem.innerHTML += `<option value="${index}">${index+1}. ${item}</option>`;
+      });
+    } else {
+      // Kalau bukan PSM, sembunyiin
+      boxItem.classList.add('hidden');
+      selectItem.value = '';
+    }
+  });
+
+  // 3. SET DEFAULT TANGGAL HARI INI
   window.onload = function(){
     let today = new Date().toISOString().split('T')[0];
     document.getElementById('tanggal').value = today;
   }
 
-  // 3. FUNGSI SIMPAN
+  // 4. FUNGSI SIMPAN
   function simpanPenjualan(){
     let program_id = document.getElementById('selectProgram').value;
-    let program_nama = document.getElementById('selectProgram').options[document.getElementById('selectProgram').selectedIndex].text;
+    let program = semuaProgram[program_id];
+    let program_nama = program?.nama || '';
     let qty = document.getElementById('qty').value;
     let tanggal = document.getElementById('tanggal').value;
+    let item_id = document.getElementById('selectItemPsm').value;
     let msg = document.getElementById('msg');
 
     if(program_id == '' || qty == '' || tanggal == ''){
       msg.innerText = 'Program, Qty dan Tanggal wajib diisi';
+      msg.className = 'msg error';
+      return;
+    }
+    if(program?.is_psm && item_id === ''){
+      msg.innerText = 'Pilih Item PSM dulu';
       msg.className = 'msg error';
       return;
     }
@@ -107,6 +149,8 @@
       qty: Number(qty),
       user: currentUser,
       tanggal: tanggal, // format YYYY-MM-DD
+      is_psm: program?.is_psm || false, // TAMBAHAN
+      item_id: program?.is_psm? Number(item_id) : null, // TAMBAHAN
       createdAt: new Date().toISOString()
     };
 
@@ -115,6 +159,7 @@
       msg.className = 'msg success';
       document.getElementById('qty').value = '';
       document.getElementById('selectProgram').value = '';
+      document.getElementById('boxItemPsm').classList.add('hidden');
     }).catch((error)=>{
       msg.innerText = 'Gagal: ' + error.message;
       msg.className = 'msg error';
