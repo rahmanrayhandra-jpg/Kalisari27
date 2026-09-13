@@ -4,27 +4,50 @@
   <title>Laporan - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f4f6f9; padding: 20px; }
-   .container { max-width: 1000px; margin: auto; }
-   .back { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --subtext: #777;
+      --border: #ddd;
+      --primary: #3498db;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --card-bg: #ecf0f1;
+    }
+    html.dark {
+      --bg: #1a1d21;
+      --card: #2c3136;
+      --text: #ecf0f1;
+      --subtext: #bdc3c7;
+      --border: #444;
+      --primary: #2980b9;
+      --card-bg: #23272b;
+    }
 
-   .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-   .box h2 { margin-bottom: 20px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: var(--bg); padding: 20px; color: var(--text); transition: 0.3s; }
+   .container { max-width: 1000px; margin: auto; }
+   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+   .back { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; }
+   .btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+
+   .box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+   .box h2 { margin-bottom: 20px; color: var(--text); }
 
     /* FILTER */
    .filter-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; }
    .filter-box div { flex: 1; min-width: 150px; }
-   .filter-box label { font-size: 14px; font-weight: bold; display: block; margin-bottom: 5px; }
-   .filter-box input, .filter-box select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
-   .btn-filter { background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-   .btn-reset { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+   .filter-box label { font-size: 14px; font-weight: bold; display: block; margin-bottom: 5px; color: var(--text); }
+   .filter-box input, .filter-box select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+   .btn-filter { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+   .btn-reset { background: var(--subtext); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
     /* RINGKASAN */
    .ringkasan { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
-   .card { flex: 1; min-width: 200px; background: #ecf0f1; padding: 20px; border-radius: 10px; text-align: center; }
-   .card h3 { font-size: 14px; color: #777; margin-bottom: 5px; }
-   .card p { font-size: 24px; font-weight: bold; color: #2c3e50; }
+   .card { flex: 1; min-width: 200px; background: var(--card-bg); padding: 20px; border-radius: 10px; text-align: center; }
+   .card h3 { font-size: 14px; color: var(--subtext); margin-bottom: 5px; }
+   .card p { font-size: 24px; font-weight: bold; color: var(--text); }
 
     /* BUNGKUS TABEL BIAR SCROLL */
    .table-wrapper {
@@ -32,27 +55,30 @@
       overflow-x: auto;
       overflow-y: auto;
       max-height: 500px;
-      border: 1px solid #eee;
+      border: 1px solid var(--border);
       border-radius: 8px;
       display: none; /* default disembunyiin */
     }
 
     table { width: 100%; border-collapse: collapse; }
-    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; white-space: nowrap; }
-    table th { background: #f4f6f9; position: sticky; top: 0; z-index: 2; }
-   .btn-del { background: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-   .no-data { text-align: center; padding: 20px; color: #777; }
-   .info { text-align: center; padding: 30px; color: #777; font-style: italic; }
+    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table th { background: var(--bg); color: var(--text); position: sticky; top: 0; z-index: 2; }
+   .btn-del { background: var(--danger); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+   .no-data { text-align: center; padding: 20px; color: var(--subtext); }
+   .info { text-align: center; padding: 30px; color: var(--subtext); font-style: italic; }
 
-    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
-    footer b { color: #2c3e50; }
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 16px; border-top: 1px solid var(--border); }
+    footer b { color: var(--text); }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
   <div class="container">
-    <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+    <div class="header">
+      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+      <button class="btn-theme" id="btnTheme">🌙</button>
+    </div>
 
     <div class="box">
       <h2>📊 Laporan Penjualan</h2>
@@ -128,6 +154,25 @@
   let semuaData = [];
   let semuaProgram = new Set();
   let role = localStorage.getItem('role');
+
+  // ===== LOGIC DARK MODE GLOBAL =====
+  const btnTheme = document.getElementById('btnTheme');
+  const currentTheme = localStorage.getItem('theme');
+  if(currentTheme === 'dark'){
+    document.documentElement.classList.add('dark');
+    btnTheme.innerText = '☀️';
+  }
+
+  btnTheme.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    if(document.documentElement.classList.contains('dark')){
+      localStorage.setItem('theme', 'dark');
+      btnTheme.innerText = '☀️';
+    } else {
+      localStorage.setItem('theme', 'light');
+      btnTheme.innerText = '🌙';
+    }
+  });
 
   if(role == 'admin'){
     document.getElementById('thAksi').style.display = 'table-cell';
@@ -219,7 +264,7 @@
     document.getElementById('infoAwal').style.display = 'block';
   }
 
-  // HAPUS DATA - KHUSUS ADMIN
+  // HAPUS DATA - KHUS ADMIN
   function hapusData(id){
     if(confirm('Yakin mau hapus data penjualan ini?')){
       db.ref('penjualan/' + id).remove().then(()=>{
