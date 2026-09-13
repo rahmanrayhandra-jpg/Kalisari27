@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Input Penjualan - Kalisari27</title>
+  <title>Laporan - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -13,6 +13,7 @@
       --primary: #3498db;
       --success: #2ecc71;
       --danger: #e74c3c;
+      --card-bg: #ecf0f1;
     }
     html.dark {
       --bg: #1a1d21;
@@ -21,26 +22,50 @@
       --subtext: #bdc3c7;
       --border: #444;
       --primary: #2980b9;
+      --card-bg: #23272b;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background: var(--bg); padding: 20px; color: var(--text); transition: 0.3s; }
-.container { max-width: 600px; margin: auto; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.back { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; }
-.btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+   .container { max-width: 1000px; margin: auto; }
+   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+   .back { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; }
+   .btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
 
-.box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.box h2 { margin-bottom: 20px; text-align: center; color: var(--text); }
+   .box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+   .box h2 { margin-bottom: 20px; color: var(--text); }
 
-  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; color: var(--text); }
-  input, select { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: var(--bg); color: var(--text); }
-.btn { background: var(--success); color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; }
-.btn:hover { background: #27ae60; }
-.msg { text-align: center; margin-top: 10px; font-weight: bold; }
-.error { color: var(--danger); }.success { color: var(--success); }
-.badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
-.hidden { display: none; }
+    /* FILTER */
+   .filter-box { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; }
+   .filter-box div { flex: 1; min-width: 150px; }
+   .filter-box label { font-size: 14px; font-weight: bold; display: block; margin-bottom: 5px; color: var(--text); }
+   .filter-box input, .filter-box select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); }
+   .btn-filter { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+   .btn-reset { background: var(--subtext); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+    /* RINGKASAN */
+   .ringkasan { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+   .card { flex: 1; min-width: 200px; background: var(--card-bg); padding: 20px; border-radius: 10px; text-align: center; }
+   .card h3 { font-size: 14px; color: var(--subtext); margin-bottom: 5px; }
+   .card p { font-size: 24px; font-weight: bold; color: var(--text); }
+
+    /* BUNGKUS TABEL BIAR SCROLL */
+   .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 500px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: none; /* default disembunyiin */
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table th { background: var(--bg); color: var(--text); position: sticky; top: 0; z-index: 2; }
+   .btn-del { background: var(--danger); color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+   .no-data { text-align: center; padding: 20px; color: var(--subtext); }
+   .info { text-align: center; padding: 30px; color: var(--subtext); font-style: italic; }
 
     footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 16px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
@@ -56,29 +81,58 @@
     </div>
 
     <div class="box">
-      <h2>➕ Input Penjualan</h2>
+      <h2>📊 Laporan Penjualan</h2>
 
-      <label>Pilih Program</label>
-      <select id="selectProgram">
-        <option value="">-- Pilih Program --</option>
-      </select>
-
-      <!-- INI MUNCUL KALAU PSM -->
-      <div id="boxItemPsm" class="hidden">
-        <label>Pilih Item PSM <span style="font-weight:normal; color:var(--subtext);">Max 10 Item</span></label>
-        <select id="selectItemPsm">
-          <option value="">-- Pilih Item --</option>
-        </select>
+      <!-- FILTER TANGGAL + PROGRAM -->
+      <div class="filter-box">
+        <div>
+          <label>Dari Tanggal</label>
+          <input type="date" id="tglMulai">
+        </div>
+        <div>
+          <label>Sampai Tanggal</label>
+          <input type="date" id="tglAkhir">
+        </div>
+        <div>
+          <label>Program</label>
+          <select id="filterProgram">
+            <option value="">-- Pilih Program --</option>
+          </select>
+        </div>
+        <button class="btn-filter" onclick="filterLaporan()">Tampilkan</button>
+        <button class="btn-reset" onclick="resetFilter()">Reset</button>
       </div>
 
-      <label>Qty Terjual</label>
-      <input type="number" id="qty" placeholder="Contoh: 1" min="1">
+      <!-- RINGKASAN -->
+      <div class="ringkasan" id="ringkasanBox" style="display:none;">
+        <div class="card">
+          <h3>Total Transaksi</h3>
+          <p id="totalTransaksi">0</p>
+        </div>
+        <div class="card">
+          <h3>Total Qty Terjual</h3>
+          <p id="totalQty">0 Qty</p>
+        </div>
+      </div>
 
-      <label>Tanggal Penjualan</label>
-      <input type="date" id="tanggal">
+      <!-- INFO AWAL -->
+      <div class="info" id="infoAwal">Silakan pilih Tanggal dan Program lalu klik "Tampilkan"</div>
 
-      <button class="btn" onclick="simpanPenjualan()">SIMPAN</button>
-      <p id="msg" class="msg"></p>
+      <!-- TABEL DIBUNGKUS -->
+      <div class="table-wrapper" id="tableWrapper">
+        <table id="tabelLaporan">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>user</th>
+              <th>Program</th>
+              <th>Qty</th>
+              <th id="thAksi" style="display:none;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody><tr><td colspan="5" class="no-data">Loading data...</td></tr></tbody>
+        </table>
+      </div>
     </div>
 
     <footer>Powered by <b>DevancaProject</b> © 2026</footer>
@@ -97,8 +151,9 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  let currentUser = localStorage.getItem('currentUser');
-  let semuaProgram = {};
+  let semuaData = [];
+  let semuaProgram = new Set();
+  let role = localStorage.getItem('role');
 
   // ===== LOGIC DARK MODE GLOBAL =====
   const btnTheme = document.getElementById('btnTheme');
@@ -119,94 +174,103 @@
     }
   });
 
-  // 1. LOAD DATA PROGRAM KE DROPDOWN
-  db.ref('program').on('value', (snapshot) => {
-    semuaProgram = {};
-    let select = document.getElementById('selectProgram');
-    select.innerHTML = '<option value="">-- Pilih Program --</option>';
-    snapshot.forEach(child => {
-      let id = child.key;
-      let data = child.val();
-      semuaProgram[id] = data;
-      let badge = data.is_psm? `<span class="badge-psm">PSM</span>` : '';
-      select.innerHTML += `<option value="${id}">${data.nama} ${badge}</option>`;
-    });
-  });
-
-  // 2. EVENT KETIKA GANTI PROGRAM
-  document.getElementById('selectProgram').addEventListener('change', function(){
-    let program_id = this.value;
-    let boxItem = document.getElementById('boxItemPsm');
-    let selectItem = document.getElementById('selectItemPsm');
-
-    if(program_id && semuaProgram[program_id]?.is_psm){
-      // Kalau PSM, tampilin dropdown item
-      boxItem.classList.remove('hidden');
-      selectItem.innerHTML = '<option value="">-- Pilih Item --</option>';
-      let items = semuaProgram[program_id].items || [];
-      items.forEach((item, index) => {
-        if(item) selectItem.innerHTML += `<option value="${index}">${index+1}. ${item}</option>`;
-      });
-    } else {
-      // Kalau bukan PSM, sembunyiin
-      boxItem.classList.add('hidden');
-      selectItem.value = '';
-    }
-  });
-
-  // 3. SET DEFAULT TANGGAL HARI INI
-  window.onload = function(){
-    let today = new Date().toISOString().split('T')[0];
-    document.getElementById('tanggal').value = today;
+  if(role == 'admin'){
+    document.getElementById('thAksi').style.display = 'table-cell';
   }
 
-  // 4. FUNGSI SIMPAN
-  function simpanPenjualan(){
-    let program_id = document.getElementById('selectProgram').value;
-    let program = semuaProgram[program_id];
-    let program_nama = program?.nama || '';
-    let qty = document.getElementById('qty').value;
-    let tanggal = document.getElementById('tanggal').value;
-    let item_id = document.getElementById('selectItemPsm').value;
-    let msg = document.getElementById('msg');
-
-    if(program_id == '' || qty == '' || tanggal == ''){
-      msg.innerText = 'Program, Qty dan Tanggal wajib diisi';
-      msg.className = 'msg error';
-      return;
-    }
-    if(program?.is_psm && item_id === ''){
-      msg.innerText = 'Pilih Item PSM dulu';
-      msg.className = 'msg error';
-      return;
-    }
-    if(Number(qty) <= 0){
-      msg.innerText = 'Qty harus lebih dari 0';
-      msg.className = 'msg error';
-      return;
-    }
-
-    let data = {
-      program_id: program_id,
-      program_nama: program_nama,
-      qty: Number(qty),
-      user: currentUser,
-      tanggal: tanggal, // format YYYY-MM-DD
-      is_psm: program?.is_psm || false, // TAMBAHAN
-      item_id: program?.is_psm? Number(item_id) : null, // TAMBAHAN
-      createdAt: new Date().toISOString()
-    };
-
-    db.ref('penjualan').push(data).then(()=>{
-      msg.innerText = 'Data penjualan berhasil disimpan';
-      msg.className = 'msg success';
-      document.getElementById('qty').value = '';
-      document.getElementById('selectProgram').value = '';
-      document.getElementById('boxItemPsm').classList.add('hidden');
-    }).catch((error)=>{
-      msg.innerText = 'Gagal: ' + error.message;
-      msg.className = 'msg error';
+  // LOAD SEMUA DATA
+  db.ref('penjualan').on('value', (snapshot) => {
+    semuaData = [];
+    semuaProgram.clear();
+    snapshot.forEach(child => {
+      let data = child.val();
+      semuaData.push({id: child.key,...data});
+      if(data.program_nama) semuaProgram.add(data.program_nama);
     });
+    isiDropdownProgram();
+    // ga langsung tampilkan, nunggu filter
+  });
+
+  // ISI DROPDOWN PROGRAM OTOMATIS DARI DATA
+  function isiDropdownProgram(){
+    let select = document.getElementById('filterProgram');
+    select.innerHTML = `<option value="">-- Pilih Program --</option><option value="all">Semua Program</option>`;
+    [...semuaProgram].sort().forEach(prog => {
+      select.innerHTML += `<option value="${prog}">${prog}</option>`;
+    });
+  }
+
+  // TAMPILKAN LAPORAN
+  function tampilkanLaporan(data){
+    let tbody = document.querySelector('#tabelLaporan tbody');
+    tbody.innerHTML = '';
+
+    let totalTransaksi = data.length;
+    let totalQty = 0;
+
+    if(data.length == 0){
+      tbody.innerHTML = `<tr><td colspan="5" class="no-data">Tidak ada data</td></tr>`;
+    } else {
+      data.sort((a,b) => new Date(b.tanggal) - new Date(a.tanggal));
+      data.forEach(item => {
+        totalQty += Number(item.qty) || 0;
+        let tgl = new Date(item.tanggal).toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'});
+        let btnHapus = (role == 'admin')? `<button class="btn-del" onclick="hapusData('${item.id}')">Hapus</button>` : '';
+        tbody.innerHTML += `
+          <tr>
+            <td>${tgl}</td>
+            <td>${item.user}</td>
+            <td>${item.program_nama}</td>
+            <td>${item.qty} Qty</td>
+            <td>${btnHapus}</td>
+          </tr>
+        `;
+      });
+    }
+
+    document.getElementById('totalTransaksi').innerText = totalTransaksi;
+    document.getElementById('totalQty').innerText = totalQty + ' Qty';
+    document.getElementById('ringkasanBox').style.display = 'flex';
+    document.getElementById('tableWrapper').style.display = 'block';
+    document.getElementById('infoAwal').style.display = 'none';
+  }
+
+  // FILTER
+  function filterLaporan(){
+    let tglMulai = document.getElementById('tglMulai').value;
+    let tglAkhir = document.getElementById('tglAkhir').value;
+    let program = document.getElementById('filterProgram').value;
+    
+    if(!tglMulai ||!tglAkhir ||!program){ 
+      alert('Isi Tanggal dan Pilih Program dulu'); 
+      return; 
+    }
+
+    let hasilFilter = semuaData.filter(item => {
+      let cocokTanggal = item.tanggal >= tglMulai && item.tanggal <= tglAkhir;
+      let cocokProgram = (program == 'all') ? true : item.program_nama == program;
+      return cocokTanggal && cocokProgram;
+    });
+    tampilkanLaporan(hasilFilter);
+  }
+
+  // RESET
+  function resetFilter(){
+    document.getElementById('tglMulai').value = '';
+    document.getElementById('tglAkhir').value = '';
+    document.getElementById('filterProgram').value = '';
+    document.getElementById('ringkasanBox').style.display = 'none';
+    document.getElementById('tableWrapper').style.display = 'none';
+    document.getElementById('infoAwal').style.display = 'block';
+  }
+
+  // HAPUS DATA - KHUS ADMIN
+  function hapusData(id){
+    if(confirm('Yakin mau hapus data penjualan ini?')){
+      db.ref('penjualan/' + id).remove().then(()=>{
+        alert('Data berhasil dihapus');
+      });
+    }
   }
 </script>
 </body>
