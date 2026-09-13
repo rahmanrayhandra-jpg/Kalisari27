@@ -4,32 +4,56 @@
   <title>Input Penjualan - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --subtext: #777;
+      --border: #ddd;
+      --primary: #3498db;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+    }
+    html.dark {
+      --bg: #1a1d21;
+      --card: #2c3136;
+      --text: #ecf0f1;
+      --subtext: #bdc3c7;
+      --border: #444;
+      --primary: #2980b9;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f4f6f9; padding: 20px; }
+    body { background: var(--bg); padding: 20px; color: var(--text); transition: 0.3s; }
 .container { max-width: 600px; margin: auto; }
-.back { display: inline-block; margin-bottom: 15px; text-decoration: none; color: #3498db; font-weight: bold; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.back { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; }
+.btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
 
-.box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.box h2 { margin-bottom: 20px; text-align: center; color: #2c3e50; }
+.box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.box h2 { margin-bottom: 20px; text-align: center; color: var(--text); }
 
-  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
-  input, select { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
-.btn { background: #2ecc71; color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; }
+  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; color: var(--text); }
+  input, select { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: var(--bg); color: var(--text); }
+.btn { background: var(--success); color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; }
 .btn:hover { background: #27ae60; }
 .msg { text-align: center; margin-top: 10px; font-weight: bold; }
-.error { color: #e74c3c; }.success { color: #2ecc71; }
+.error { color: var(--danger); }.success { color: var(--success); }
 .badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
 .hidden { display: none; }
 
-    footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 16px; border-top: 1px solid #eee; }
-    footer b { color: #2c3e50; }
+    footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 16px; border-top: 1px solid var(--border); }
+    footer b { color: var(--text); }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
   <div class="container">
-    <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+    <div class="header">
+      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
+      <button class="btn-theme" id="btnTheme">🌙</button>
+    </div>
 
     <div class="box">
       <h2>➕ Input Penjualan</h2>
@@ -41,7 +65,7 @@
 
       <!-- INI MUNCUL KALAU PSM -->
       <div id="boxItemPsm" class="hidden">
-        <label>Pilih Item PSM <span style="font-weight:normal; color:#777;">Max 10 Item</span></label>
+        <label>Pilih Item PSM <span style="font-weight:normal; color:var(--subtext);">Max 10 Item</span></label>
         <select id="selectItemPsm">
           <option value="">-- Pilih Item --</option>
         </select>
@@ -75,6 +99,25 @@
 
   let currentUser = localStorage.getItem('currentUser');
   let semuaProgram = {};
+
+  // ===== LOGIC DARK MODE GLOBAL =====
+  const btnTheme = document.getElementById('btnTheme');
+  const currentTheme = localStorage.getItem('theme');
+  if(currentTheme === 'dark'){
+    document.documentElement.classList.add('dark');
+    btnTheme.innerText = '☀️';
+  }
+
+  btnTheme.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    if(document.documentElement.classList.contains('dark')){
+      localStorage.setItem('theme', 'dark');
+      btnTheme.innerText = '☀️';
+    } else {
+      localStorage.setItem('theme', 'light');
+      btnTheme.innerText = '🌙';
+    }
+  });
 
   // 1. LOAD DATA PROGRAM KE DROPDOWN
   db.ref('program').on('value', (snapshot) => {
