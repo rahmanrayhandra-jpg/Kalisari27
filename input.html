@@ -119,11 +119,11 @@
     }
   });
 
-  // 1. LOAD DATA PROGRAM KE DROPDOWN
-  db.ref('program').on('value', (snapshot) => {
-    semuaProgram = {};
+  // 1. LOAD DATA PROGRAM KE DROPDOWN - UDAH FIX PAKE 'program'
+  db.ref('program').once('value').then((snapshot) => { // GA PAKE S
     let select = document.getElementById('selectProgram');
     select.innerHTML = '<option value="">-- Pilih Program --</option>';
+
     snapshot.forEach(child => {
       let id = child.key;
       let data = child.val();
@@ -140,15 +140,20 @@
     let selectItem = document.getElementById('selectItemPsm');
 
     if(program_id && semuaProgram[program_id]?.is_psm){
-      // Kalau PSM, tampilin dropdown item
       boxItem.classList.remove('hidden');
       selectItem.innerHTML = '<option value="">-- Pilih Item --</option>';
-      let items = semuaProgram[program_id].items || [];
-      items.forEach((item, index) => {
-        if(item) selectItem.innerHTML += `<option value="${index}">${index+1}. ${item}</option>`;
+
+      db.ref('program/' + program_id + '/items').once('value').then(snapshot => { // GA PAKE S JUGA
+        snapshot.forEach(child => {
+          let itemKey = child.key;
+          let itemData = child.val();
+          if(itemData && itemData.nama) {
+            selectItem.innerHTML += `<option value="${itemKey}">${itemData.nama}</option>`;
+          }
+        });
       });
+
     } else {
-      // Kalau bukan PSM, sembunyiin
       boxItem.classList.add('hidden');
       selectItem.value = '';
     }
@@ -168,6 +173,7 @@
     let qty = document.getElementById('qty').value;
     let tanggal = document.getElementById('tanggal').value;
     let item_id = document.getElementById('selectItemPsm').value;
+    let item_nama = document.getElementById('selectItemPsm').options[document.getElementById('selectItemPsm').selectedIndex]?.text || '';
     let msg = document.getElementById('msg');
 
     if(program_id == '' || qty == '' || tanggal == ''){
@@ -180,31 +186,28 @@
       msg.className = 'msg error';
       return;
     }
-    if(Number(qty) <= 0){
-      msg.innerText = 'Qty harus lebih dari 0';
-      msg.className = 'msg error';
-      return;
-    }
 
     let data = {
       program_id: program_id,
       program_nama: program_nama,
+      item_id: program?.is_psm? item_id : null,
+      item_nama: program?.is_psm? item_nama : null,
       qty: Number(qty),
       user: currentUser,
-      tanggal: tanggal, // format YYYY-MM-DD
-      is_psm: program?.is_psm || false, // TAMBAHAN
-      item_id: program?.is_psm? Number(item_id) : null, // TAMBAHAN
-      createdAt: new Date().toISOString()
+      tanggal: tanggal,
+      is_psm: program?.is_psm || false,
+      createdAt: Date.now()
     };
 
     db.ref('penjualan').push(data).then(()=>{
-      msg.innerText = 'Data penjualan berhasil disimpan';
+      msg.innerText = '✅ Data penjualan berhasil disimpan';
       msg.className = 'msg success';
       document.getElementById('qty').value = '';
       document.getElementById('selectProgram').value = '';
       document.getElementById('boxItemPsm').classList.add('hidden');
+      setTimeout(()=>{msg.innerText=''}, 3000);
     }).catch((error)=>{
-      msg.innerText = 'Gagal: ' + error.message;
+      msg.innerText = '❌ Gagal: ' + error.message;
       msg.className = 'msg error';
     });
   }
