@@ -4,66 +4,103 @@
   <title>Dashboard - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --subtext: #777;
+      --border: #ddd;
+      --primary: #3498db;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --warning: #e67e22;
+      --psm: #9b59b6;
+      --card-bg: #ecf0f1;
+    }
+    body.dark {
+      --bg: #1a1d21;
+      --card: #2c3136;
+      --text: #ecf0f1;
+      --subtext: #bdc3c7;
+      --border: #444;
+      --primary: #2980b9;
+      --card-bg: #23272b;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f4f6f9; padding: 20px; }
+    body { background: var(--bg); padding: 20px; color: var(--text); transition: 0.3s; }
 .container { max-width: 1200px; margin: auto; }
 .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-.header h1 { color: #2c3e50; font-size: 24px; }
-.header-buttons { display: flex; gap: 10px; }
+.header h1 { color: var(--text); font-size: 24px; }
+.header-buttons { display: flex; gap: 10px; align-items: center; }
 .btn { color: white; padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-.logout { background: #e74c3c; }
-.btn-export { background: #27ae60; }
-.btn-reset { background: #e67e22; }
+.logout { background: var(--danger); }
+.btn-export { background: var(--success); }
+.btn-reset { background: var(--warning); }
+.btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; }
 .logout:hover { background: #c0392b; }
 .btn-export:hover { background: #229954; }
 .btn-reset:hover { background: #d35400; }
 
 .menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-.menu a { background: white; padding: 20px; border-radius: 12px; text-decoration: none; color: #2c3e50; text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; }
-.menu a:hover { background: #3498db; color: white; transform: translateY(-2px); }
+.menu a { background: var(--card); padding: 20px; border-radius: 12px; text-decoration: none; color: var(--text); text-align: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; }
+.menu a:hover { background: var(--primary); color: white; transform: translateY(-2px); }
 
-.box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-.box h2 { margin-bottom: 10px; color: #2c3e50; }
+.box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.box h2 { margin-bottom: 10px; color: var(--text); }
 
 .slider-container { position: relative; }
 .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
 .slider::-webkit-scrollbar { height: 8px; }
-.slider::-webkit-scrollbar-thumb { background: #3498db; border-radius: 10px; }
-.program-card { min-width: 100%; background: #ecf0f1; padding: 20px; border-radius: 10px; scroll-snap-align: start; }
+.slider::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+.program-card { min-width: 100%; background: var(--card-bg); padding: 20px; border-radius: 10px; scroll-snap-align: start; }
 
-.badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
+.badge-psm { background: var(--psm); color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
 
-.card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid #ddd; }
-.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: #777; font-size: 14px; }
-.tab-btn.active { color: #3498db; border-bottom: 2px solid #3498db; }
+.card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid var(--border); }
+.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: var(--subtext); font-size: 14px; }
+.tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
 
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
 .stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
-.stat-card-info b { color: #2c3e50; }
-.progress-bar { width: 100%; background: #bdc3c7; border-radius: 5px; height: 8px; margin-top: 8px; }
-.progress { height: 8px; background: #2ecc71; border-radius: 5px; transition: width 0.3s; }
+.stat-card-info b { color: var(--text); }
+.progress-bar { width: 100%; background: var(--border); border-radius: 5px; height: 8px; margin-top: 8px; }
+.progress { height: 8px; background: var(--success); border-radius: 5px; transition: width 0.3s; }
 
 .target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-.target-row b { color: #2c3e50; }
+.target-row b { color: var(--text); }
 .target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 12px; border-radius: 8px; margin-top: 10px; }
+
+/* TOP SALES */
+.top-sales-list { display: flex; flex-direction: column; gap: 10px; }
+.top-sales-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--card); border-radius: 10px; border: 1px solid var(--border); }
+.top-sales-rank { font-size: 20px; font-weight: bold; width: 30px; text-align: center; }
+.top-sales-name { flex: 1; font-weight: bold; }
+.top-sales-qty { font-weight: bold; color: var(--success); }
 
 /* TABEL PSM BARU */
 .table-wrapper { overflow-x: auto; }
 .table-psm { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
-.table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid #ddd; white-space: nowrap; }
-.table-psm th { background: #3498db; color: white; font-weight: bold; position: sticky; top: 0; }
-.table-psm td:first-child { text-align: left; font-weight: bold; background: white; position: sticky; left: 0; z-index: 1; }
-.table-psm tr:nth-child(even) { background: #f8f9fa; }
+.table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid var(--border); white-space: nowrap; }
+.table-psm th { background: var(--primary); color: white; font-weight: bold; position: sticky; top: 0; }
+.table-psm td:first-child { text-align: left; font-weight: bold; background: var(--card); position: sticky; left: 0; z-index: 1; }
+.table-psm tr:nth-child(even) { background: var(--bg); }
 .td-persen { font-weight: bold; }
-.td-persen.green { color: #2ecc71; }
+.td-persen.green { color: var(--success); }
 .td-persen.orange { color: #f39c12; }
-.td-persen.red { color: #e74c3c; }
+.td-persen.red { color: var(--danger); }
 
-.no-data { text-align: center; color: #777; padding: 20px; }
-  footer { text-align: center; padding: 20px; margin-top: 30px; color: #777; font-size: 14px; border-top: 1px solid #eee; }
-  footer b { color: #2c3e50; }
+.no-data { text-align: center; color: var(--subtext); padding: 20px; }
+  footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 14px; border-top: 1px solid var(--border); }
+  footer b { color: var(--text); }
+
+  /* POPUP ANIMATION */
+  @keyframes slideIn {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
 
   @media(max-width: 600px){
 .header h1{font-size: 18px;}
@@ -72,12 +109,14 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>👋 Halo, <span id="namaUser"></span></h1>
       <div class="header-buttons">
+        <button class="btn btn-theme" id="btnTheme">🌙</button>
         <button class="btn btn-export" id="btnExport" style="display:none;">📤 Export CSV</button>
         <button class="btn btn-reset" id="btnReset" style="display:none;">🗑️ Reset Data</button>
         <button class="btn logout" onclick="logout()">Logout</button>
@@ -92,10 +131,28 @@
       <a href="profil.html">👤 Profil</a>
     </div>
 
+    <!-- BOX BARU: TOP SALES ALL TIME PER PROGRAM -->
+    <div class="box">
+      <h2>👑 Top 5 penjualan PPS</h2>
+      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Akumulasi dari awal. Geser untuk liat per program</p>
+      <div class="slider-container">
+        <div class="slider" id="sliderTopSales"><p class="no-data">Loading...</p></div>
+      </div>
+    </div>
+
+    <!-- BOX BARU: GRAFIK PENJUALAN ALL TIME PER PROGRAM -->
+    <div class="box">
+      <h2>📈 Grafik Target vs Realisasi All Time</h2>
+      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Akumulasi dari awal. Geser untuk liat per program</p>
+      <div class="slider-container">
+        <div class="slider" id="sliderGrafik"><p class="no-data">Loading...</p></div>
+      </div>
+    </div>
+
     <!-- BOX 1: PROGRAM REGULER -->
     <div class="box">
       <h2>📊 Dashboard Program Reguler - <span id="bulanIni"></span></h2>
-      <p style="font-size:12px; color:#777; margin-bottom:15px;">Geser ke samping untuk liat program lain</p>
+      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Geser ke samping untuk liat program lain</p>
       <div class="slider-container">
         <div class="slider" id="sliderProgramReguler"><p class="no-data">Loading...</p></div>
       </div>
@@ -103,8 +160,8 @@
 
     <!-- BOX 2: PROGRAM PSM TABEL -->
     <div class="box">
-      <h2>🚀 Dashboard Program PSM Lokal - <span id="bulanPsm"></span></h2>
-      <p style="font-size:12px; color:#777; margin-bottom:15px;">Data per User & per Item. Geser untuk program lain</p>
+      <h2>🚀 Dashboard Program PSM perUser - <span id="bulanPsm"></span></h2>
+      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Data per User & per Item. Geser untuk program lain</p>
       <div class="slider-container">
         <div class="slider" id="sliderProgramPsm"><p class="no-data">Loading...</p></div>
       </div>
@@ -112,10 +169,21 @@
     </div>
 
     <footer>Powered by <b>DevancaProject</b> © 2026</footer>
+
+    <!-- POPUP INFO DARK MODE -->
+    <div id="popupDarkMode" style="display:none; position:fixed; bottom:20px; right:20px; background:var(--card); color:var(--text); padding:15px 20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:9999; max-width:280px; border-left:4px solid var(--primary); animation:slideIn 0.5s;">
+      <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
+        <div>
+          <b>🌙 Tips Biar Ga Silau</b>
+          <p style="font-size:13px; margin-top:5px; color:var(--subtext);">Klik tombol 🌙 di pojok kanan atas buat ganti ke Mode Gelap</p>
+        </div>
+        <button onclick="tutupPopup()" style="background:none; border:none; font-size:18px; cursor:pointer; color:var(--subtext);">×</button>
+      </div>
+    </div>
   </div>
 
 <script>
-  const VERSI_APP = "1.1.4"; // FIX EXPORT CSV
+  const VERSI_APP = "1.1.9"; // TOP SALES + GRAFIK ALL DATE
   const firebaseConfig = {apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",authDomain: "devancaproject.firebaseapp.com",databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",projectId: "devancaproject",storageBucket: "devancaproject.firebasestorage.app",messagingSenderId: "435221444634",appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"};
 
   if(window.location.protocol === 'file:'){ firebase.database().goOnline(); }
@@ -126,6 +194,24 @@
   if(!namaUser){ window.location = 'index.html'; }
   document.getElementById('namaUser').innerText = namaUser;
   const ADMIN_USERNAME = 'admin';
+  let semuaChart = {};
+
+  // ===== LOGIC DARK MODE =====
+  const btnTheme = document.getElementById('btnTheme');
+  const currentTheme = localStorage.getItem('theme');
+  if(currentTheme === 'dark'){ document.body.classList.add('dark'); btnTheme.innerText = '☀️'; }
+
+  btnTheme.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    if(document.body.classList.contains('dark')){
+      localStorage.setItem('theme', 'dark');
+      btnTheme.innerText = '☀️';
+    } else {
+      localStorage.setItem('theme', 'light');
+      btnTheme.innerText = '🌙';
+    }
+    Object.values(semuaChart).forEach(chart => chart.update());
+  });
 
   let menu = document.getElementById('menuUtama');
   if(namaUser === ADMIN_USERNAME){
@@ -134,7 +220,7 @@
     let linkSetting = document.createElement('a');
     linkSetting.href = 'setting.html';
     linkSetting.innerText = '⚙️ Setting Hari';
-    linkSetting.style.background = '#2ecc71';
+    linkSetting.style.background = 'var(--success)';
     linkSetting.style.color = 'white';
     menu.appendChild(linkSetting);
   }
@@ -148,12 +234,89 @@
   db.ref('program').on('value', snap => {semuaProgram = {}; snap.forEach(child => { semuaProgram[child.key] = child.val(); }); renderDashboard();});
   db.ref('penjualan').on('value', snap => {semuaPenjualan = []; snap.forEach(child => { semuaPenjualan.push({id: child.key,...child.val()}); }); renderDashboard();});
 
-  function renderDashboard(){renderReguler(); renderPsm();}
+  function renderDashboard(){renderTopSales(); renderGrafik(); renderReguler(); renderPsm();}
+
+  // ===== 1. FITUR TOP SALES ALL TIME PER PROGRAM =====
+  function renderTopSales(){
+    let container = document.getElementById('sliderTopSales'); container.innerHTML = '';
+    let adaData = false;
+
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      adaData = true;
+      // AMBIL SEMUA DATA TANPA FILTER TANGGAL
+      let dataProgram = semuaPenjualan.filter(j => j.program_id == id);
+
+      let penjualanPerUser = {};
+      dataProgram.forEach(j => {
+        if(!penjualanPerUser[j.user]) penjualanPerUser[j.user] = 0;
+        penjualanPerUser[j.user] += j.qty || 0;
+      });
+
+      let sortedUsers = Object.entries(penjualanPerUser).sort((a,b) => b[1] - a[1]).slice(0,5);
+      let body = '';
+      if(sortedUsers.length === 0){ body = '<p class="no-data">Belum ada data</p>'; }
+      else {
+        sortedUsers.forEach((user, index) => {
+          let emoji = index === 0? '👑' : index === 1? '🥈' : index === 2? '🥉' : `${index+1}.`;
+          body += `<div class="top-sales-item"><div class="top-sales-rank">${emoji}</div><div class="top-sales-name">${user[0]}</div><div class="top-sales-qty">${user[1]} Qty</div></div>`;
+        });
+      }
+      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3><div class="top-sales-list">${body}</div></div>`;
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>';
+  }
+
+  // ===== 2. FITUR GRAFIK ALL TIME PER PROGRAM =====
+  function renderGrafik(){
+    let container = document.getElementById('sliderGrafik'); container.innerHTML = '';
+    let adaData = false;
+
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      adaData = true;
+      let target = prog.target || 0; let totalTerjual = 0;
+
+      // AMBIL SEMUA DATA TANPA FILTER TANGGAL
+      semuaPenjualan.forEach(j => {
+        if(j.program_id == id){
+          totalTerjual += j.qty || 0;
+        }
+      });
+
+      let sisa = target - totalTerjual; if(sisa < 0) sisa = 0;
+
+      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3><canvas id="chart-${id}" style="max-height: 250px;"></canvas></div>`;
+
+      setTimeout(() => {
+        let ctx = document.getElementById(`chart-${id}`).getContext('2d');
+        if(semuaChart[id]) semuaChart[id].destroy();
+        semuaChart[id] = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Terjual', 'Sisa Target'],
+            datasets: [{
+              label: 'Qty',
+              data: [totalTerjual, sisa],
+              backgroundColor: ['var(--success)', 'var(--danger)'],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      }, 100);
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>';
+  }
 
   function renderReguler(){
     let container = document.getElementById('sliderProgramReguler'); container.innerHTML = ''; let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); let hariIni = new Date().getDate(); document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
     let terjualBulanIni = {}; semuaPenjualan.forEach(jual => {let tgl = new Date(jual.tanggal); if(tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni &&!jual.is_psm){if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id] = 0; terjualBulanIni[jual.program_id] += jual.qty || 0;}});
-    let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(prog.is_psm) continue; adaData = true; let target = prog.target || 0; let hariKerjaTotal = prog.hari_kerja || 22; let terjual = terjualBulanIni[id] || 0; let persen = target > 0? Math.round((terjual / target) * 100) : 0; if(persen > 100) persen = 100; let sisa = target - terjual; if(sisa < 0) sisa = 0; let hariLewat = hariIni - 1; if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal; let sisaHariKerja = hariKerjaTotal - hariLewat; if(sisaHariKerja < 1) sisaHariKerja = 1; let targetHarian = Math.ceil(sisa / sisaHariKerja); let warnaTarget = targetHarian > 10? 'red' : targetHarian > 5? 'orange' : 'green';
+    let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(prog.is_psm) continue; adaData = true; let target = prog.target || 0; let hariKerjaTotal = prog.hari_kerja || 22; let terjual = terjualBulanIni[id] || 0; let persen = target > 0? Math.round((terjual / target) * 100) : 0; if(persen > 100) persen = 100; let sisa = target - terjual; if(sisa < 0) sisa = 0; let hariLewat = hariIni - 1; if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal; let sisaHariKerja = hariKerjaTotal - hariLewat; if(sisaHariKerja < 1) sisaHariKerja = 1; let targetHarian = Math.ceil(sisa / sisaHariKerja); let warnaTarget = targetHarian > 10? 'var(--danger)' : targetHarian > 5? '#f39c12' : 'var(--success)';
       container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:10px;">${prog.nama}</h3><div class="card-tabs"><button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button><button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button></div><div id="realisasi-${id}" class="tab-content active"><div class="stat-card-top"><span><b>Pencapaian: ${persen}%</b></span></div><div class="stat-card-info"><p>Terjual: <b>${terjual} Qty</b></p><p>Target: <b>${target} Qty</b></p></div><div class="progress-bar"><div class="progress" style="width: ${persen}%"></div></div></div><div id="target-${id}" class="tab-content"><div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div><div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div><div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div><div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div><div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">Kejar ${targetHarian} Qty / Hari</div></div></div>`;
     }
     if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program reguler</p>';
@@ -177,70 +340,47 @@
   function openTab(btn, tabId){let parent = btn.closest('.program-card'); parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); btn.classList.add('active'); parent.querySelector('#'+tabId).classList.add('active');}
   function logout(){localStorage.clear(); window.location = 'index.html';}
 
-  // ===== FITUR EXPORT CSV FIX =====
+  // ===== FITUR EXPORT CSV =====
   document.getElementById('btnExport').addEventListener('click', async () => {
     if(semuaPenjualan.length === 0) return alert("Data kosong, tidak ada yg di export");
-
-    const btn = document.getElementById('btnExport');
-    btn.innerText = "⏳ Mengexport...";
-    btn.disabled = true;
-
+    const btn = document.getElementById('btnExport'); btn.innerText = "⏳ Mengexport..."; btn.disabled = true;
     try {
       const dataRapih = semuaPenjualan.map(item => {
         const namaProgram = semuaProgram[item.program_id]?.nama || item.program_id;
         const tipe = item.is_psm? 'PSM' : 'Reguler';
         const tgl = new Date(item.tanggal).toLocaleDateString('id-ID');
-
-        return {
-          'Tanggal': tgl,
-          'Nama User': item.user,
-          'Nama Program': namaProgram,
-          'Tipe': tipe,
-          'Item': item.item_nama || '-',
-          'Qty': item.qty,
-          'Catatan': item.catatan || '-',
-          'ID Transaksi': item.id
-        }
+        return {'Tanggal': tgl, 'Nama User': item.user, 'Nama Program': namaProgram, 'Tipe': tipe, 'Item': item.item_nama || '-', 'Qty': item.qty, 'Catatan': item.catatan || '-', 'ID Transaksi': item.id}
       });
-
-      // FIX: BIKIN WORKBOOK DULU
       const worksheet = XLSX.utils.json_to_sheet(dataRapih);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Data Penjualan");
-
       const namaFile = `Backup_Kalisari27_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.csv`;
       XLSX.writeFile(workbook, namaFile, {bookType: 'csv'});
-
       alert(`✅ Berhasil!\n\nFile ${namaFile} sudah tersimpan di folder Download`);
-
-    } catch (error) {
-      console.error(error);
-      alert("❌ Gagal export: " + error.message);
-    } finally {
-      btn.innerText = "📤 Export CSV";
-      btn.disabled = false;
-    }
+    } catch (error) {console.error(error); alert("❌ Gagal export: " + error.message);}
+    finally {btn.innerText = "📤 Export CSV"; btn.disabled = false;}
   });
 
-  // ===== FITUR RESET DATA SAJA =====
+  // ===== FITUR RESET DATA =====
   document.getElementById('btnReset').addEventListener('click', async () => {
-    if(!confirm("⚠️ BAHAYA ⚠️\nYakin mau HAPUS SEMUA data penjualan di Firebase?\n\nData yg dihapus TIDAK BISA DIKEMBALIKAN!\nPastikan sudah export dulu.")) return;
+    if(!confirm("⚠️ BAHAYA ⚠️\nYakin mau HAPUS SEMUA data penjualan di Firebase?")) return;
+    const btn = document.getElementById('btnReset'); btn.innerText = "⏳ Menghapus..."; btn.disabled = true;
+    try {await db.ref('penjualan').remove(); alert("✅ Data berhasil direset. Halaman akan di refresh."); window.location.reload();}
+    catch (error) {console.error(error); alert("❌ Gagal reset: " + error.message);}
+    finally {btn.innerText = "🗑️ Reset Data"; btn.disabled = false;}
+  });
 
-    const btn = document.getElementById('btnReset');
-    btn.innerText = "⏳ Menghapus...";
-    btn.disabled = true;
+  // ===== POPUP DARK MODE =====
+  function tutupPopup(){
+    document.getElementById('popupDarkMode').style.display = 'none';
+    localStorage.setItem('popupDarkModeDitutup', 'true');
+  }
 
-    try {
-      await db.ref('penjualan').remove();
-      alert("✅ Data berhasil direset. Halaman akan di refresh.");
-      window.location.reload();
-
-    } catch (error) {
-      console.error(error);
-      alert("❌ Gagal reset: " + error.message);
-    } finally {
-      btn.innerText = "🗑️ Reset Data";
-      btn.disabled = false;
+  window.addEventListener('load', () => {
+    const udahDitutup = localStorage.getItem('popupDarkModeDitutup');
+    const temaSekarang = localStorage.getItem('theme');
+    if(!udahDitutup && temaSekarang!== 'dark'){
+      setTimeout(() => { document.getElementById('popupDarkMode').style.display = 'block'; }, 5000);
     }
   });
 
