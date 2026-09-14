@@ -4,7 +4,7 @@
   <title>Dashboard - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
 
     :root {
       --bg: #f4f6f9; --card: #ffffff; --text: #2c3e50; --subtext: #777; --border: #e0e0e0;
@@ -24,133 +24,169 @@
     body { background: var(--bg); color: var(--text); transition: background 0.4s, color 0.4s; padding-top: 70px; }
 
     /* ========== NAVBAR GLASS ========== */
- .navbar {
+.navbar {
       position: fixed; top: 0; left: 0; right: 0;
       background: var(--navbar); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border); color: var(--text);
-      padding: 12px 15px; display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000;
+      padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000; height: 55px;
     }
- .navbar.logo { font-weight: 800; font-size: 18px; color: var(--primary); }
+ /* LOGO STYLE ALFAMART */
+.navbar.logo {
+      background: white;
+      border: 2px solid #E30613;
+      border-radius: 8px;
+      padding: 3px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      min-width: 110px;
+    }
+.logo-text {
+      font-size: 14px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.5px;
+    }
+.logo-text.biru { color: #0056D6; }
+.logo-text.merah { color: #E30613; }
+.logo-garis {
+      width: 90%;
+      height: 2px;
+      background: linear-gradient(90deg, #E30613 50%, #FFD100 50%);
+      margin-top: 1px;
+      border-radius: 2px;
+    }
+    .logo-img {
+      height: 48px; /* kalo kegedean ganti jadi 32px */
+      background: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 2px solid #E30613;
+    }
 
     /* HAMBURGER PRO GEDE + ANIMASI X */
- .menu-btn {
+.menu-btn {
       width: 44px; height: 44px;
       background: var(--primary-glow); border: none; border-radius: 12px;
       cursor: pointer; display: flex;
       flex-direction: column; justify-content: center; align-items: center; gap: 5px;
       transition: 0.3s;
+      margin-left: auto;
+      margin-right: 10px;
     }
- .menu-btn:hover { background: var(--primary); }
- .menu-btn span {
+.menu-btn:hover { background: var(--primary); }
+.menu-btn span {
       display: block; width: 22px; height: 3px;
       background: var(--primary); border-radius: 3px;
       transition: 0.3s;
     }
- .menu-btn:hover span { background: white; }
- .menu-btn.active { background: var(--primary); }
- .menu-btn.active span { background: white; }
- .menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
- .menu-btn.active span:nth-child(2) { opacity: 0; }
- .menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.menu-btn:hover span { background: white; }
+.menu-btn.active { background: var(--primary); }
+.menu-btn.active span { background: white; }
+.menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.menu-btn.active span:nth-child(2) { opacity: 0; }
+.menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
     /* TOGGLE 1 DOANG GEDE */
- .theme-toggle {
+.theme-toggle {
       width: 60px; height: 32px; background: var(--border); border-radius: 50px;
       position: relative; cursor: pointer; transition: 0.4s;
       display: flex; align-items: center; justify-content: space-between; padding: 0 6px;
     }
- .theme-toggle.ball {
+.theme-toggle.ball {
       width: 24px; height: 24px; background: #FFD700; border-radius: 50%;
       position: absolute; top: 4px; left: 4px; transition: 0.4s;
       box-shadow: 0 0 12px rgba(255,215,0,0.6); z-index: 2;
     }
- .theme-toggle.icon { font-size: 16px; z-index: 1; }
- .theme-toggle.sun { opacity: 1; }
- .theme-toggle.moon { opacity: 0.4; }
+.theme-toggle.icon { font-size: 16px; z-index: 1; }
+.theme-toggle.sun { opacity: 1; }
+.theme-toggle.moon { opacity: 0.4; }
     body.dark.theme-toggle { background: #4a5568; }
     body.dark.theme-toggle.ball { transform: translateX(28px); background: #cbd5e0; box-shadow: 0 0 12px rgba(203,213,224,0.6); }
     body.dark.theme-toggle.sun { opacity: 0.4; }
     body.dark.theme-toggle.moon { opacity: 1; }
 
     /* ========== SIDEBAR ICON GEDE ========== */
- .sidebar {
+.sidebar {
       position: fixed; top: 0; left: -290px; width: 280px; height: 100%;
       background: var(--sidebar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-right: 1px solid var(--border);
       transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
       z-index: 1001; padding-top: 70px;
     }
- .sidebar.active { left: 0; }
- .sidebar.user-info {
+.sidebar.active { left: 0; }
+.sidebar.user-info {
       padding: 18px 20px; margin: 0 15px 15px 15px; border-radius: 16px;
       background: var(--primary-glow); font-weight: 700; color: var(--primary); font-size: 15px;
     }
- .sidebar a,.sidebar button {
+.sidebar a,.sidebar button {
       display: flex; align-items: center; gap: 16px;
       padding: 16px 20px; margin: 5px 12px; border-radius: 12px;
       color: var(--text); text-decoration: none; font-weight: 600;
       border: none; background: none; cursor: pointer; font-size: 15px;
       transition: 0.25s;
     }
- .sidebar a.icon,.sidebar button.icon { font-size: 22px; width: 28px; text-align: center; }
- .sidebar a:hover,.sidebar button:hover {
+.sidebar a.icon,.sidebar button.icon { font-size: 22px; width: 28px; text-align: center; }
+.sidebar a:hover,.sidebar button:hover {
       background: var(--primary); color: white;
       transform: translateX(8px) scale(1.02);
       box-shadow: 0 4px 15px var(--primary-glow);
     }
- .sidebar.admin-section { border-top: 1px solid var(--border); margin: 15px 12px 0 12px; padding-top: 10px; }
- .sidebar.logout-btn { color: var(--danger); }
- .sidebar.logout-btn:hover { background: var(--danger); color: white; }
+.sidebar.admin-section { border-top: 1px solid var(--border); margin: 15px 12px 0 12px; padding-top: 10px; }
+.sidebar.logout-btn { color: var(--danger); }
+.sidebar.logout-btn:hover { background: var(--danger); color: white; }
 
- .overlay {
+.overlay {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
       opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1000;
     }
- .overlay.active { opacity: 1; visibility: visible; }
+.overlay.active { opacity: 1; visibility: visible; }
 
     /* KONTEN */
- .container { max-width: 1200px; margin: auto; padding: 20px; }
- .box { background: var(--card); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border); }
- .box h2 { margin-bottom: 10px; color: var(--text); font-size: 16px; }
- .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
- .slider::-webkit-scrollbar { height: 8px; }
- .slider::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
- .program-card { min-width: 100%; background: var(--card-bg); padding: 20px; border-radius: 12px; scroll-snap-align: start; }
- .badge-psm { background: var(--psm); color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
- .card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid var(--border); }
- .tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: var(--subtext); font-size: 14px; }
- .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
- .tab-content { display: none; }.tab-content.active { display: block; }
- .stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
- .stat-card-info b { color: var(--text); }
- .progress-bar { width: 100%; background: var(--border); border-radius: 5px; height: 8px; margin-top: 8px; }
- .progress { height: 8px; background: var(--success); border-radius: 5px; transition: width 0.3s; }
- .target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
- .target-row b { color: var(--text); }
- .target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 12px; border-radius: 8px; margin-top: 10px; }
- .top-sales-list { display: flex; flex-direction: column; gap: 10px; }
- .top-sales-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--card); border-radius: 10px; border: 1px solid var(--border); }
- .top-sales-rank { font-size: 20px; font-weight: bold; width: 30px; text-align: center; }
- .top-sales-name { flex: 1; font-weight: bold; }
- .top-sales-qty { font-weight: bold; color: var(--success); }
- .table-wrapper { overflow-x: auto; }
- .table-psm { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
- .table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid var(--border); white-space: nowrap; }
- .table-psm th { background: var(--primary); color: white; font-weight: bold; position: sticky; top: 0; }
- .table-psm td:first-child { text-align: left; font-weight: bold; background: var(--card); position: sticky; left: 0; z-index: 1; }
- .table-psm tr:nth-child(even) { background: var(--bg); }
- .td-persen { font-weight: bold; }
- .td-persen.green { color: var(--success); }
- .td-persen.orange { color: #f39c12; }
- .td-persen.red { color: var(--danger); }
- .no-data { text-align: center; color: var(--subtext); padding: 20px; }
+.container { max-width: 1200px; margin: auto; padding: 20px; }
+.box { background: var(--card); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border); }
+.box h2 { margin-bottom: 10px; color: var(--text); font-size: 16px; }
+.slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
+.slider::-webkit-scrollbar { height: 8px; }
+.slider::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+.program-card { min-width: 100%; background: var(--card-bg); padding: 20px; border-radius: 12px; scroll-snap-align: start; }
+.badge-psm { background: var(--psm); color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
+.card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid var(--border); }
+.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: var(--subtext); font-size: 14px; }
+.tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+.tab-content { display: none; }.tab-content.active { display: block; }
+.stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
+.stat-card-info b { color: var(--text); }
+.progress-bar { width: 100%; background: var(--border); border-radius: 5px; height: 8px; margin-top: 8px; }
+.progress { height: 8px; background: var(--success); border-radius: 5px; transition: width 0.3s; }
+.target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+.target-row b { color: var(--text); }
+.target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 12px; border-radius: 8px; margin-top: 10px; }
+.top-sales-list { display: flex; flex-direction: column; gap: 10px; }
+.top-sales-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--card); border-radius: 10px; border: 1px solid var(--border); }
+.top-sales-rank { font-size: 20px; font-weight: bold; width: 30px; text-align: center; }
+.top-sales-name { flex: 1; font-weight: bold; }
+.top-sales-qty { font-weight: bold; color: var(--success); }
+.table-wrapper { overflow-x: auto; }
+.table-psm { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+.table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid var(--border); white-space: nowrap; }
+.table-psm th { background: var(--primary); color: white; font-weight: bold; position: sticky; top: 0; }
+.table-psm td:first-child { text-align: left; font-weight: bold; background: var(--card); position: sticky; left: 0; z-index: 1; }
+.table-psm tr:nth-child(even) { background: var(--bg); }
+.td-persen { font-weight: bold; }
+.td-persen.green { color: var(--success); }
+.td-persen.orange { color: #f39c12; }
+.td-persen.red { color: var(--danger); }
+.no-data { text-align: center; color: var(--subtext); padding: 20px; }
     footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 14px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
     @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
- .btn-action { color: white; padding: 10px 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 5px 0; width: 100%; display: flex; align-items: center; gap: 10px; justify-content: center; }
- .btn-export { background: var(--success); }.btn-reset { background: var(--warning); }
+.btn-action { color: white; padding: 10px 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 5px 0; width: 100%; display: flex; align-items: center; gap: 10px; justify-content: center; }
+.btn-export { background: var(--success); }.btn-reset { background: var(--warning); }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -161,16 +197,17 @@
 
   <!-- NAVBAR -->
   <div class="navbar">
-    <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
+    <img src="logo-kalisari27.png" alt="Kalisari27" class="logo-img">
+   <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
       <span></span><span></span><span></span>
-    </button>
-    <div class="logo">🐝 Kalisari27</div>
-    <div class="theme-toggle" id="btnTheme">
+   </button>
+       <div class="theme-toggle" id="btnTheme">
       <span class="icon sun">☀️</span>
       <span class="icon moon">🌙</span>
       <div class="ball"></div>
     </div>
   </div>
+    
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
