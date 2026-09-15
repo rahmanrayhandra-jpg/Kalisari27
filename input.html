@@ -119,14 +119,17 @@
     }
   });
 
-  // 1. LOAD DATA PROGRAM KE DROPDOWN - UDAH FIX PAKE 'program'
-  db.ref('program').once('value').then((snapshot) => { // GA PAKE S
+  // 1. LOAD DATA PROGRAM KE DROPDOWN - UDAH DITAMBAH FILTER HIDDEN
+  db.ref('program').once('value').then((snapshot) => {
     let select = document.getElementById('selectProgram');
     select.innerHTML = '<option value="">-- Pilih Program --</option>';
 
     snapshot.forEach(child => {
       let id = child.key;
       let data = child.val();
+
+      if(data.is_hidden) return; // <-- INI DOANG YG BARU. SKIP KALO DIHIDE
+
       semuaProgram[id] = data;
       let badge = data.is_psm? `<span class="badge-psm">PSM</span>` : '';
       select.innerHTML += `<option value="${id}">${data.nama} ${badge}</option>`;
@@ -143,7 +146,7 @@
       boxItem.classList.remove('hidden');
       selectItem.innerHTML = '<option value="">-- Pilih Item --</option>';
 
-      db.ref('program/' + program_id + '/items').once('value').then(snapshot => { // GA PAKE S JUGA
+      db.ref('program/' + program_id + '/items').once('value').then(snapshot => {
         snapshot.forEach(child => {
           let itemKey = child.key;
           let itemData = child.val();
