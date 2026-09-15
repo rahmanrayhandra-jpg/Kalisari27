@@ -16,9 +16,11 @@
  .btn-save { background: #2ecc71; color: white; width: 100%; }
  .btn-edit { background: #3498db; color: white; padding: 6px 10px; font-size: 12px; }
  .btn-del { background: #e74c3c; color: white; padding: 6px 10px; font-size: 12px; }
+ .btn-hide { background: #e67e22; color: white; padding: 6px 10px; font-size: 12px; } /* BARU */
  .msg { text-align: center; margin-top: 10px; font-weight: bold; }
  .error { color: #e74c3c; }.success { color: #2ecc71; }
  .badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
+ .badge-hidden { background: #95a5a6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; } /* BARU */
  .hidden { display: none; }
  .item-group { display: grid; grid-template-columns: 1fr 120px; gap: 10px; align-items: center; margin-bottom:10px; }
   table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -85,7 +87,7 @@
   let role = localStorage.getItem('role');
   let currentUser = localStorage.getItem('currentUser');
 
-  function buatInputItem(values = []){ // values = [{nama, target}]
+  function buatInputItem(values = []){ 
     let container = document.getElementById('itemsContainer');
     container.innerHTML = '';
     for(let i=0; i<10; i++){
@@ -111,15 +113,36 @@
     loadData();
   }
 
+  // FUNGSI BARU: UNTUK HIDE/SHOW
+  function toggleHide(id){
+    let statusBaru =!semuaProgram[id].is_hidden;
+    db.ref('program/' + id).update({ is_hidden: statusBaru });
+  }
+  let semuaProgram = {}; // SIMPAN GLOBAL BIAR BISA DIAKSES TOGGLEHIDE
+
   function loadData(){
     db.ref('program').on('value', (snapshot) => {
+      semuaProgram = {}; // UPDATE GLOBAL
       let tbody = document.querySelector('#tabelProgram tbody');
       tbody.innerHTML = '';
       if(snapshot.numChildren() == 0){tbody.innerHTML = `<tr><td colspan="3" class="no-data">Belum ada data program</td></tr>`; return;}
       snapshot.forEach(child => {
         let id = child.key; let data = child.val();
+        semuaProgram[id] = data; // SIMPAN KE GLOBAL
+        
         let type = data.is_psm? `<span class="badge-psm">PSM</span>` : 'Reguler';
-        tbody.innerHTML += `<tr><td>${data.nama}</td><td>${type}</td><td><button class="btn btn-edit" onclick='editProgram("${id}", ${JSON.stringify(data).replace(/"/g, '&quot;')})'>Edit</button><button class="btn btn-del" onclick="hapusProgram('${id}')">Hapus</button></td></tr>`;
+        let hiddenBadge = data.is_hidden? `<span class="badge-hidden">HIDDEN</span>` : ''; // BARU
+        let textTombol = data.is_hidden? '👁️ Tampilkan' : '🙈 Sembunyikan'; // BARU
+        
+        tbody.innerHTML += `<tr>
+          <td>${data.nama} ${hiddenBadge}</td> // BARU
+          <td>${type}</td>
+          <td>
+            <button class="btn btn-hide" onclick="toggleHide('${id}')">${textTombol}</button> // BARU
+            <button class="btn btn-edit" onclick='editProgram("${id}", ${JSON.stringify(data).replace(/"/g, '&quot;')})'>Edit</button>
+            <button class="btn btn-del" onclick="hapusProgram('${id}')">Hapus</button>
+          </td>
+        </tr>`;
       });
     });
   }
@@ -132,6 +155,11 @@
     if(nama == ''){msg.innerText = 'Nama Program wajib diisi'; msg.className = 'msg error'; return;}
 
     let data = {nama: nama, is_psm: is_psm};
+    
+    // JAGA2: KALO UPDATE JANGAN TIMPA is_hidden
+    if(id !== ''){
+      data.is_hidden = semuaProgram[id].is_hidden || false;
+    }
 
     if(is_psm){
       let items = [];
