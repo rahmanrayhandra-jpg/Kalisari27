@@ -4,216 +4,93 @@
   <title>Input Penjualan - Kalisari27</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
-      --bg: #f4f6f9;
-      --card: #ffffff;
-      --text: #2c3e50;
-      --subtext: #777;
-      --border: #ddd;
-      --primary: #3498db;
-      --success: #2ecc71;
-      --danger: #e74c3c;
-    }
-    html.dark {
-      --bg: #1a1d21;
-      --card: #2c3136;
-      --text: #ecf0f1;
-      --subtext: #bdc3c7;
-      --border: #444;
-      --primary: #2980b9;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: var(--bg); padding: 20px; color: var(--text); transition: 0.3s; }
-.container { max-width: 600px; margin: auto; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.back { display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; }
-.btn-theme { background: var(--card); color: var(--text); border: 1px solid var(--border); font-size: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-
-.box { background: var(--card); padding: 25px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.box h2 { margin-bottom: 20px; text-align: center; color: var(--text); }
-
-  label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; color: var(--text); }
-  input, select { width: 100%; padding: 12px; margin: 8px 0 15px 0; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; background: var(--bg); color: var(--text); }
-.btn { background: var(--success); color: white; padding: 14px; border: none; border-radius: 8px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; }
-.btn:hover { background: #27ae60; }
-.msg { text-align: center; margin-top: 10px; font-weight: bold; }
-.error { color: var(--danger); }.success { color: var(--success); }
-.badge-psm { background: #9b59b6; color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
-.hidden { display: none; }
-
-    footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 16px; border-top: 1px solid var(--border); }
-    footer b { color: var(--text); }
+    :root { --bg:#f4f6f9; --card:#fff; --text:#2c3e50; --subtext:#777; --border:#ddd; --primary:#3498db; --success:#2ecc71; --danger:#e74c3c; }
+    html.dark { --bg:#1a1d21; --card:#2c3136; --text:#ecf0f1; --subtext:#bdc3c7; --border:#444; --primary:#2980b9; }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+    body{background:var(--bg);padding:20px;color:var(--text)}
+   .container{max-width:600px;margin:auto}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+   .back{text-decoration:none;color:var(--primary);font-weight:bold}.btn-theme{background:var(--card);color:var(--text);border:1px solid var(--border);font-size:18px;padding:8px 12px;border-radius:8px;cursor:pointer}
+   .box{background:var(--card);padding:25px;border-radius:12px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+   .box h2{margin-bottom:20px;text-align:center}
+    label{font-weight:bold;font-size:14px;margin-top:10px;display:block}
+    input,select{width:100%;padding:12px;margin:8px 0 15px 0;border:1px solid var(--border);border-radius:8px;font-size:15px;background:var(--bg);color:var(--text)}
+   .btn{background:var(--success);color:white;padding:14px;border:none;border-radius:8px;width:100%;font-size:16px;font-weight:bold;cursor:pointer}
+   .msg{text-align:center;margin-top:10px;font-weight:bold}.error{color:var(--danger)}.success{color:var(--success)}.hidden{display:none}
+    footer{text-align:center;padding:20px;margin-top:30px;color:var(--subtext);font-size:16px;border-top:1px solid var(--border)}
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <a href="dashboard.html" class="back">← Kembali ke Dashboard</a>
-      <button class="btn-theme" id="btnTheme">🌙</button>
-    </div>
-
+    <div class="header"><a href="dashboard.html" class="back">← Kembali</a><button class="btn-theme" id="btnTheme">🌙</button></div>
     <div class="box">
       <h2>➕ Input Penjualan</h2>
-
       <label>Pilih Program</label>
-      <select id="selectProgram">
-        <option value="">-- Pilih Program --</option>
-      </select>
-
-      <!-- INI MUNCUL KALAU PSM -->
+      <select id="selectProgram"><option>-- Pilih Program --</option></select>
       <div id="boxItemPsm" class="hidden">
-        <label>Pilih Item PSM <span style="font-weight:normal; color:var(--subtext);">Max 10 Item</span></label>
-        <select id="selectItemPsm">
-          <option value="">-- Pilih Item --</option>
-        </select>
+        <label>Pilih Item PSM</label>
+        <select id="selectItemPsm"><option>-- Pilih Item --</option></select>
       </div>
-
-      <label>Qty Terjual</label>
-      <input type="number" id="qty" placeholder="Contoh: 1" min="1">
-
-      <label>Tanggal Penjualan</label>
-      <input type="date" id="tanggal">
-
+      <label>Qty Terjual</label><input type="number" id="qty" placeholder="Contoh: 1" min="1">
+      <label>Tanggal</label><input type="date" id="tanggal">
       <button class="btn" onclick="simpanPenjualan()">SIMPAN</button>
       <p id="msg" class="msg"></p>
     </div>
-
     <footer>Powered by <b>DevancaProject</b> © 2026</footer>
   </div>
-
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",
-    authDomain: "devancaproject.firebaseapp.com",
-    databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "devancaproject",
-    storageBucket: "devancaproject.firebasestorage.app",
-    messagingSenderId: "435221444634",
-    appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"
-  };
+  const firebaseConfig = {apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",authDomain: "devancaproject.firebaseapp.com",databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",projectId: "devancaproject",storageBucket: "devancaproject.firebasestorage.app",messagingSenderId: "435221444634",appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"};
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
-
   let currentUser = localStorage.getItem('currentUser');
   let semuaProgram = {};
-
-  // ===== LOGIC DARK MODE GLOBAL =====
   const btnTheme = document.getElementById('btnTheme');
-  const currentTheme = localStorage.getItem('theme');
-  if(currentTheme === 'dark'){
-    document.documentElement.classList.add('dark');
-    btnTheme.innerText = '☀️';
-  }
+  if(localStorage.getItem('theme')==='dark'){document.documentElement.classList.add('dark');btnTheme.innerText='☀️';}
+  btnTheme.addEventListener('click',()=>{document.documentElement.classList.toggle('dark');localStorage.setItem('theme',document.documentElement.classList.contains('dark')?'dark':'light');btnTheme.innerText=document.documentElement.classList.contains('dark')?'☀️':'🌙';});
 
-  btnTheme.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
-    if(document.documentElement.classList.contains('dark')){
-      localStorage.setItem('theme', 'dark');
-      btnTheme.innerText = '☀️';
-    } else {
-      localStorage.setItem('theme', 'light');
-      btnTheme.innerText = '🌙';
-    }
-  });
-
-  // 1. LOAD DATA PROGRAM KE DROPDOWN - UDAH DITAMBAH FILTER HIDDEN
-  db.ref('program').once('value').then((snapshot) => {
-    let select = document.getElementById('selectProgram');
-    select.innerHTML = '<option value="">-- Pilih Program --</option>';
-
-    snapshot.forEach(child => {
-      let id = child.key;
-      let data = child.val();
-
-      if(data.is_hidden) return; // <-- INI DOANG YG BARU. SKIP KALO DIHIDE
-
-      semuaProgram[id] = data;
-      let badge = data.is_psm? `<span class="badge-psm">PSM</span>` : '';
-      select.innerHTML += `<option value="${id}">${data.nama} ${badge}</option>`;
+  db.ref('program').once('value').then((snapshot)=>{
+    let select=document.getElementById('selectProgram');
+    select.innerHTML='<option value="">-- Pilih Program --</option>';
+    snapshot.forEach(child=>{
+      let id=child.key; let data=child.val();
+      if(data.is_hidden) return;
+      semuaProgram[id]=data;
+      let catatan = data.catatan? ` (${data.catatan})` : '';
+      let badge = data.is_psm? ' [PSM]' : '';
+      select.innerHTML+=`<option value="${id}">${data.nama}${catatan}${badge}</option>`;
     });
   });
 
-  // 2. EVENT KETIKA GANTI PROGRAM
-  document.getElementById('selectProgram').addEventListener('change', function(){
-    let program_id = this.value;
-    let boxItem = document.getElementById('boxItemPsm');
-    let selectItem = document.getElementById('selectItemPsm');
-
-    if(program_id && semuaProgram[program_id]?.is_psm){
+  document.getElementById('selectProgram').addEventListener('change',function(){
+    let program_id=this.value; let boxItem=document.getElementById('boxItemPsm'); let selectItem=document.getElementById('selectItemPsm');
+    let prog=semuaProgram[program_id];
+    if(program_id && prog?.is_psm){
       boxItem.classList.remove('hidden');
-      selectItem.innerHTML = '<option value="">-- Pilih Item --</option>';
-
-      db.ref('program/' + program_id + '/items').once('value').then(snapshot => {
-        snapshot.forEach(child => {
-          let itemKey = child.key;
-          let itemData = child.val();
-          if(itemData && itemData.nama) {
-            selectItem.innerHTML += `<option value="${itemKey}">${itemData.nama}</option>`;
+      selectItem.innerHTML='<option value="">-- Pilih Item --</option>';
+      db.ref('program/'+program_id+'/items').once('value').then(snap=>{
+        snap.forEach(child=>{
+          let k=child.key; let d=child.val();
+          if(d && d.nama){
+            let cat = d.catatan? ` (${d.catatan})` : '';
+            selectItem.innerHTML+=`<option value="${k}">${d.nama}${cat}</option>`;
           }
         });
       });
-
-    } else {
-      boxItem.classList.add('hidden');
-      selectItem.value = '';
-    }
+    } else {boxItem.classList.add('hidden');}
   });
 
-  // 3. SET DEFAULT TANGGAL HARI INI
-  window.onload = function(){
-    let today = new Date().toISOString().split('T')[0];
-    document.getElementById('tanggal').value = today;
-  }
+  window.onload=()=>{document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];}
 
-  // 4. FUNGSI SIMPAN
   function simpanPenjualan(){
-    let program_id = document.getElementById('selectProgram').value;
-    let program = semuaProgram[program_id];
-    let program_nama = program?.nama || '';
-    let qty = document.getElementById('qty').value;
-    let tanggal = document.getElementById('tanggal').value;
-    let item_id = document.getElementById('selectItemPsm').value;
-    let item_nama = document.getElementById('selectItemPsm').options[document.getElementById('selectItemPsm').selectedIndex]?.text || '';
-    let msg = document.getElementById('msg');
-
-    if(program_id == '' || qty == '' || tanggal == ''){
-      msg.innerText = 'Program, Qty dan Tanggal wajib diisi';
-      msg.className = 'msg error';
-      return;
-    }
-    if(program?.is_psm && item_id === ''){
-      msg.innerText = 'Pilih Item PSM dulu';
-      msg.className = 'msg error';
-      return;
-    }
-
-    let data = {
-      program_id: program_id,
-      program_nama: program_nama,
-      item_id: program?.is_psm? item_id : null,
-      item_nama: program?.is_psm? item_nama : null,
-      qty: Number(qty),
-      user: currentUser,
-      tanggal: tanggal,
-      is_psm: program?.is_psm || false,
-      createdAt: Date.now()
-    };
-
-    db.ref('penjualan').push(data).then(()=>{
-      msg.innerText = '✅ Data penjualan berhasil disimpan';
-      msg.className = 'msg success';
-      document.getElementById('qty').value = '';
-      document.getElementById('selectProgram').value = '';
-      document.getElementById('boxItemPsm').classList.add('hidden');
-      setTimeout(()=>{msg.innerText=''}, 3000);
-    }).catch((error)=>{
-      msg.innerText = '❌ Gagal: ' + error.message;
-      msg.className = 'msg error';
-    });
+    let program_id=document.getElementById('selectProgram').value; let program=semuaProgram[program_id];
+    let qty=document.getElementById('qty').value; let tanggal=document.getElementById('tanggal').value;
+    let item_id=document.getElementById('selectItemPsm').value; let item_nama=document.getElementById('selectItemPsm').options[document.getElementById('selectItemPsm').selectedIndex]?.text||''; let msg=document.getElementById('msg');
+    if(program_id==''||qty==''||tanggal==''){msg.innerText='Program, Qty dan Tanggal wajib diisi';msg.className='msg error';return;}
+    if(program?.is_psm && item_id===''){msg.innerText='Pilih Item PSM dulu';msg.className='msg error';return;}
+    let data={program_id:program_id,program_nama:program?.nama||'',item_id:program?.is_psm?item_id:null,item_nama:program?.is_psm?item_nama:null,qty:Number(qty),user:currentUser,tanggal:tanggal,is_psm:program?.is_psm||false,createdAt:Date.now()};
+    db.ref('penjualan').push(data).then(()=>{msg.innerText='✅ Berhasil disimpan';msg.className='msg success';document.getElementById('qty').value='';document.getElementById('selectProgram').value='';document.getElementById('boxItemPsm').classList.add('hidden');setTimeout(()=>msg.innerText='',3000);}).catch(e=>{msg.innerText='❌ '+e.message;msg.className='msg error';});
   }
-</script> 
+</script>
 </body>
 </html>
