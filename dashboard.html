@@ -5,188 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap');
-
-    :root {
-      --bg: #f4f6f9; --card: #ffffff; --text: #2c3e50; --subtext: #777; --border: #e0e0e0;
-      --primary: #667eea; --primary-glow: rgba(102, 126, 234, 0.15);
-      --success: #2ecc71; --danger: #e74c3c; --warning: #e67e22; --psm: #9b59b6;
-      --card-bg: #ecf0f1; --navbar: rgba(255, 255, 255, 0.85);
-      --sidebar-bg: rgba(255, 255, 255, 0.9);
-    }
-    body.dark {
-      --bg: #121212; --card: #1e1e1e; --text: #ecf0f1; --subtext: #bdc3c7; --border: #333;
-      --primary: #667eea; --primary-glow: rgba(102, 126, 234, 0.25);
-      --card-bg: #2c3136; --navbar: rgba(30, 30, 30, 0.85);
-      --sidebar-bg: rgba(30, 30, 30, 0.9);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: var(--bg); color: var(--text); transition: background 0.4s, color 0.4s; padding-top: 70px; }
-
-    /* ========== NAVBAR GLASS ========== */
-.navbar {
-      position: fixed; top: 0; left: 0; right: 0;
-      background: var(--navbar); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border); color: var(--text);
-      padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000; height: 55px;
-    }
- /* LOGO STYLE ALFAMART */
-.navbar.logo {
-      background: white;
-      border: 2px solid #E30613;
-      border-radius: 8px;
-      padding: 3px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      min-width: 110px;
-    }
-.logo-text {
-      font-size: 14px;
-      font-weight: 900;
-      font-style: italic;
-      letter-spacing: -0.5px;
-    }
-.logo-text.biru { color: #0056D6; }
-.logo-text.merah { color: #E30613; }
-.logo-garis {
-      width: 90%;
-      height: 2px;
-      background: linear-gradient(90deg, #E30613 50%, #FFD100 50%);
-      margin-top: 1px;
-      border-radius: 2px;
-    }
-    .logo-img {
-      height: 48px; /* kalo kegedean ganti jadi 32px */
-      background: white;
-      padding: 4px 10px;
-      border-radius: 8px;
-      border: 2px solid #E30613;
-    }
-
-    /* HAMBURGER PRO GEDE + ANIMASI X */
-.menu-btn {
-      width: 44px; height: 44px;
-      background: var(--primary-glow); border: none; border-radius: 12px;
-      cursor: pointer; display: flex;
-      flex-direction: column; justify-content: center; align-items: center; gap: 5px;
-      transition: 0.3s;
-      margin-left: auto;
-      margin-right: 10px;
-    }
-.menu-btn:hover { background: var(--primary); }
-.menu-btn span {
-      display: block; width: 22px; height: 3px;
-      background: var(--primary); border-radius: 3px;
-      transition: 0.3s;
-    }
-.menu-btn:hover span { background: white; }
-.menu-btn.active { background: var(--primary); }
-.menu-btn.active span { background: white; }
-.menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-.menu-btn.active span:nth-child(2) { opacity: 0; }
-.menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    /* TOGGLE 1 DOANG GEDE */
-.theme-toggle {
-      width: 60px; height: 32px; background: var(--border); border-radius: 50px;
-      position: relative; cursor: pointer; transition: 0.4s;
-      display: flex; align-items: center; justify-content: space-between; padding: 0 6px;
-    }
-.theme-toggle.ball {
-      width: 24px; height: 24px; background: #FFD700; border-radius: 50%;
-      position: absolute; top: 4px; left: 4px; transition: 0.4s;
-      box-shadow: 0 0 12px rgba(255,215,0,0.6); z-index: 2;
-    }
-.theme-toggle.icon { font-size: 16px; z-index: 1; }
-.theme-toggle.sun { opacity: 1; }
-.theme-toggle.moon { opacity: 0.4; }
-    body.dark.theme-toggle { background: #4a5568; }
-    body.dark.theme-toggle.ball { transform: translateX(28px); background: #cbd5e0; box-shadow: 0 0 12px rgba(203,213,224,0.6); }
-    body.dark.theme-toggle.sun { opacity: 0.4; }
-    body.dark.theme-toggle.moon { opacity: 1; }
-
-    /* ========== SIDEBAR ICON GEDE ========== */
-.sidebar {
-      position: fixed; top: 0; left: -290px; width: 280px; height: 100%;
-      background: var(--sidebar-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-right: 1px solid var(--border);
-      transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      z-index: 1001; padding-top: 70px;
-    }
-.sidebar.active { left: 0; }
-.sidebar.user-info {
-      padding: 18px 20px; margin: 0 15px 15px 15px; border-radius: 16px;
-      background: var(--primary-glow); font-weight: 700; color: var(--primary); font-size: 15px;
-    }
-.sidebar a,.sidebar button {
-      display: flex; align-items: center; gap: 16px;
-      padding: 16px 20px; margin: 5px 12px; border-radius: 12px;
-      color: var(--text); text-decoration: none; font-weight: 600;
-      border: none; background: none; cursor: pointer; font-size: 15px;
-      transition: 0.25s;
-    }
-.sidebar a.icon,.sidebar button.icon { font-size: 22px; width: 28px; text-align: center; }
-.sidebar a:hover,.sidebar button:hover {
-      background: var(--primary); color: white;
-      transform: translateX(8px) scale(1.02);
-      box-shadow: 0 4px 15px var(--primary-glow);
-    }
-.sidebar.admin-section { border-top: 1px solid var(--border); margin: 15px 12px 0 12px; padding-top: 10px; }
-.sidebar.logout-btn { color: var(--danger); }
-.sidebar.logout-btn:hover { background: var(--danger); color: white; }
-
-.overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-      opacity: 0; visibility: hidden; transition: 0.3s; z-index: 1000;
-    }
-.overlay.active { opacity: 1; visibility: visible; }
-
-    /* KONTEN */
-.container { max-width: 1200px; margin: auto; padding: 20px; }
-.box { background: var(--card); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border); }
-.box h2 { margin-bottom: 10px; color: var(--text); font-size: 16px; }
-.slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; }
-.slider::-webkit-scrollbar { height: 8px; }
-.slider::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-.program-card { min-width: 100%; background: var(--card-bg); padding: 20px; border-radius: 12px; scroll-snap-align: start; }
-.badge-psm { background: var(--psm); color: white; font-size: 10px; padding: 3px 8px; border-radius: 5px; margin-left: 8px; }
-.card-tabs { display: flex; margin-bottom: 15px; border-bottom: 2px solid var(--border); }
-.tab-btn { flex: 1; padding: 10px; border: none; background: none; font-weight: bold; cursor: pointer; color: var(--subtext); font-size: 14px; }
-.tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
-.tab-content { display: none; }.tab-content.active { display: block; }
-.stat-card-info { display: flex; justify-content: space-between; font-size: 14px; flex-wrap: wrap; gap: 10px; margin-bottom: 5px; }
-.stat-card-info b { color: var(--text); }
-.progress-bar { width: 100%; background: var(--border); border-radius: 5px; height: 8px; margin-top: 8px; }
-.progress { height: 8px; background: var(--success); border-radius: 5px; transition: width 0.3s; }
-.target-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-.target-row b { color: var(--text); }
-.target-harian { text-align: center; font-size: 18px; font-weight: bold; padding: 12px; border-radius: 8px; margin-top: 10px; }
-.top-sales-list { display: flex; flex-direction: column; gap: 10px; }
-.top-sales-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--card); border-radius: 10px; border: 1px solid var(--border); }
-.top-sales-rank { font-size: 20px; font-weight: bold; width: 30px; text-align: center; }
-.top-sales-name { flex: 1; font-weight: bold; }
-.top-sales-qty { font-weight: bold; color: var(--success); }
-.table-wrapper { overflow-x: auto; }
-.table-psm { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
-.table-psm th,.table-psm td { padding: 10px 8px; text-align: center; border: 1px solid var(--border); white-space: nowrap; }
-.table-psm th { background: var(--primary); color: white; font-weight: bold; position: sticky; top: 0; }
-.table-psm td:first-child { text-align: left; font-weight: bold; background: var(--card); position: sticky; left: 0; z-index: 1; }
-.table-psm tr:nth-child(even) { background: var(--bg); }
-.td-persen { font-weight: bold; }
-.td-persen.green { color: var(--success); }
-.td-persen.orange { color: #f39c12; }
-.td-persen.red { color: var(--danger); }
-.no-data { text-align: center; color: var(--subtext); padding: 20px; }
-    footer { text-align: center; padding: 20px; margin-top: 30px; color: var(--subtext); font-size: 14px; border-top: 1px solid var(--border); }
-    footer b { color: var(--text); }
-    @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-.btn-action { color: white; padding: 10px 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 5px 0; width: 100%; display: flex; align-items: center; gap: 10px; justify-content: center; }
-.btn-export { background: var(--success); }.btn-reset { background: var(--warning); }
+    :root { --bg:#f4f6f9; --card:#ffffff; --text:#2c3e50; --subtext:#777; --border:#e0e0e0; --primary:#667eea; --primary-glow:rgba(102,126,234,0.15); --success:#2ecc71; --danger:#e74c3c; --warning:#e67e22; --psm:#9b59b6; --info:#3498db; --gold:#f1c40f; --card-bg:#ecf0f1; --navbar:rgba(255,255,255,0.85); --sidebar-bg:rgba(255,255,255,0.9); }
+    body.dark { --bg:#121212; --card:#1e1e1e; --text:#ecf0f1; --subtext:#bdc3c7; --border:#333; --card-bg:#2c3136; --navbar:rgba(30,30,30,0.85); --sidebar-bg:rgba(30,30,30,0.9); }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    body { background:var(--bg); color:var(--text); padding-top:70px; }
+.navbar { position:fixed; top:0; left:0; right:0; background:var(--navbar); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:8px 15px; display:flex; justify-content:space-between; align-items:center; z-index:1000; height:55px; }
+.logo-img { height:48px; background:white; padding:4px 10px; border-radius:8px; border:2px solid #E30613; }
+.menu-btn { width:44px; height:44px; background:var(--primary-glow); border:none; border-radius:12px; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:5px; margin-left:auto; margin-right:10px; }
+.menu-btn span { display:block; width:22px; height:3px; background:var(--primary); border-radius:3px; transition:0.3s; }
+.menu-btn.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}.menu-btn.active span:nth-child(2){opacity:0;}.menu-btn.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+.theme-toggle { width:60px; height:32px; background:var(--border); border-radius:50px; position:relative; cursor:pointer; display:flex; align-items:center; justify-content:space-between; padding:0 6px; }
+.theme-toggle.ball { width:24px; height:24px; background:#FFD700; border-radius:50%; position:absolute; top:4px; left:4px; transition:0.4s; z-index:2; }
+.sidebar { position:fixed; top:0; left:-290px; width:280px; height:100%; background:var(--sidebar-bg); backdrop-filter:blur(20px); border-right:1px solid var(--border); transition:left 0.4s; z-index:1001; padding-top:70px; }
+.sidebar.active{left:0;}.sidebar.user-info{padding:18px 20px; margin:0 15px 15px 15px; border-radius:16px; background:var(--primary-glow); font-weight:700; color:var(--primary);}.sidebar a,.sidebar button{display:flex; align-items:center; gap:16px; padding:16px 20px; margin:5px 12px; border-radius:12px; color:var(--text); text-decoration:none; font-weight:600; border:none; background:none; cursor:pointer; font-size:15px;}.sidebar a:hover,.sidebar button:hover{background:var(--primary); color:white;}.sidebar.admin-section{border-top:1px solid var(--border); margin:15px 12px 0 12px; padding-top:10px;}.sidebar.logout-btn{color:var(--danger);}.overlay{position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4); opacity:0; visibility:hidden; transition:0.3s; z-index:1000;}.overlay.active{opacity:1; visibility:visible;}
+.container{max-width:1200px; margin:auto; padding:20px;}.box{background:var(--card); padding:25px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.05); margin-bottom:25px; border:1px solid var(--border); border-left:5px solid var(--primary);}.box-top5{border-color:var(--gold);}.box-grafik{border-color:var(--info);}.box-reguler{border-color:var(--success);}.box-psm{border-color:var(--psm);}.box-header{display:flex; align-items:center; gap:10px; margin-bottom:8px;}.box h2{margin:0; font-size:18px; font-weight:700;}.box-desc{font-size:12px; color:var(--subtext); margin-bottom:15px;}.slider{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:15px; padding-bottom:10px;}.slider::-webkit-scrollbar{height:8px;}.slider::-webkit-scrollbar-thumb{background:var(--primary); border-radius:10px;}.program-card{min-width:100%; background:var(--card-bg); padding:20px; border-radius:12px; scroll-snap-align:start; border:1px solid var(--border);}.badge-psm{background:var(--psm); color:white; font-size:10px; padding:3px 8px; border-radius:5px; margin-left:8px;}.card-tabs{display:flex; margin-bottom:15px; border-bottom:2px solid var(--border);}.tab-btn{flex:1; padding:10px; border:none; background:none; font-weight:bold; cursor:pointer; color:var(--subtext); font-size:14px;}.tab-btn.active{color:var(--primary); border-bottom:2px solid var(--primary);}.tab-content{display:none;}.tab-content.active{display:block;}.stat-card-info{display:flex; justify-content:space-between; font-size:14px; flex-wrap:wrap; gap:10px; margin-bottom:5px;}.progress-bar{width:100%; background:var(--border); border-radius:5px; height:8px; margin-top:8px;}.progress{height:8px; background:var(--success); border-radius:5px;}.target-row{display:flex; justify-content:space-between; margin-bottom:8px; font-size:14px;}.target-harian{text-align:center; font-size:18px; font-weight:bold; padding:12px; border-radius:8px; margin-top:10px;}.table-wrapper{overflow-x:auto;}.table-psm{width:100%; border-collapse:collapse; font-size:12px; min-width:700px;}.table-psm th,.table-psm td{padding:10px 8px; text-align:center; border:1px solid var(--border); white-space:nowrap;}.table-psm th{background:var(--primary); color:white; position:sticky; top:0;}.table-psm td:first-child{text-align:left; font-weight:bold; background:var(--card); position:sticky; left:0; z-index:1;}.no-data{text-align:center; color:var(--subtext); padding:20px;} footer{text-align:center; padding:20px; margin-top:30px; color:var(--subtext); font-size:14px; border-top:1px solid var(--border);}.btn-action{color:white; padding:10px 12px; border:none; border-radius:10px; cursor:pointer; font-weight:bold; margin:5px 0; width:100%; display:flex; align-items:center; gap:10px; justify-content:center;}.btn-export{background:var(--success);}.btn-reset{background:var(--warning);}.chart-wrap{position:relative; width:180px; height:180px; margin:10px auto;}.chart-center{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;}
+    /* PODIUM CSS */
+    @keyframes bounceCrown { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes glowGold { 0%,100%{box-shadow:0 0 15px rgba(241,196,15,0.5)} 50%{box-shadow:0 0 30px rgba(241,196,15,1)} }
+    @keyframes slideIn { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+.podium-container { display:flex; flex-direction:column; align-items:center; gap:15px; }
+.podium-first { width:100%; max-width:320px; position:relative; text-align:center; animation:slideIn 0.6s ease forwards; }
+.podium-crown { font-size:40px; animation:bounceCrown 1.2s infinite; display:block; margin-bottom:5px; }
+.podium-card { background:var(--card); border-radius:16px; padding:15px; border:2px solid var(--gold); animation:glowGold 2s infinite; position:relative; }
+.podium-card.silver { border-color:#bdc3c7; animation:none; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+.podium-card.bronze { border-color:#d35400; animation:none; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
+.podium-rank { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--gold); color:white; font-weight:800; padding:3px 12px; border-radius:20px; font-size:12px; }
+.podium-rank.silver-rank { background:#95a5a6; }.podium-rank.bronze-rank { background:#e67e22; }
+.podium-name { font-weight:800; font-size:16px; margin-top:8px; }.podium-qty { color:var(--success); font-weight:700; font-size:14px; margin-top:4px; }
+.podium-second-third { display:flex; gap:12px; width:100%; justify-content:center; }
+.podium-second-third.podium-first { flex:1; max-width:160px; }
+.podium-more { width:100%; margin-top:10px; display:flex; flex-direction:column; gap:8px; }
+.podium-more-item { display:flex; align-items:center; gap:10px; background:var(--card); padding:10px 12px; border-radius:10px; border:1px solid var(--border); animation:slideIn 0.5s ease forwards; opacity:0; }
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -194,106 +43,133 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <img src="logo-kalisari27.png" alt="Kalisari27" class="logo-img">
-   <button class="menu-btn" id="menuBtn" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-   </button>
-       <div class="theme-toggle" id="btnTheme">
-      <span class="icon sun">☀️</span>
-      <span class="icon moon">🌙</span>
-      <div class="ball"></div>
-    </div>
-  </div>
-    
-
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <div class="user-info">Halo, <span id="namaUserSidebar"></span> 👋</div>
-    <a href="dashboard.html"><span class="icon">📊</span> Dashboard</a>
-    <a href="input.html"><span class="icon">➕</span> Input Penjualan</a>
-    <a href="laporan.html"><span class="icon">📑</span> Laporan</a>
-    <a href="program.html"><span class="icon">📦</span> Data Program</a>
-    <a href="stockopname.html"><span class="icon">📉</span> Stock Opname</a>
-    <a href="profil.html"><span class="icon">👤</span> Profil</a>
-    <div class="admin-section" id="adminSection" style="display:none;">
-      <a href="setting.html" id="linkSetting"><span class="icon">⚙️</span> Setting Hari</a>
-      <button class="btn-action btn-export" id="btnExport"><span class="icon">📤</span> Export CSV</button>
-      <button class="btn-action btn-reset" id="btnReset"><span class="icon">🗑️</span> Reset Data</button>
-    </div>
-    <button class="logout-btn" onclick="logout()"><span class="icon">🚪</span> Logout</button>
-  </div>
+  <div class="navbar"><img src="logo-kalisari27.png" alt="Kalisari27" class="logo-img"><button class="menu-btn" id="menuBtn" onclick="toggleMenu()"><span></span><span></span><span></span></button><div class="theme-toggle" id="btnTheme"><span>☀️</span><span>🌙</span><div class="ball"></div></div></div>
+  <div class="sidebar" id="sidebar"><div class="user-info">Halo, <span id="namaUserSidebar"></span> 👋</div><a href="dashboard.html">📊 Dashboard</a><a href="input.html">➕ Input Penjualan</a><a href="laporan.html">📑 Laporan</a><a href="program.html">📦 Data Program</a><a href="stockopname.html">📉 Stock Opname</a><a href="profil.html">👤 Profil</a><div class="admin-section" id="adminSection" style="display:none;"><a href="setting.html">⚙️ Setting Hari</a><button class="btn-action btn-export" id="btnExport">📤 Export CSV</button><button class="btn-action btn-reset" id="btnReset">🗑️ Reset Data</button></div><button class="logout-btn" onclick="logout()">🚪 Logout</button></div>
   <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-  <!-- ISI -->
   <div class="container">
-    <div class="box">
-      <h2>👑 Top 5 penjualan PPS</h2>
-      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Akumulasi dari awal. Geser untuk liat per program</p>
-      <div class="slider" id="sliderTopSales"><p class="no-data">Loading...</p></div>
-    </div>
-    <div class="box">
-      <h2>📈 Grafik Target vs Realisasi All Time</h2>
-      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Akumulasi dari awal. Geser untuk liat per program</p>
-      <div class="slider" id="sliderGrafik"><p class="no-data">Loading...</p></div>
-    </div>
-    <div class="box">
-      <h2>📊 Dashboard Program Reguler - <span id="bulanIni"></span></h2>
-      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Geser ke samping untuk liat program lain</p>
-      <div class="slider" id="sliderProgramReguler"><p class="no-data">Loading...</p></div>
-    </div>
-    <div class="box">
-      <h2>🚀 Dashboard Program PSM perUser - <span id="bulanPsm"></span></h2>
-      <p style="font-size:12px; color:var(--subtext); margin-bottom:15px;">Data per User & per Item. Geser untuk program lain</p>
-      <div class="slider" id="sliderProgramPsm"><p class="no-data">Loading...</p></div>
-    </div>
+    <div class="box box-top5"><div class="box-header"><h2>👑 Top 5 penjualan PPS</h2></div><p class="box-desc">Geser kesamping untuk program lain</p><div class="slider" id="sliderTopSales"><p class="no-data">Loading...</p></div></div>
+    <div class="box box-grafik"><div class="box-header"><h2>📈 Grafik Target vs Realisasi All Time</h2></div><p class="box-desc">Geser kesamping untuk program lain</p><div class="slider" id="sliderGrafik"><p class="no-data">Loading...</p></div></div>
+    <div class="box box-reguler"><div class="box-header"><h2>📦 Dashboard Program Reguler - <span id="bulanIni"></span></h2></div><p class="box-desc">Geser ke samping</p><div class="slider" id="sliderProgramReguler"><p class="no-data">Loading...</p></div></div>
+    <div class="box box-psm"><div class="box-header"><h2>🚀 Dashboard Program PSM perUser - <span id="bulanPsm"></span></h2></div><p class="box-desc">Geser untuk program lain</p><div class="slider" id="sliderProgramPsm"><p class="no-data">Loading...</p></div></div>
   </div>
-
   <footer>Powered by <b>DevancaProject</b> © 2026</footer>
-
 <script>
-  const VERSI_APP = "1.2.3";
+  const VERSI_APP = "1.5.0-PODIUM";
   const firebaseConfig = {apiKey: "AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",authDomain: "devancaproject.firebaseapp.com",databaseURL: "https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",projectId: "devancaproject",storageBucket: "devancaproject.firebasestorage.app",messagingSenderId: "435221444634",appId: "1:435221444634:web:7fe0f742fbfa9c448239a3"};
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
-
   let namaUser = localStorage.getItem('currentUser');
   if(!namaUser){ window.location = 'index.html'; }
   document.getElementById('namaUserSidebar').innerText = namaUser;
   const ADMIN_USERNAME = 'admin';
   let semuaChart = {};
-
-  function toggleMenu(){
-    document.getElementById('sidebar').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-    document.getElementById('menuBtn').classList.toggle('active');
-  }
-
+  function toggleMenu(){ document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); document.getElementById('menuBtn').classList.toggle('active'); }
   const btnTheme = document.getElementById('btnTheme');
   if(localStorage.getItem('theme') === 'dark'){ document.body.classList.add('dark'); }
-  btnTheme.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark')? 'dark' : 'light');
-    Object.values(semuaChart).forEach(chart => chart.update());
-  });
-
+  btnTheme.addEventListener('click', () => { document.body.classList.toggle('dark'); localStorage.setItem('theme', document.body.classList.contains('dark')? 'dark' : 'light'); Object.values(semuaChart).forEach(c => { try{c.update()}catch(e){} }); });
   if(namaUser === ADMIN_USERNAME){ document.getElementById('adminSection').style.display = 'block'; }
-
   let semuaProgram = {}; let semuaPenjualan = [];
   db.ref('program').on('value', snap => {semuaProgram = {}; snap.forEach(child => { semuaProgram[child.key] = child.val(); }); renderDashboard();});
   db.ref('penjualan').on('value', snap => {semuaPenjualan = []; snap.forEach(child => { semuaPenjualan.push({id: child.key,...child.val()}); }); renderDashboard();});
-  function renderDashboard(){renderTopSales(); renderGrafik(); renderReguler(); renderPsm();}
+  function renderDashboard(){ renderTopSales(); renderGrafik(); renderReguler(); renderPsm(); }
 
-  function renderTopSales(){let container = document.getElementById('sliderTopSales'); container.innerHTML = ''; let adaData = false; for(let id in semuaProgram){ let prog = semuaProgram[id]; adaData = true; let dataProgram = semuaPenjualan.filter(j => j.program_id == id); let penjualanPerUser = {}; dataProgram.forEach(j => { if(!penjualanPerUser[j.user]) penjualanPerUser[j.user] = 0; penjualanPerUser[j.user] += j.qty || 0; }); let sortedUsers = Object.entries(penjualanPerUser).sort((a,b) => b[1] - a[1]).slice(0,5); let body = ''; if(sortedUsers.length === 0){ body = '<p class="no-data">Belum ada data</p>'; } else { sortedUsers.forEach((user, index) => { let emoji = index === 0? '👑' : index === 1? '🥈' : index === 2? '🥉' : `${index+1}.`; body += `<div class="top-sales-item"><div class="top-sales-rank">${emoji}</div><div class="top-sales-name">${user[0]}</div><div class="top-sales-qty">${user[1]} Qty</div></div>`; }); } container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3><div class="top-sales-list">${body}</div></div>`; } if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>'; }
-  function renderGrafik(){let container = document.getElementById('sliderGrafik'); container.innerHTML = ''; let adaData = false; for(let id in semuaProgram){ let prog = semuaProgram[id]; adaData = true; let target = prog.target || 0; let totalTerjual = 0; semuaPenjualan.forEach(j => { if(j.program_id == id){ totalTerjual += j.qty || 0; } }); let sisa = target - totalTerjual; if(sisa < 0) sisa = 0; container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3><canvas id="chart-${id}" style="max-height: 250px;"></canvas></div>`; setTimeout(() => { let ctx = document.getElementById(`chart-${id}`).getContext('2d'); if(semuaChart[id]) semuaChart[id].destroy(); semuaChart[id] = new Chart(ctx, { type: 'bar', data: { labels: ['Terjual', 'Sisa Target'], datasets: [{ label: 'Qty', data: [totalTerjual, sisa], backgroundColor: ['var(--success)', 'var(--danger)'], borderRadius: 8 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { color: 'var(--subtext)' } }, x: { ticks: { color: 'var(--subtext)' } } } } }); }, 100); } if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>'; }
-  function renderReguler(){let container = document.getElementById('sliderProgramReguler'); container.innerHTML = ''; let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); let hariIni = new Date().getDate(); document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'}); let terjualBulanIni = {}; semuaPenjualan.forEach(jual => {let tgl = new Date(jual.tanggal); if(tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni &&!jual.is_psm){if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id] = 0; terjualBulanIni[jual.program_id] += jual.qty || 0;}}); let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(prog.is_psm) continue; adaData = true; let target = prog.target || 0; let hariKerjaTotal = prog.hari_kerja || 22; let terjual = terjualBulanIni[id] || 0; let persen = target > 0? Math.round((terjual / target) * 100) : 0; if(persen > 100) persen = 100; let sisa = target - terjual; if(sisa < 0) sisa = 0; let hariLewat = hariIni - 1; if(hariLewat > hariKerjaTotal) hariLewat = hariKerjaTotal; let sisaHariKerja = hariKerjaTotal - hariLewat; if(sisaHariKerja < 1) sisaHariKerja = 1; let targetHarian = Math.ceil(sisa / sisaHariKerja); let warnaTarget = targetHarian > 10? 'var(--danger)' : targetHarian > 5? '#f39c12' : 'var(--success)'; container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:10px;">${prog.nama}</h3><div class="card-tabs"><button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button><button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button></div><div id="realisasi-${id}" class="tab-content active"><div class="stat-card-top"><span><b>Pencapaian: ${persen}%</b></span></div><div class="stat-card-info"><p>Terjual: <b>${terjual} Qty</b></p><p>Target: <b>${target} Qty</b></p></div><div class="progress-bar"><div class="progress" style="width: ${persen}%"></div></div></div><div id="target-${id}" class="tab-content"><div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div><div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div><div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div><div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div><div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">Kejar ${targetHarian} Qty / Hari</div></div></div>`; } if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program reguler</p>'; }
-  function renderPsm(){let container = document.getElementById('sliderProgramPsm'); container.innerHTML = ''; let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); document.getElementById('bulanPsm').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'}); let adaData = false; for(let id in semuaProgram){let prog = semuaProgram[id]; if(!prog.is_psm) continue; adaData = true; let dataPsmBulanIni = semuaPenjualan.filter(j => {let tgl = new Date(j.tanggal); return j.program_id == id && j.is_psm && tgl.getMonth() + 1 == bulanIni && tgl.getFullYear() == tahunIni;}); let listUser = new Set(); semuaPenjualan.forEach(j => { if(j.user && j.user!== ADMIN_USERNAME) listUser.add(j.user) }); if(namaUser && namaUser!== ADMIN_USERNAME) listUser.add(namaUser); let header = `<th>Nama User</th>`; (prog.items || []).forEach(item => { header += `<th>${item.nama}<br><small>Pencapaian</small></th><th><small>Target</small></th><th><small>%</small></th>`; }); header += `<th>Total<br><small>%</small></th>`; let body = ''; Array.from(listUser).sort().forEach(user => {let totalTargetUser = 0; let totalTerjualUser = 0; let row = `<td>${user}</td>`; (prog.items || []).forEach((item, itemIndex) => {let targetItem = item.target || 0; let terjualItem = dataPsmBulanIni.filter(j => j.user == user && j.item_id == itemIndex).reduce((sum, j) => sum + (j.qty || 0), 0); let persenItem = targetItem > 0? Math.round((terjualItem / targetItem) * 100) : 0; if(persenItem > 100) persenItem = 100; let warna = persenItem >= 100? 'green' : persenItem >= 50? 'orange' : 'red'; row += `<td><b>${terjualItem}</b></td><td>${targetItem}</td><td class="td-persen ${warna}">${persenItem}%</td>`; totalTargetUser += targetItem; totalTerjualUser += terjualItem; }); let persenTotal = totalTargetUser > 0? Math.round((totalTerjualUser / totalTargetUser) * 100) : 0; if(persenTotal > 100) persenTotal = 100; let warnaTotal = persenTotal >= 100? 'green' : persenTotal >= 50? 'orange' : 'red'; row += `<td class="td-persen ${warnaTotal}"><b>${persenTotal}%</b></td>`; body += `<tr>${row}</tr>`; }); container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} <span class="badge-psm">PSM</span></h3><div class="table-wrapper"><table class="table-psm"><thead><tr>${header}</tr></thead><tbody>${body || '<tr><td colspan="99" class="no-data">Belum ada user</td></tr>'}</tbody></table></div></div>`; } if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program PSM</p>'; }
-  function openTab(btn, tabId){let parent = btn.closest('.program-card'); parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); btn.classList.add('active'); parent.querySelector('#'+tabId).classList.add('active');}
-  function logout(){localStorage.clear(); window.location = 'index.html';}
-  document.getElementById('btnExport').addEventListener('click', async () => { if(semuaPenjualan.length === 0) return alert("Data kosong"); const btn = document.getElementById('btnExport'); btn.innerText = "⏳ Mengexport..."; btn.disabled = true; try { const dataRapih = semuaPenjualan.map(item => { const namaProgram = semuaProgram[item.program_id]?.nama || item.program_id; const tipe = item.is_psm? 'PSM' : 'Reguler'; const tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); return {'Tanggal': tgl, 'Nama User': item.user, 'Nama Program': namaProgram, 'Tipe': tipe, 'Item': item.item_nama || '-', 'Qty': item.qty, 'Catatan': item.catatan || '-', 'ID Transaksi': item.id} }); const worksheet = XLSX.utils.json_to_sheet(dataRapih); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Data Penjualan"); const namaFile = `Backup_Kalisari27_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.csv`; XLSX.writeFile(workbook, namaFile, {bookType: 'csv'}); alert(`✅ Berhasil! File ${namaFile} tersimpan`); } catch (error) {alert("❌ Gagal export: " + error.message);} finally {btn.innerText = "📤 Export CSV"; btn.disabled = false;} });
-  document.getElementById('btnReset').addEventListener('click', async () => { if(!confirm("⚠️ BAHAYA ⚠️\nYakin mau HAPUS SEMUA data penjualan?")) return; const btn = document.getElementById('btnReset'); btn.innerText = "⏳ Menghapus..."; btn.disabled = true; try {await db.ref('penjualan').remove(); alert("✅ Data berhasil direset."); window.location.reload();} catch (error) {alert("❌ Gagal reset: " + error.message);} finally {btn.innerText = "🗑️ Reset Data"; btn.disabled = false;} });
+  function renderTopSales(){
+    let container = document.getElementById('sliderTopSales');
+    container.innerHTML = '';
+    let adaData = false;
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id];
+      adaData = true;
+      let dataProgram = semuaPenjualan.filter(j => j.program_id == id);
+      let penjualanPerUser = {};
+      dataProgram.forEach(j => { if(!penjualanPerUser[j.user]) penjualanPerUser[j.user] = 0; penjualanPerUser[j.user] += j.qty || 0; });
+      let sortedUsers = Object.entries(penjualanPerUser).sort((a,b) => b[1] - a[1]).slice(0,5);
+
+      let html = '';
+      if(sortedUsers.length === 0){
+        html = '<p class="no-data">Belum ada data</p>';
+      } else {
+        let juara1 = sortedUsers[0]? `<div class="podium-first"><span class="podium-crown">👑</span><div class="podium-card"><span class="podium-rank">#1 CHAMPION</span><div class="podium-name">${sortedUsers[0][0]}</div><div class="podium-qty">${sortedUsers[0][1]} Qty</div></div></div>` : '';
+        let juara2 = sortedUsers[1]? `<div class="podium-first"><div class="podium-card silver"><span class="podium-rank silver-rank">#2</span><div class="podium-name">${sortedUsers[1][0]}</div><div class="podium-qty" style="color:#7f8c8d">${sortedUsers[1][1]} Qty</div></div></div>` : '';
+        let juara3 = sortedUsers[2]? `<div class="podium-first"><div class="podium-card bronze"><span class="podium-rank bronze-rank">#3</span><div class="podium-name">${sortedUsers[2][0]}</div><div class="podium-qty" style="color:#d35400">${sortedUsers[2][1]} Qty</div></div></div>` : '';
+        let more = '';
+        if(sortedUsers[3]) more += `<div class="podium-more-item" style="animation-delay:0.3s"><b>#4</b> <span style="flex:1">${sortedUsers[3][0]}</span> <b style="color:var(--success)">${sortedUsers[3][1]} Qty</b></div>`;
+        if(sortedUsers[4]) more += `<div class="podium-more-item" style="animation-delay:0.4s"><b>#5</b> <span style="flex:1">${sortedUsers[4][0]}</span> <b style="color:var(--success)">${sortedUsers[4][1]} Qty</b></div>`;
+
+        html = `<div class="podium-container">${juara1}<div class="podium-second-third">${juara2}${juara3}</div>${more? `<div class="podium-more" style="width:100%"><small style="color:var(--subtext); font-weight:700; margin-bottom:5px">More Rankings</small>${more}</div>` : ''}</div>`;
+      }
+      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px; text-align:center">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3>${html}</div>`;
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>';
+  }
+
+  function renderGrafik(){
+    let container = document.getElementById('sliderGrafik'); container.innerHTML = ''; let adaData = false;
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id]; adaData = true;
+      let target = prog.target || 0; let totalTerjual = 0;
+      semuaPenjualan.forEach(j => { if(j.program_id == id){ totalTerjual += j.qty || 0; } });
+      let sisa = target - totalTerjual; if(sisa < 0) sisa = 0;
+      let persen = target > 0? Math.round((totalTerjual/target)*100) : 0;
+      let warnaPersen = persen >= 100? 'var(--success)' : 'var(--primary)';
+      container.innerHTML += `<div class="program-card" style="text-align:center"><h3 style="margin-bottom:10px;">${prog.nama} ${prog.is_psm? '<span class="badge-psm">PSM</span>':''}</h3><div class="chart-wrap"><canvas id="chart-${id}"></canvas><div class="chart-center"><b style="font-size:28px; color:${warnaPersen}">${persen}%</b><br><small style="color:var(--subtext)">${totalTerjual}/${target}</small></div></div><div style="display:flex; justify-content:center; gap:15px; font-size:11px; margin-top:10px"><span>🟢 Terjual ${totalTerjual}</span><span>⚪ Sisa ${sisa}</span></div>${persen >= 100? `<div style="margin-top:10px; background: var(--success); color:white; padding:5px 10px; border-radius:20px; font-size:12px; display:inline-block">🎉 +${persen-100}% Lewat Target</div>` : ''}</div>`;
+      setTimeout(() => {
+        let el = document.getElementById(`chart-${id}`); if(!el) return; let ctx = el.getContext('2d');
+        if(semuaChart[id]){ try{semuaChart[id].destroy()}catch(e){} }
+        let visualTerjual = Math.min(totalTerjual, target); let visualSisa = target - visualTerjual; if(target === 0){ visualTerjual = 1; visualSisa = 0; }
+        semuaChart[id] = new Chart(ctx, { type: 'doughnut', data: { labels: ['Terjual','Sisa'], datasets: [{ data: [visualTerjual, visualSisa], backgroundColor: [persen >= 100? '#2ecc71' : '#667eea','#e0e0e0'], borderWidth: 0 }] }, options: { responsive: true, cutout: '75%', plugins: { legend: { display: false } } } });
+      }, 100);
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program</p>';
+  }
+  function renderReguler(){
+    let container = document.getElementById('sliderProgramReguler'); container.innerHTML = '';
+    let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear(); let hariIni = new Date().getDate();
+    document.getElementById('bulanIni').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
+    let terjualBulanIni = {}; semuaPenjualan.forEach(jual => { let tgl = new Date(jual.tanggal); if(tgl.getMonth()+1==bulanIni && tgl.getFullYear()==tahunIni &&!jual.is_psm){ if(!terjualBulanIni[jual.program_id]) terjualBulanIni[jual.program_id]=0; terjualBulanIni[jual.program_id]+=jual.qty||0; }});
+    let adaData = false;
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id]; if(prog.is_psm) continue; adaData = true;
+      let target = prog.target || 0; let hariKerjaTotal = prog.hari_kerja || 22; let terjual = terjualBulanIni[id] || 0;
+      let persen = target>0? Math.round((terjual/target)*100):0; let persenBar = persen > 100? 100 : persen;
+      let sisa = target - terjual; if(sisa<0) sisa=0; let hariLewat = hariIni-1; if(hariLewat>hariKerjaTotal) hariLewat=hariKerjaTotal;
+      let sisaHariKerja = hariKerjaTotal - hariLewat; if(sisaHariKerja<1) sisaHariKerja=1;
+      let targetHarian = Math.ceil(sisa/sisaHariKerja); let warnaTarget = persen >= 100? 'var(--success)' : targetHarian>10? 'var(--danger)' : targetHarian>5? '#f39c12' : 'var(--success)';
+      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:10px;">${prog.nama} ${persen >= 100? '🎉' : ''}</h3><div class="card-tabs"><button class="tab-btn active" onclick="openTab(this, 'realisasi-${id}')">Realisasi</button><button class="tab-btn" onclick="openTab(this, 'target-${id}')">Target Harian</button></div><div id="realisasi-${id}" class="tab-content active"><div class="stat-card-top"><span><b style="color:${persen >= 100? 'var(--success)' : 'var(--text)'}">Pencapaian: ${persen}% ${persen >= 100? ' (LEWAT!)' : ''}</b></span></div><div class="stat-card-info"><p>Terjual: <b>${terjual} Qty</b></p><p>Target: <b>${target} Qty</b></p></div><div class="progress-bar"><div class="progress" style="width: ${persenBar}%;"></div></div></div><div id="target-${id}" class="tab-content"><div class="target-row"><span>Target Bulan:</span> <b>${target} Qty</b></div><div class="target-row"><span>Sudah Terjual:</span> <b>${terjual} Qty</b></div><div class="target-row"><span>Sisa Target:</span> <b>${sisa} Qty</b></div><div class="target-row"><span>Sisa Hari Kerja:</span> <b>${sisaHariKerja} dari ${hariKerjaTotal} Hari</b></div><div class="target-harian" style="background:${warnaTarget}20; color:${warnaTarget}">${persen >= 100? `🎉 LEBIH ${terjual-target} Qty` : `Kejar ${targetHarian} Qty / Hari`}</div></div></div>`;
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program reguler</p>';
+  }
+  function renderPsm(){
+    let container = document.getElementById('sliderProgramPsm'); container.innerHTML = '';
+    let bulanIni = new Date().getMonth() + 1; let tahunIni = new Date().getFullYear();
+    document.getElementById('bulanPsm').innerText = new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'});
+    let adaData = false;
+    for(let id in semuaProgram){
+      let prog = semuaProgram[id]; if(!prog.is_psm) continue; adaData = true;
+      let dataPsmBulanIni = semuaPenjualan.filter(j => { let tgl = new Date(j.tanggal); return j.program_id==id && j.is_psm && tgl.getMonth()+1==bulanIni && tgl.getFullYear()==tahunIni; });
+      let listUser = new Set(); semuaPenjualan.forEach(j => { if(j.user && j.user!==ADMIN_USERNAME) listUser.add(j.user) }); if(namaUser && namaUser!==ADMIN_USERNAME) listUser.add(namaUser);
+      let header = `<th>Nama User</th>`; (prog.items||[]).forEach(item => { header += `<th>${item.nama}<br><small>Pencapaian</small></th><th><small>Target</small></th><th><small>%</small></th>`; }); header += `<th>Total<br><small>%</small></th>`;
+      let body = ''; Array.from(listUser).sort().forEach(user => {
+        let totalTargetUser = 0; let totalTerjualUser = 0; let row = `<td>${user}</td>`;
+        (prog.items||[]).forEach((item, itemIndex) => {
+          let targetItem = item.target || 0; let terjualItem = dataPsmBulanIni.filter(j => j.user==user && j.item_id==itemIndex).reduce((sum,j)=>sum+(j.qty||0),0);
+          let persenItem = targetItem>0? Math.round((terjualItem/targetItem)*100):0;
+          let warna = persenItem>=100? 'green' : persenItem>=50? 'orange' : 'red';
+          row += `<td><b>${terjualItem}</b></td><td>${targetItem}</td><td class="td-persen ${warna}">${persenItem}%</td>`;
+          totalTargetUser+=targetItem; totalTerjualUser+=terjualItem;
+        });
+        let persenTotal = totalTargetUser>0? Math.round((totalTerjualUser/totalTargetUser)*100):0;
+        let warnaTotal = persenTotal>=100? 'green' : persenTotal>=50? 'orange' : 'red';
+        row += `<td class="td-persen ${warnaTotal}"><b>${persenTotal}%</b></td>`; body += `<tr>${row}</tr>`;
+      });
+      container.innerHTML += `<div class="program-card"><h3 style="margin-bottom:15px;">${prog.nama} <span class="badge-psm">PSM</span></h3><div class="table-wrapper"><table class="table-psm"><thead><tr>${header}</tr></thead><tbody>${body || '<tr><td colspan="99" class="no-data">Belum ada user</td></tr>'}</tbody></table></div></div>`;
+    }
+    if(!adaData) container.innerHTML = '<p class="no-data">Belum ada program PSM</p>';
+  }
+  function openTab(btn, tabId){ let parent = btn.closest('.program-card'); parent.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); parent.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); parent.querySelector('#'+tabId).classList.add('active'); }
+  function logout(){ localStorage.clear(); window.location='index.html'; }
+  document.getElementById('btnExport').addEventListener('click', async () => { if(semuaPenjualan.length===0) return alert("Data kosong"); const btn = document.getElementById('btnExport'); btn.innerText="⏳ Mengexport..."; btn.disabled=true; try{ const dataRapih = semuaPenjualan.map(item => { const namaProgram = semuaProgram[item.program_id]?.nama || item.program_id; const tipe = item.is_psm? 'PSM':'Reguler'; const tgl = new Date(item.tanggal).toLocaleDateString('id-ID'); return {'Tanggal':tgl,'Nama User':item.user,'Nama Program':namaProgram,'Tipe':tipe,'Item':item.item_nama||'-','Qty':item.qty,'Catatan':item.catatan||'-','ID Transaksi':item.id} }); const worksheet = XLSX.utils.json_to_sheet(dataRapih); const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "Data Penjualan"); const namaFile = `Backup_Kalisari27_${new Date().toLocaleDateString('id-ID').replace(/\//g,'-')}.csv`; XLSX.writeFile(workbook, namaFile, {bookType:'csv'}); alert(`✅ Berhasil!`); }catch(e){ alert("❌ Gagal: "+e.message); } finally{ btn.innerText="📤 Export CSV"; btn.disabled=false; } });
+  document.getElementById('btnReset').addEventListener('click', async () => { if(!confirm("⚠️ Yakin HAPUS SEMUA?")) return; const btn = document.getElementById('btnReset'); btn.innerText="⏳ Menghapus..."; btn.disabled=true; try{ await db.ref('penjualan').remove(); alert("✅ Direset."); window.location.reload(); }catch(e){ alert("❌ Gagal: "+e.message); } finally{ btn.innerText="🗑️ Reset Data"; btn.disabled=false; } });
 </script>
 </body>
 </html>
