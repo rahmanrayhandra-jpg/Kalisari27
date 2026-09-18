@@ -1,1 +1,140 @@
-<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=maintenance.html"></head><body>Redirecting to maintenance...</body></html>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - KALISARI27</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',sans-serif}
+body{height:100vh;display:flex;justify-content:center;align-items:center;background:#e5e8f3;overflow:hidden}
+#loading{position:fixed;inset:0;z-index:999;background:white;display:flex;flex-direction:column;justify-content:center;align-items:center;transition:0.6s ease}
+#loading.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
+.logo-load{width:260px;max-width:80%;animation:breath 1.5s infinite ease-in-out}
+@keyframes breath{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.bar-wrap{width:180px;height:4px;background:#eee;border-radius:10px;margin-top:22px;overflow:hidden}
+.bar{height:100%;width:0%;background:linear-gradient(90deg,#1a4da8,#e30613,#ffcc00);animation:load 2.2s ease-in-out forwards}
+@keyframes load{0%{width:0%}40%{width:60%}80%{width:90%}100%{width:100%}}
+.load-text{font-size:12px;color:#888;margin-top:10px;letter-spacing:2px;font-weight:600}
+.wrapper{width:90%;max-width:750px;height:420px;background:white;border-radius:22px;display:flex;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.15)}
+.left{flex:1;padding:40px;display:flex;flex-direction:column;justify-content:center}
+.left h2{font-size:24px;font-weight:700;text-align:center;margin-bottom:6px}
+.left .subtitle{text-align:center;font-size:12px;color:#888;margin-bottom:20px}
+.left input{width:100%;padding:12px 16px;border:none;background:#f0f2f5;border-radius:8px;font-size:13px;outline:none}
+.left input:focus{background:#e8eaff}
+.forgot{text-align:center;font-size:11px;color:#5b2be0;margin:6px 0 18px;cursor:pointer;font-weight:600}
+.forgot:hover{text-decoration:underline}
+.btn-purple{background:#5b2be0;color:white;border:none;padding:11px 0;border-radius:20px;width:150px;margin:0 auto;display:block;font-weight:600;cursor:pointer;transition:0.2s}
+.btn-purple:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(91,43,224,0.3)}
+.input-wrap{position:relative;margin-bottom:12px}
+.input-wrap input{margin-bottom:0;padding-right:42px}
+.eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;cursor:pointer;opacity:0.45;display:flex;align-items:center;justify-content:center}
+.eye-btn svg{width:18px;height:18px;stroke:#666;fill:none;stroke-width:1.6}
+.right{flex:1;background:linear-gradient(135deg,#6d4bff,#4a1fd0);color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;border-radius:100px 0 0 100px}
+.right h2{font-size:22px;font-weight:700;margin-bottom:10px}
+.right p{font-size:12px;opacity:0.9;line-height:1.5;padding:0 30px;margin-bottom:20px}
+.btn-outline{border:1.5px solid white;background:transparent;color:white;padding:8px 28px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-outline:hover{background:white;color:#5b2be0}
+.form{display:none}.form.active{display:block}
+.msg{text-align:center;font-size:11px;margin-top:10px;padding:6px;border-radius:6px;display:none}
+.error{background:#ffdddd;color:#c00}.success{background:#d4edda;color:#155724}
+/* RESET MODAL */
+#resetModal{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(5px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+#resetModal.show{display:flex}
+.reset-box{background:white;width:100%;max-width:360px;border-radius:20px;padding:28px;animation:pop .3s ease}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.reset-box h3{text-align:center;font-size:18px;margin-bottom:6px}
+.reset-box .sub{text-align:center;font-size:11px;color:#888;margin-bottom:18px}
+.reset-box input{margin-bottom:10px}
+.btn-row{display:flex;gap:10px;margin-top:14px}
+.btn-row button{flex:1;padding:10px;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:13px}
+.btn-cancel{background:#f0f2f5;color:#666}
+.btn-reset{background:#5b2be0;color:white}
+@media(max-width:700px){.wrapper{flex-direction:column;height:auto}.right{border-radius:0}.left{padding:30px 24px}}
+</style>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+<div id="loading"><img src="logo-kalisari27.png" class="logo-load" alt="Kalisari27"><div class="bar-wrap"><div class="bar"></div></div><div class="load-text">KALISARI27</div></div>
+<div class="wrapper">
+  <div class="left">
+    <div id="loginForm" class="form active">
+      <h2>Masuk Jualan</h2>
+      <p class="subtitle">lanjut kejar target hari ini</p>
+      <input type="text" id="loginUser" placeholder="Username kamu" style="margin-bottom:12px">
+      <div class="input-wrap">
+        <input type="password" id="loginPass" placeholder="Password">
+        <span class="eye-btn" onclick="toggleEye('loginPass')"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+      </div>
+      <div class="forgot" onclick="openReset()">Lupa password? Reset disini</div>
+      <button class="btn-purple" onclick="login()">MASUK</button>
+      <p id="loginMsg" class="msg"></p>
+    </div>
+    <div id="regForm" class="form">
+      <h2>Daftar Baru</h2>
+      <p class="subtitle">buat akun tim Pejuang PPS</p>
+      <input type="text" id="regUser" placeholder="Username baru" style="margin-bottom:12px">
+      <div class="input-wrap"><input type="password" id="regPass" placeholder="Buat password"></div>
+      <div class="input-wrap"><input type="password" id="regPass2" placeholder="Ulangi password"></div>
+      <button class="btn-purple" onclick="register()" style="margin-top:12px">DAFTAR</button>
+      <p id="regMsg" class="msg"></p>
+    </div>
+  </div>
+  <div class="right">
+    <h2 id="panelTitle">Halo, Pejuang PPS</h2>
+    <p id="panelDesc">belum punya akun? daftar dulu biar bisa input jualan dan kejar target</p>
+    <button class="btn-outline" id="panelBtn" onclick="toggle()">DAFTAR BARU</button>
+    
+    
+    <footer>Powered by <b>DevancaProject</b><br> © 2026</br></footer>
+  </div>
+</div>
+
+<!-- MODAL RESET -->
+<div id="resetModal" onclick="if(event.target==this)closeReset()">
+  <div class="reset-box">
+    <h3>Reset Password</h3>
+    <p class="sub">Masukkan username dan password baru</p>
+    <input type="text" id="resetUser" placeholder="Username kamu">
+    <input type="password" id="resetPass" placeholder="Password baru">
+    <input type="password" id="resetPass2" placeholder="Ulangi password baru">
+    <p id="resetMsg" class="msg"></p>
+    <div class="btn-row">
+      <button class="btn-cancel" onclick="closeReset()">Batal</button>
+      <button class="btn-reset" onclick="doReset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const firebaseConfig={apiKey:"AIzaSyAcXcQndDOfBrpgGhGRWDnD8vn0XX4npP8",authDomain:"devancaproject.firebaseapp.com",databaseURL:"https://devancaproject-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"devancaproject",storageBucket:"devancaproject.firebasestorage.app",messagingSenderId:"435221444634",appId:"1:435221444634:web:7fe0f742fbfa9c448239a3"};
+firebase.initializeApp(firebaseConfig);const db=firebase.database();
+window.addEventListener('load',()=>{setTimeout(()=>{document.getElementById('loading').classList.add('hide')},2200)});
+function toggleEye(id){let input=document.getElementById(id);input.type=input.type==='password'?'text':'password'}
+let isLogin=true;
+function toggle(){isLogin=!isLogin;document.getElementById('loginForm').classList.toggle('active');document.getElementById('regForm').classList.toggle('active');if(isLogin){panelTitle.innerText='Halo, Pejuang PPS';panelDesc.innerText='belum punya akun? daftar dulu biar bisa input jualan dan kejar target';panelBtn.innerText='DAFTAR BARU'}else{panelTitle.innerText='Semangat, Pejuang PPS';panelDesc.innerText='sudah punya akun? masuk dan lanjut kejar target hari ini';panelBtn.innerText='MASUK'}}
+function openReset(){document.getElementById('resetModal').classList.add('show')}
+function closeReset(){document.getElementById('resetModal').classList.remove('show');resetMsg.style.display='none';resetUser.value='';resetPass.value='';resetPass2.value=''}
+function doReset(){
+  let u=resetUser.value.trim(),p=resetPass.value,p2=resetPass2.value,m=resetMsg;
+  if(!u||!p){m.innerText='Isi semua kolom';m.className='msg error';m.style.display='block';return}
+  if(p!==p2){m.innerText='Password tidak sama';m.className='msg error';m.style.display='block';return}
+  if(p.length<4){m.innerText='Password minimal 4 karakter';m.className='msg error';m.style.display='block';return}
+  db.ref('users/'+u).once('value').then(s=>{
+    if(!s.exists()){m.innerText='Username tidak ditemukan';m.className='msg error';m.style.display='block'}
+    else{
+      let role=s.val().role||'sales';
+      db.ref('users/'+u).update({password:p,role:role}).then(()=>{
+        m.innerText='Berhasil reset! Silahkan masuk';m.className='msg success';m.style.display='block';
+        setTimeout(()=>{closeReset();loginUser.value=u},1200);
+      });
+    }
+  });
+}
+function register(){let u=regUser.value.trim(),p=regPass.value,p2=regPass2.value,m=regMsg;if(!u||!p){m.innerText='Username dan password wajib diisi';m.className='msg error';m.style.display='block';return}if(p!==p2){m.innerText='Password tidak sama';m.className='msg error';m.style.display='block';return}db.ref('users/'+u).once('value').then(s=>{if(s.exists()){m.innerText='Username sudah dipakai';m.className='msg error';m.style.display='block'}else{db.ref('users/'+u).set({password:p,role:'sales'}).then(()=>{m.innerText='Berhasil daftar, silahkan masuk';m.className='msg success';m.style.display='block';setTimeout(toggle,1200)})}})}
+function login(){let u=loginUser.value.trim(),p=loginPass.value,m=loginMsg;document.getElementById('loading').classList.remove('hide');db.ref('users/'+u).once('value').then(s=>{if(s.exists()&&s.val().password===p){localStorage.setItem('currentUser',u);localStorage.setItem('role',s.val().role);localStorage.setItem('login','true');setTimeout(()=>location.href='dashboard.html',800)}else{document.getElementById('loading').classList.add('hide');m.innerText='Username atau Password salah';m.className='msg error';m.style.display='block'}})}
+db.ref('users/admin').once('value').then(s=>{if(!s.exists())db.ref('users/admin').set({password:'admin123',role:'admin'})});
+if(localStorage.getItem('login')=='true'){document.getElementById('loading').classList.remove('hide');setTimeout(()=>location.href='dashboard.html',1000)}
+</script>
+</body>
+</html>
