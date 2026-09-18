@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Maintenance - Kalisari27</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{min-height:100vh;background:linear-gradient(135deg,#FFF8F0 0%, #FFEEDD 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:#fff;width:100%;max-width:380px;border-radius:28px;padding:32px 28px;text-align:center;box-shadow:0 20px 60px rgba(139,69,19,0.15);border:1px solid #FFE4CC;animation:pop .6s cubic-bezier(.32,.72,0,1)}
+@keyframes pop{from{transform:translateY(20px) scale(.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.logo{width:100px;height:100px;background:linear-gradient(135deg,#8B4513,#FF8C42);border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:44px;box-shadow:0 10px 25px rgba(139,69,19,.3)}
+h2{font-size:22px;color:#2c3e50;margin-bottom:6px;font-weight:800}
+.sub{color:#8B4513;font-weight:700;font-size:13px;letter-spacing:.5px;margin-bottom:14px;background:#FFF3E0;display:inline-block;padding:4px 12px;border-radius:20px}
+p{color:#777;font-size:13.5px;line-height:1.6;margin:12px 0}
+.progress{width:100%;height:8px;background:#f0f0f0;border-radius:10px;overflow:hidden;margin:20px 0}
+.bar{height:100%;width:70%;background:linear-gradient(90deg,#8B4513,#FF8C42);border-radius:10px;animation:load 2s ease-in-out infinite}
+@keyframes load{0%{transform:translateX(-100%)}50%{transform:translateX(30%)}100%{transform:translateX(100%)}}
+.loader{width:36px;height:36px;border:4px solid #FFEEDD;border-top:4px solid #8B4513;border-radius:50%;animation:spin 1s linear infinite;margin:18px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.footer{margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0;color:#aaa;font-size:11px}
+.badge{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.badge span{background:#f8f9fa;border:1px solid #eee;padding:5px 10px;border-radius:8px;font-size:11px;color:#666;font-weight:600}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🛠️</div>
+  <h2>Sistem Maintenance</h2>
+  <div class="sub">KALISARI27 UPDATE</div>
+  <p>Kita lagi upload fitur baru:<br><b>🎯 Cek Target Hari Ini</b><br>di tombol tengah</p>
+  <div class="progress"><div class="bar"></div></div>
+  <div class="loader"></div>
+  <p style="font-size:12px">Estimasi 10-15 menit<br>Jangan input dulu ya 🙏</p>
+  <div class="badge">
+    <span>⚡ Fitur Baru</span>
+    <span>🎯 Target Harian</span>
+    <span>📱 UI Baru</span>
+  </div>
+  <div class="footer">Powered by <b style="color:#8B4513">DevancaProject</b> © 2026<br>v2.6 Maintenance Mode</div>
+</div>
+</body>
+</html>
