@@ -26,44 +26,49 @@
 .theme-toggle { width:60px; height:32px; background:var(--border); border-radius:50px; position:relative; cursor:pointer; display:flex; align-items:center; justify-content:space-between; padding:0 6px; }
 .sidebar { position:fixed; top:0; left:-290px; width:280px; height:100%; background:var(--sidebar-bg); backdrop-filter:blur(20px); border-right:1px solid var(--border); transition:left 0.4s; z-index:1001; padding-top:70px; }
 .sidebar.active{left:0}.sidebar a,.sidebar button{display:flex;align-items:center;gap:16px;padding:16px 20px;margin:5px 12px;border-radius:12px;color:var(--text);text-decoration:none;font-weight:600;border:none;background:none;cursor:pointer;font-size:15px;width:calc(100% - 24px);text-align:left}.sidebar a:hover,.sidebar button:hover{background:var(--primary);color:white}.logout-btn{color:var(--danger)!important}.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);opacity:0;visibility:hidden;transition:0.3s;z-index:1000}.overlay.active{opacity:1;visibility:visible}
- .container { padding: 30px; max-width: 1200px; margin: auto; }
- .card { background: var(--card); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
+.container { padding: 30px; max-width: 1200px; margin: auto; }
+.card { background: var(--card); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
     h2 { margin-bottom: 15px; color: var(--text); }
- .total-box { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
- .total-box h3 { font-size: 14px; opacity: 0.9; }
- .total-box h1 { font-size: 32px; margin-top: 5px; }
- .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.total-box { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+.total-box h3 { font-size: 14px; opacity: 0.9; }
+.total-box h1 { font-size: 32px; margin-top: 5px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--bg); color: var(--text); }
     input:focus, select:focus { outline: none; border-color: var(--primary); }
- .upload-box { grid-column: 1 / -1; border: 2px dashed var(--primary); padding: 15px; border-radius: 10px; text-align: center; }
- .upload-box label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--primary); }
- .btn-kamera { background: var(--success); color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
- .btn-file { background: var(--warning); color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; }
- .preview-img { width: 100%; max-width: 250px; height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid var(--border); }
- .btn-simpan { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; padding: 14px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
- .btn-simpan:disabled { background: #ccc; cursor: not-allowed; }
- .filter-box { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
- .filter-box input { flex: 1; min-width: 150px; }
- .table-wrapper { width: 100%; overflow-x: auto; border-radius: 10px; }
+.upload-box { grid-column: 1 / -1; border: 2px dashed var(--primary); padding: 15px; border-radius: 10px; text-align: center; }
+.upload-box label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--primary); }
+.btn-kamera { background: var(--success); color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+.btn-file { background: var(--warning); color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; }
+.preview-img { width: 100%; max-width: 250px; height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid var(--border); }
+.btn-simpan { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; border: none; padding: 14px 25px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+.btn-simpan:disabled { background: #ccc; cursor: not-allowed; }
+.filter-box { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items:center; }
+.filter-box input { flex: 1; min-width: 150px; }
+.limit-box { display:flex; align-items:center; gap:8px; white-space:nowrap; font-size:13px; font-weight:600; }
+.limit-box select { width:auto; min-width:70px; padding:8px 10px; }
+.table-wrapper { width: 100%; overflow-x: auto; border-radius: 10px; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 850px; }
     th { background: var(--primary); color: white; padding: 12px; text-align: left; white-space: nowrap; position: sticky; top: 0; }
     td { padding: 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
- .selisih-minus { color: var(--danger); font-weight: bold; }
- .selisih-plus { color: var(--text); font-weight: bold; }
- .foto-cell img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--primary); }
- .btn-hapus { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
- .pagination { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
- .pagination button { padding: 8px 15px; border: 1px solid var(--primary); background: var(--card); color: var(--primary); border-radius: 8px; cursor: pointer; }
- .pagination button.active { background: var(--primary); color: white; }
- .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
- .modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
- .close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
- .loading { text-align: center; padding: 20px; color: var(--primary); }
- .size-info { font-size: 12px; color: var(--primary); margin-top: 5px; }
-    @media(max-width: 768px){.form-grid { grid-template-columns: 1fr; } }
-
-  /* BOTTOM NAV COMPACT */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:9997;box-shadow:0 -2px 20px rgba(0,0,0,0.06);padding:0 6px}
+.selisih-minus { color: var(--danger); font-weight: bold; }
+.selisih-plus { color: var(--text); font-weight: bold; }
+.foto-cell img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--primary); }
+.btn-hapus { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+ /* PAGINATION BARU */
+.pagination { display: flex; justify-content: space-between; align-items:center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
+.pagination.pages { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pagination button { padding: 8px 14px; border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: 8px; cursor: pointer; font-weight:600; min-width:40px; transition:.2s; }
+.pagination button.active { background: var(--primary); color: white; border-color:var(--primary); }
+.pagination button:disabled { opacity:.4; cursor:not-allowed; }
+.pagination.dots { padding:4px; color:var(--subtext); }
+.pag-info { font-size:12px; color:var(--subtext); font-weight:600; }
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
+.modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
+.close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+.loading { text-align: center; padding: 20px; color: var(--primary); }
+.size-info { font-size: 12px; color: var(--primary); margin-top: 5px; }
+    @media(max-width: 768px){.form-grid { grid-template-columns: 1fr; }.pagination{flex-direction:column;} }
+ .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:9997;box-shadow:0 -2px 20px rgba(0,0,0,0.06);padding:0 6px}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:var(--subtext);font-size:9.5px;font-weight:700;flex:1;height:100%;gap:3px;border:none;background:none;position:relative}
 .nav-icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
 .nav-icon svg{ width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.9; }
@@ -72,8 +77,6 @@
 .nav-center{ width:46px; height:46px; background:linear-gradient(135deg,#8B4513,#FF8C42); border-radius:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(139,69,19,0.35); border:none; margin-top:-8px; transition:.3s; cursor:pointer; }
 .nav-center.active{transform:rotate(180deg);background:#222}
 .nav-center svg{ width:22px; height:22px; stroke:white; fill:none; stroke-width:2.2; }
-
- /* TARGET SHEET - BARU */
 .t-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.3s;z-index:9998}
 .t-overlay.show{opacity:1;visibility:visible}
 .t-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:22px 22px 0 0;padding:16px 18px 22px;transform:translateY(110%);transition:.4s;z-index:9999;max-height:78vh;overflow-y:auto}
@@ -124,6 +127,7 @@
       <h2>📊 Riwayat Stok Opname - Semua User</h2>
       <div class="total-box"><h3>Total Selisih Semua Data</h3><h1 id="totalSelisih">0</h1></div>
       <div class="filter-box">
+        <div class="limit-box">Tampilkan <select id="limitData" onchange="gantiLimit()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select> data</div>
         <input type="date" id="filterTanggal" onchange="gantiHalaman(1)">
         <input type="text" id="filterSearch" placeholder="Cari No Koreksi/Item..." onkeyup="gantiHalaman(1)">
       </div>
@@ -136,7 +140,6 @@
 
   <div id="modalGambar" class="modal" onclick="tutupModal()"><span class="close-modal">&times;</span><img class="modal-content" id="imgBesar"></div>
 
-  <!-- BOTTOM NAV FIX JAM -->
   <div class="bottom-nav">
     <a href="dashboard.html" class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v4H4a1 1 0 0 1-1-1V9.5z"/></svg></span><span>Home</span></a>
     <a href="input.html" class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span>Input</span></a>
@@ -145,7 +148,6 @@
     <a href="laporan.html" class="nav-item"><span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span>Laporan</span></a>
   </div>
 
-  <!-- TARGET SHEET BARU -->
   <div id="tOverlay" class="t-overlay" onclick="toggleTarget()"></div>
   <div id="tSheet" class="t-sheet">
     <div class="handle"></div>
@@ -169,7 +171,7 @@
   if(localStorage.getItem('login')!= 'true'){ window.location.href = 'index.html'; }
   let fotoBase64 = "";
   let halamanSekarang = 1;
-  const dataPerHalaman = 5;
+  let dataPerHalaman = 10;
   let semuaData = [];
   document.getElementById('tanggal').valueAsDate = new Date();
   let namaUser = localStorage.getItem('currentUser');
@@ -224,7 +226,8 @@
     let dataBaru = { tanggal, noKoreksi, item, selisih, rpItem, ket, petugas, foto: fotoBase64, createdAt: Date.now() };
     db.ref('stokopname').push(dataBaru).then(() => {
       msg.innerText = '✅ Berhasil!'; msg.style.color = 'green';
-      document.querySelectorAll('input').forEach(i => { if(i.id!= 'tanggal' && i.type!= 'file') i.value = ''; });
+      document.querySelectorAll('input').forEach(i => { if(i.id!= 'tanggal' && i.type!= 'file' && i.id!='filterTanggal' && i.id!='filterSearch') i.value = ''; });
+      document.getElementById('tanggal').valueAsDate = new Date();
       document.getElementById('preview').style.display = 'none'; document.getElementById('sizeInfo').innerText = ''; fotoBase64 = "";
     }).catch((error) => { msg.innerText = '❌ Gagal: ' + error.message; msg.style.color = 'red'; }).finally(() => { btn.disabled = false; btn.innerText = '💾 Simpan Data'; });
   }
@@ -240,12 +243,13 @@
     let filterTgl = document.getElementById('filterTanggal').value; let filterCari = document.getElementById('filterSearch').value.toLowerCase();
     let dataFilter = semuaData.filter(d => {
       let cocokTgl = filterTgl? d.tanggal == filterTgl : true;
-      let cocokCari = d.noKoreksi.toLowerCase().includes(filterCari) || d.item.toLowerCase().includes(filterCari);
+      let cocokCari = (d.noKoreksi||'').toLowerCase().includes(filterCari) || (d.item||'').toLowerCase().includes(filterCari);
       return cocokTgl && cocokCari;
     });
     let total = dataFilter.reduce((sum, d) => sum + (d.selisih || 0), 0);
     document.getElementById('totalSelisih').innerText = total;
-    let totalHalaman = Math.ceil(dataFilter.length / dataPerHalaman);
+    let totalHalaman = Math.ceil(dataFilter.length / dataPerHalaman) || 1;
+    if(halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;
     let start = (halamanSekarang - 1) * dataPerHalaman; let dataHalaman = dataFilter.slice(start, start + dataPerHalaman);
     if(dataHalaman.length == 0){ tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Belum ada data</td></tr>'; }
     else {
@@ -256,49 +260,55 @@
         tbody.innerHTML += `<tr><td>${d.tanggal}</td><td>${d.noKoreksi}</td><td>${d.item}</td><td>${formatRupiah(d.rpItem)}</td><td class="${classSelisih}">${d.selisih}</td><td class="foto-cell">${fotoHtml}</td><td>${d.petugas}</td><td>${d.ket}</td><td><button class="btn-hapus" onclick="hapusData('${d.id}')">Hapus</button></td></tr>`;
       });
     }
-    buatPagination(totalHalaman);
+    buatPagination(totalHalaman, dataFilter.length);
   }
-  function buatPagination(totalHalaman){ let pagination = document.getElementById('pagination'); pagination.innerHTML = ''; for(let i = 1; i <= totalHalaman; i++){ pagination.innerHTML += `<button class="${i == halamanSekarang? 'active' : ''}" onclick="gantiHalaman(${i})">${i}</button>`; } }
-  function gantiHalaman(hal){ halamanSekarang = hal; tampilkanTabel(); }
+  function buatPagination(totalHalaman, totalData){
+    let pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+    let start = (halamanSekarang - 1) * dataPerHalaman + 1;
+    let end = Math.min(halamanSekarang * dataPerHalaman, totalData);
+    let info = totalData==0? '0 data' : `${start}-${end} dari ${totalData}`;
+    let pagesHtml = '<div class="pages">';
+
+    pagesHtml += `<button ${halamanSekarang==1?'disabled':''} onclick="gantiHalaman(${halamanSekarang-1})">‹ Prev</button>`;
+
+    let sPage = Math.max(1, halamanSekarang - 1);
+    let ePage = Math.min(totalHalaman, halamanSekarang + 1);
+    if(halamanSekarang <= 2) ePage = Math.min(3, totalHalaman);
+    if(halamanSekarang >= totalHalaman-1) sPage = Math.max(1, totalHalaman-2);
+
+    if(sPage > 1){
+        pagesHtml += `<button onclick="gantiHalaman(1)">1</button>`;
+        if(sPage > 2) pagesHtml += `<span class="dots">...</span>`;
+    }
+    for(let i=sPage; i<=ePage; i++){
+        pagesHtml += `<button class="${i==halamanSekarang?'active':''}" onclick="gantiHalaman(${i})">${i}</button>`;
+    }
+    if(ePage < totalHalaman){
+        if(ePage < totalHalaman-1) pagesHtml += `<span class="dots">...</span>`;
+        pagesHtml += `<button onclick="gantiHalaman(${totalHalaman})">${totalHalaman}</button>`;
+    }
+    pagesHtml += `<button ${halamanSekarang==totalHalaman?'disabled':''} onclick="gantiHalaman(${halamanSekarang+1})">Next ›</button>`;
+    pagesHtml += '</div>';
+
+    pagination.innerHTML = `<div class="pag-info">${info}</div>` + pagesHtml;
+  }
+  function gantiHalaman(hal){ if(hal < 1) return; halamanSekarang = hal; tampilkanTabel(); }
+  function gantiLimit(){
+    dataPerHalaman = parseInt(document.getElementById('limitData').value);
+    halamanSekarang = 1;
+    tampilkanTabel();
+  }
   function bukaModal(src){ document.getElementById('modalGambar').style.display = 'flex'; document.getElementById('imgBesar').src = src; }
   function tutupModal(){ document.getElementById('modalGambar').style.display = 'none'; }
   function hapusData(id){ if(confirm('Yakin hapus?')){ db.ref('stokopname/' + id).remove(); } }
   function logout(){ localStorage.clear(); window.location.href = 'index.html'; }
-
-    // PINTASAN TARGET HARI INI
   function toggleTarget(){
-    document.getElementById('targetSheet').classList.toggle('show');
-    document.getElementById('targetOverlay').classList.toggle('show');
-    document.getElementById('btnShortcut').classList.toggle('active');
-    if(document.getElementById('targetSheet').classList.contains('show')) loadTargetHariIni();
-  }
-  function loadTargetHariIni(){
-    const bulanIni = new Date().getMonth()+1;
-    const tahunIni = new Date().getFullYear();
-    const hariIni = new Date().getDate();
-    document.getElementById('targetTanggal').innerText = new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long'});
-    let html = '';
-    let totalSisa = 0;
-    for(let id in semuaProgram){
-      let prog = semuaProgram[id];
-      if(prog.is_psm) continue;
-      let target = prog.target||0;
-      let terjual = 0;
-      semuaPenjualan.forEach(j=>{
-        let t = new Date(j.tanggal);
-        if(j.program_id==id && t.getMonth()+1==bulanIni && t.getFullYear()==tahunIni) terjual+=j.qty||0;
-      });
-      let sisa = target - terjual; if(sisa<0) sisa=0;
-      let hariKerja = prog.hari_kerja||22;
-      let sisaHari = hariKerja - (hariIni-1); if(sisaHari<1) sisaHari=1;
-      let kejar = Math.ceil(sisa/sisaHari);
-      totalSisa+=sisa;
-      let persen = target>0? Math.round(terjual/target*100):0;
-      html+=`<div class="target-item"><div><b>${prog.nama}</b><br><small>${terjual}/${target} • ${persen}%</small></div><div style="text-align:right"><b style="color:${sisa==0?'var(--success)':'var(--danger)'}">${sisa==0?'✅ Lunas': sisa+' Qty'}</b><br><small>Kejar ${kejar}/hari</small></div></div>`;
-    }
-    if(html=='') html='<p style="text-align:center; color:var(--subtext)">Belum ada program reguler</p>';
-    else html+=`<div class="target-kejar">Total sisa hari ini: ${totalSisa} Qty harus dikejar 🔥</div>`;
-    document.getElementById('targetContent').innerHTML=html;
+    document.getElementById('tSheet').classList.toggle('show');
+    document.getElementById('tOverlay').classList.toggle('show');
+    document.getElementById('btnMid').classList.toggle('active');
+    document.getElementById('tDate').innerText = new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long'});
+    document.getElementById('tContent').innerHTML = '<p style="text-align:center;color:var(--subtext)">Fitur target nyambung ke input.html</p>';
   }
 </script>
 </body>
