@@ -28,13 +28,13 @@
 .sidebar.active{left:0}.sidebar a,.sidebar button{display:flex;align-items:center;gap:16px;padding:16px 20px;margin:5px 12px;border-radius:12px;color:var(--text);text-decoration:none;font-weight:600;border:none;background:none;cursor:pointer;font-size:15px;width:calc(100% - 24px);text-align:left}.sidebar a:hover,.sidebar button:hover{background:var(--primary);color:white}.logout-btn{color:var(--danger)!important}.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);opacity:0;visibility:hidden;transition:0.3s;z-index:1000}.overlay.active{opacity:1;visibility:visible}
 .container { padding: 30px; max-width: 1200px; margin: auto; }
 .card { background: var(--card); padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); margin-bottom: 20px; }
-    h2 { margin-bottom: 15px; color: var(--text); }
+h2 { margin-bottom: 15px; color: var(--text); }
 .total-box { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
 .total-box h3 { font-size: 14px; opacity: 0.9; }
 .total-box h1 { font-size: 32px; margin-top: 5px; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--bg); color: var(--text); }
-    input:focus, select:focus { outline: none; border-color: var(--primary); }
+input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 15px; background: var(--bg); color: var(--text); }
+input:focus, select:focus { outline: none; border-color: var(--primary); }
 .upload-box { grid-column: 1 / -1; border: 2px dashed var(--primary); padding: 15px; border-radius: 10px; text-align: center; }
 .upload-box label { display: block; margin-bottom: 10px; font-weight: bold; color: var(--primary); }
 .btn-kamera { background: var(--success); color: white; padding: 12px; border: none; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
@@ -46,29 +46,30 @@
 .filter-box input { flex: 1; min-width: 150px; }
 .limit-box { display:flex; align-items:center; gap:8px; white-space:nowrap; font-size:13px; font-weight:600; }
 .limit-box select { width:auto; min-width:70px; padding:8px 10px; }
+.btn-reset { background:#fff; color:var(--danger); border:1.5px solid var(--danger); padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:700; font-size:12px; transition:.2s; }
+.btn-reset:hover { background:var(--danger); color:white; }
 .table-wrapper { width: 100%; overflow-x: auto; border-radius: 10px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 850px; }
-    th { background: var(--primary); color: white; padding: 12px; text-align: left; white-space: nowrap; position: sticky; top: 0; }
-    td { padding: 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; min-width: 850px; }
+th { background: var(--primary); color: white; padding: 12px; text-align: left; white-space: nowrap; position: sticky; top: 0; }
+td { padding: 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .selisih-minus { color: var(--danger); font-weight: bold; }
 .selisih-plus { color: var(--text); font-weight: bold; }
 .foto-cell img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--primary); }
 .btn-hapus { background: var(--danger); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
- /* PAGINATION BARU */
 .pagination { display: flex; justify-content: space-between; align-items:center; gap: 6px; margin-top: 15px; flex-wrap: wrap; }
-.pagination.pages { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.pages { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
 .pagination button { padding: 8px 14px; border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: 8px; cursor: pointer; font-weight:600; min-width:40px; transition:.2s; }
 .pagination button.active { background: var(--primary); color: white; border-color:var(--primary); }
 .pagination button:disabled { opacity:.4; cursor:not-allowed; }
-.pagination.dots { padding:4px; color:var(--subtext); }
+.dots { padding:4px; color:var(--subtext); }
 .pag-info { font-size:12px; color:var(--subtext); font-weight:600; }
 .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
 .modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
 .close-modal { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
 .loading { text-align: center; padding: 20px; color: var(--primary); }
 .size-info { font-size: 12px; color: var(--primary); margin-top: 5px; }
-    @media(max-width: 768px){.form-grid { grid-template-columns: 1fr; }.pagination{flex-direction:column;} }
- .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:9997;box-shadow:0 -2px 20px rgba(0,0,0,0.06);padding:0 6px}
+@media(max-width: 768px){.form-grid { grid-template-columns: 1fr; }.pagination{flex-direction:column;}}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:64px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;z-index:9997;box-shadow:0 -2px 20px rgba(0,0,0,0.06);padding:0 6px}
 .nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:var(--subtext);font-size:9.5px;font-weight:700;flex:1;height:100%;gap:3px;border:none;background:none;position:relative}
 .nav-icon{ width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
 .nav-icon svg{ width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.9; }
@@ -82,8 +83,6 @@
 .t-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:22px 22px 0 0;padding:16px 18px 22px;transform:translateY(110%);transition:.4s;z-index:9999;max-height:78vh;overflow-y:auto}
 .t-sheet.show{transform:translateY(0)}
 .handle{width:36px;height:4px;background:var(--border);border-radius:10px;margin:0 auto 14px}
-.t-item{display:flex;justify-content:space-between;align-items:center;background:var(--card2);border:1px solid var(--border);padding:11px 12px;border-radius:10px;margin-bottom:8px}
-.t-total{background:#FFF3CD;border:1px solid #FFC107;color:#856404;padding:12px;border-radius:10px;text-align:center;font-weight:800;margin-top:10px;font-size:13px}
   </style>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -123,11 +122,15 @@
       <button class="btn-simpan" id="btnSimpan" onclick="simpanData()">💾 Simpan Data</button>
       <p id="msg" style="margin-top:10px; font-weight:bold; text-align:center;"></p>
     </div>
+
     <div class="card">
-      <h2>📊 Riwayat Stok Opname - Semua User</h2>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+        <h2 style="margin:0">📊 Riwayat Stok Opname</h2>
+        <button class="btn-reset" onclick="resetData()">🗑️ Reset Bulan Ini</button>
+      </div>
       <div class="total-box"><h3>Total Selisih Semua Data</h3><h1 id="totalSelisih">0</h1></div>
       <div class="filter-box">
-        <div class="limit-box">Tampilkan <select id="limitData" onchange="gantiLimit()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select> data</div>
+        <div class="limit-box">Tampilkan <select id="limitData" onchange="gantiLimit()"><option value="5">5</option><option value="10" selected>10</option><option value="25">25</option><option value="50">50</option></select></div>
         <input type="date" id="filterTanggal" onchange="gantiHalaman(1)">
         <input type="text" id="filterSearch" placeholder="Cari No Koreksi/Item..." onkeyup="gantiHalaman(1)">
       </div>
@@ -174,8 +177,7 @@
   let dataPerHalaman = 10;
   let semuaData = [];
   document.getElementById('tanggal').valueAsDate = new Date();
-  let namaUser = localStorage.getItem('currentUser');
-  document.getElementById('namaUserSidebar').innerText = namaUser || 'User';
+  document.getElementById('namaUserSidebar').innerText = localStorage.getItem('currentUser') || 'User';
   function toggleMenu(){ document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); document.getElementById('menuBtn').classList.toggle('active'); }
   const btnTheme = document.getElementById('btnTheme');
   if(localStorage.getItem('theme') === 'dark'){ document.documentElement.classList.add('dark'); document.body.classList.add('dark'); }
@@ -184,14 +186,7 @@
     localStorage.setItem('theme', document.documentElement.classList.contains('dark')?'dark':'light');
   });
   loadData();
-  let waktuLogout = 5 * 60 * 1000; let timerLogout; let waktuMulaiTersembunyi = null;
-  function resetTimer() { clearTimeout(timerLogout); timerLogout = setTimeout(logoutOtomatis, waktuLogout); }
-  function logoutOtomatis() { alert('⚠️ Sesi habis 5 menit. Auto logout.'); localStorage.clear(); window.location.href = 'index.html'; }
-  window.onload = resetTimer; document.onmousemove = resetTimer; document.onkeydown = resetTimer; document.onclick = resetTimer; document.onscroll = resetTimer;
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden) { waktuMulaiTersembunyi = Date.now(); }
-    else { if (waktuMulaiTersembunyi) { let lama = Date.now() - waktuMulaiTersembunyi; if (lama >= waktuLogout) logoutOtomatis(); else resetTimer(); } }
-  });
+
   function kompresGambar(file, maxWidth = 800, quality = 0.7) {
     return new Promise((resolve) => {
       let reader = new FileReader();
@@ -246,8 +241,7 @@
       let cocokCari = (d.noKoreksi||'').toLowerCase().includes(filterCari) || (d.item||'').toLowerCase().includes(filterCari);
       return cocokTgl && cocokCari;
     });
-    let total = dataFilter.reduce((sum, d) => sum + (d.selisih || 0), 0);
-    document.getElementById('totalSelisih').innerText = total;
+    document.getElementById('totalSelisih').innerText = dataFilter.reduce((sum, d) => sum + (d.selisih || 0), 0);
     let totalHalaman = Math.ceil(dataFilter.length / dataPerHalaman) || 1;
     if(halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;
     let start = (halamanSekarang - 1) * dataPerHalaman; let dataHalaman = dataFilter.slice(start, start + dataPerHalaman);
@@ -269,14 +263,11 @@
     let end = Math.min(halamanSekarang * dataPerHalaman, totalData);
     let info = totalData==0? '0 data' : `${start}-${end} dari ${totalData}`;
     let pagesHtml = '<div class="pages">';
-
     pagesHtml += `<button ${halamanSekarang==1?'disabled':''} onclick="gantiHalaman(${halamanSekarang-1})">‹ Prev</button>`;
-
     let sPage = Math.max(1, halamanSekarang - 1);
     let ePage = Math.min(totalHalaman, halamanSekarang + 1);
     if(halamanSekarang <= 2) ePage = Math.min(3, totalHalaman);
     if(halamanSekarang >= totalHalaman-1) sPage = Math.max(1, totalHalaman-2);
-
     if(sPage > 1){
         pagesHtml += `<button onclick="gantiHalaman(1)">1</button>`;
         if(sPage > 2) pagesHtml += `<span class="dots">...</span>`;
@@ -288,27 +279,55 @@
         if(ePage < totalHalaman-1) pagesHtml += `<span class="dots">...</span>`;
         pagesHtml += `<button onclick="gantiHalaman(${totalHalaman})">${totalHalaman}</button>`;
     }
-    pagesHtml += `<button ${halamanSekarang==totalHalaman?'disabled':''} onclick="gantiHalaman(${halamanSekarang+1})">Next ›</button>`;
-    pagesHtml += '</div>';
-
+    pagesHtml += `<button ${halamanSekarang==totalHalaman?'disabled':''} onclick="gantiHalaman(${halamanSekarang+1})">Next ›</button></div>`;
     pagination.innerHTML = `<div class="pag-info">${info}</div>` + pagesHtml;
   }
   function gantiHalaman(hal){ if(hal < 1) return; halamanSekarang = hal; tampilkanTabel(); }
-  function gantiLimit(){
-    dataPerHalaman = parseInt(document.getElementById('limitData').value);
-    halamanSekarang = 1;
-    tampilkanTabel();
-  }
+  function gantiLimit(){ dataPerHalaman = parseInt(document.getElementById('limitData').value); halamanSekarang = 1; tampilkanTabel(); }
   function bukaModal(src){ document.getElementById('modalGambar').style.display = 'flex'; document.getElementById('imgBesar').src = src; }
   function tutupModal(){ document.getElementById('modalGambar').style.display = 'none'; }
   function hapusData(id){ if(confirm('Yakin hapus?')){ db.ref('stokopname/' + id).remove(); } }
+
+  function resetData(){
+    let filterVal = document.getElementById('filterTanggal').value;
+    let targetDate = filterVal? new Date(filterVal) : new Date();
+    let bulanStr = targetDate.toLocaleDateString('id-ID',{month:'long', year:'numeric'});
+
+    let dataTarget = semuaData.filter(d => {
+        let t = new Date(d.tanggal);
+        if(filterVal){
+            return d.tanggal === filterVal;
+        } else {
+            return t.getMonth() === targetDate.getMonth() && t.getFullYear() === targetDate.getFullYear();
+        }
+    });
+
+    if(dataTarget.length === 0){
+        alert('Gak ada data di ' + (filterVal? 'tanggal '+filterVal : 'bulan '+bulanStr));
+        return;
+    }
+
+    let blob = new Blob([JSON.stringify(dataTarget,null,2)], {type:'application/json'});
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `backup-stokopname-${filterVal || (targetDate.getMonth()+1)+'-'+targetDate.getFullYear()}.json`;
+    a.click();
+
+    let ketik = prompt(`Mau hapus ${dataTarget.length} data ${filterVal? 'tanggal '+filterVal : 'bulan '+bulanStr}?\nBackup udah auto ke-download.\n\nKETIK: HAPUS`);
+    if(ketik!== 'HAPUS'){ alert('Batal. Harus ketik HAPUS'); return; }
+    if(!confirm(`Yakin final hapus ${dataTarget.length} data?`)) return;
+
+    Promise.all(dataTarget.map(d => db.ref('stokopname/' + d.id).remove()))
+   .then(()=> alert(`✅ ${dataTarget.length} data berhasil dihapus`))
+   .catch(e=> alert('Gagal: '+e.message));
+  }
+
   function logout(){ localStorage.clear(); window.location.href = 'index.html'; }
   function toggleTarget(){
     document.getElementById('tSheet').classList.toggle('show');
     document.getElementById('tOverlay').classList.toggle('show');
     document.getElementById('btnMid').classList.toggle('active');
     document.getElementById('tDate').innerText = new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long'});
-    document.getElementById('tContent').innerHTML = '<p style="text-align:center;color:var(--subtext)">Fitur target nyambung ke input.html</p>';
   }
 </script>
 </body>
