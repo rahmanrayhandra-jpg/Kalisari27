@@ -114,7 +114,7 @@ function doReset(){let u=resetUser.value.trim(),p=resetPass.value,p2=resetPass2.
 function register(){let u=regUser.value.trim(),p=regPass.value,p2=regPass2.value,m=regMsg;if(!u||!p){m.innerText='Wajib isi';m.className='msg error';m.style.display='block';return}if(p!==p2){m.innerText='Tidak sama';m.className='msg error';m.style.display='block';return}db.ref('users/'+u).once('value').then(s=>{if(s.exists()){m.innerText='Sudah ada';m.className='msg error';m.style.display='block'}else{db.ref('users/'+u).set({password:p,role:'sales'}).then(()=>{m.innerText='Berhasil daftar';m.className='msg success';m.style.display='block';setTimeout(toggle,1000)})}})}
 function login(){let u=loginUser.value.trim(),p=loginPass.value,m=loginMsg;if(!u||!p){m.innerText='Isi dulu';m.className='msg error';m.style.display='block';return}document.getElementById('loading').classList.remove('hide');db.ref('users/'+u).once('value').then(s=>{if(s.exists()&&s.val().password===p){localStorage.setItem('currentUser',u);localStorage.setItem('role',s.val().role);localStorage.setItem('login','true');localStorage.setItem('k27_lastUser',u);setTimeout(()=>location.href="../launcher/",600)}else{document.getElementById('loading').classList.add('hide');m.innerText='Username / password salah';m.className='msg error';m.style.display='block'}})}
 db.ref('users/admin').once('value').then(s=>{if(!s.exists())db.ref('users/admin').set({password:'admin123',role:'admin'})});
-if(localStorage.getItem('login')=='true'){document.getElementById('loading').classList.remove('hide');setTimeout(()=>location.href="/.launcher/",600)}
+if(localStorage.getItem('login')=='true'){document.getElementById('loading').classList.remove('hide');setTimeout(()=>location.href="/..launcher/",600)}
 </script>
 </body>
 </html>
